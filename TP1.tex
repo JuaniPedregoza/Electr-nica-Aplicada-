@@ -35,7 +35,7 @@
     {\scshape\Large Electrónica Aplicada I \par}
     \vspace{2cm}
 
-    {\Huge\bfseries Trabajo Práctico N°2 \par}
+    {\Huge\bfseries Trabajo Práctico N°1 \par}
     \vspace{0.5cm}
     {\LARGE Fuente de Alimentación \par}
 
@@ -81,10 +81,10 @@ Se realiza el rediseño de la fuente de alimentación regulada propuesta en el \
 %    \item Tensión de salida deseada ($V_O$): \SI{9}{\V}
 %    \item Corriente máxima en la carga ($I_O$ o $I_L$): \SI{1,5}{\A} 
 %    \item Rizado máximo admitido en el PDF ($V_{\text{ripple}}$): $< \SI{1}{\V_{pp}}$
-    \item \textbf{Transformador:} \SI{220}{\V} / $\SI{12}{\V} + \SI{12}{\V}$ ($\SI{3}{\A}$ totales, \SI{1.5}{\A} por rama), \SI{50}{\Hz}.
+    \item \textbf{Transformador:} \SI{220v}{\V} / {12v}{\V} + {12v}{\V} ,  {3 A}{\A} totales  ({1.5  A}{\A} por rama), \SI{50Hz}{\Hz}.
 \end{itemize}
 
-Dado que el transformador posee punto medio, se adopta una configuración de \textbf{rectificación de onda completa con 2 diodos}, optimizando el rendimiento térmico en los semiconductores del rectificador.
+Dado que el transformador posee punto medio, se adopta una configuración de \textbf{rectificación de onda completa con 4 diodos}, optimizando el rendimiento térmico en los semiconductores del rectificador.
 
 
 
@@ -95,12 +95,12 @@ A diferencia del puente de diodos convencional donde la corriente circula por do
 \begin{equation}
     V_{DC} = \sqrt{2} \cdot V_{S(\text{rms})} - 2 V_D
 \end{equation}
-Asumiendo una caída típica en el diodo de silicio de $V_D = \SI{0.7}{\V}$:
+Asumiendo una caída típica en el diodo de silicio de $V_D = \SI{0.7V}{\V}$:
 \begin{equation}
-    V_{DC} = \sqrt{2} \cdot \SI{12}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{15.57}{\V}}
+    V_{DC} = \sqrt{2} \cdot \SI{12V}{\V} - \SI{1.4V}{\V}  = \mathbf{\SI{15.57V}{\V}}
 \end{equation}
 \begin{equation}
-    V_{DC} = \sqrt{2} \cdot \SI{24}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{32.54}{\V}}
+    V_{DC} = \sqrt{2} \cdot \SI{24V}{\V} - \SI{1.4V}{\V}  = \mathbf{\SI{32.54V}{\V}}
 \end{equation}
 
 \subsection{Dimensionamiento de los Diodos Rectificadores}
@@ -119,274 +119,7 @@ El circuito requiere únicamente $2$ diodos en lugar de los $4$ del puente origi
         V_{RRM} = (\sqrt{2} \cdot V_{S(\text{rms})}) - V_D
     \end{equation}
     \item \begin{equation}
-        V_{RRM} = \SI{15.57V}{\V} - \SI{0.7V}{\V} = \mathbf{\SI{14,87V}{\V}}
-    \end{equation}
-    
-    \item \textbf{Potencia disipada por diodo ($P_D$):}
-    \begin{equation}
-        P_D = V_D \cdot I_{F(AV)} = \SI{0.7}{\V} \cdot \SI{0.75}{\A} = \mathbf{\SI{0.525}{\W}}
-    \end{equation}
-\end{itemize}
-
-\subsection{Cálculo y Verificación del Capacitor de Filtro ($C_1$)}
-La frecuencia de la señal rectificada en onda completa es el doble de la frecuencia de red ($f_{\text{ripple}} = 2 \cdot \SI{50}{\Hz} = \SI{100}{\Hz}$). 
-
-\subsubsection{Valor Teórico (Para $V_{\text{ripple}} = \SI{1}{\V_{pp}}$)}
-\begin{equation}
-    C_1 = \frac{I_L}{2 \cdot f_{\text{red}} \cdot V_{\text{ripple}}} = \frac{\SI{1.5}{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{1}{\V}} = \mathbf{\SI{15000uF}{\micro\F}}
-\end{equation}
-
-\subsubsection{Verificación Práctica (Con Capacitor Real de \SI{3300}{\micro\F}$)}
-Para la implementación física del circuito se utiliza un valor comercial estandarizado de \SI{3300}{\micro\F}. Despejando el rizado real obtenido bajo máxima carga resulta:
-\begin{equation}
-    V_{r(\text{real})} = \frac{I_L}{2 \cdot f_{\text{red}} \cdot C_{\text{real}}} = \frac{\SI{1.5}{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{3300}{\micro\F}} \approx \mathbf{\SI{4.54}{\V_{pp}}}
-\end{equation}
-
-
-\subsection{Resistencias de Programación del LM317 ($R_1$ y $R_2$)}
-La tensión de salida está determinada exclusivamente por la malla de realimentación del regulador. Fijando $R_1 = \SI{220}{\Omega}$ (valor recomendado para garantizar la corriente mínima de carga del integrado):
-\begin{equation}
-    V_O = V_{\text{ref}} \cdot \left(1 + \frac{R_2}{R_1}\right) + I_{\text{adj}} \cdot R_2
-\end{equation}
-Despreciando la corriente del terminal de ajuste ($I_{\text{adj}} \approx \SI{50}{\micro\A}$) y tomando $V_{\text{ref}} = \SI{1.25}{\V}$:
-\begin{equation}
-    \SI{9V}{\V} = \SI{1.25V}{\V} \cdot \left(1 + \frac{R_2}{\SI{220}{\Omega}}\right) \implies R_2 = \mathbf{\SI{1.36}{\k\Omega}}
-\end{equation}
-
-\subsection{Análisis Térmico del Regulador ($P_{\text{reg}}$)}
-La potencia que el LM317 disipa en forma de calor depende directamente de la caída de tensión estática entre su entrada y su salida:
-\begin{equation}
-    P_{\text{reg}} = (V_{DC} - V_O) \cdot I_O
-\end{equation}
-\begin{equation}
-    P_{\text{reg}} = (\SI{15.57}{\V} - \SI{9}{\V}) \cdot \SI{1.5}{\A} = \SI{7.27}{\V} \cdot \SI{1.5}{\A} = \mathbf{\SI{9.855W}{\W}}
-\end{equation}
-
-Estableciendo una temperatura ambiente máxima de seguridad $T_a = \SI{25}{\celsius}$ y conociendo que la temperatura máxima de la juntura del semiconductor es $T_j = \SI{150}{\celsius}$, calculamos la resistencia térmica total máxima permitida del sistema:
-\begin{equation}
-    R_{\theta JA(\text{máx})} = \frac{T_j - T_a}{P_{\text{reg}}} = \frac{\SI{150}{\celsius} - \SI{25}{\celsius}}{\SI{9.855}{\W}} \approx \mathbf{\SI{12.69 C/W}{\celsius\per\W}}
-\end{equation}
-
-\textbf{Conclusión Térmica:} Debido a que la resistencia térmica intrínseca de un encapsulado TO-220 al aire libre ronda los $\SI{50}{\celsius\per\W}$ (valor superior al límite de \SI{12.69}{\celsius\per\W}), \textbf{es estrictamente obligatorio instalar un disipador térmico externo} para evitar que actúe la protección térmica interna del integrado por sobrecalentamiento.
-
-
-%--------------------------------
-\section{Ensayos y mediciones}
-%--------------------------------
-\subsection{Mediciones de ripple}
-
-El voltaje de ripple pico-pico medido a la salida del filtro capacitivo con el osciloscopio fue de 2.6V. Si se aproxima la señal a una onda triangular, el valor eficaz resulta: 
-
-\begin{equation}
-    V_{r(\text{rms})} = \frac{V_{r(\text{pp})}}{2\sqrt{3}} = \frac{\SI{2.6}{\V}}{2\sqrt{3}} \approx \mathbf{\SI{0.75}{\V}}
-\end{equation}
-
-Para el ensayo del rectificador con filtro se midieron, además, los siguientes valores: $V_{\text{vacio}} = \SI{17.1}{\V}$, $V_{\text{carga}} = \SI{13}{\V}$ y una corriente máxima $I_{\text{máx}} = \SI{1.5}{\A}$. A partir de estos datos, se determina la regulación de voltaje ($RV$) del bloque de filtrado:
-\begin{equation}
-    RV = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{17.1}{\V} - \SI{13}{\V}}{\SI{13}{\V}} \cdot 100\% = \mathbf{31.54\%}
-\end{equation}
-
-El factor de ripple ($FR$) en bornes del capacitor se calcula como:
-\begin{equation}
-    FR = \frac{V_{r(\text{rms})}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{0.75}{\V}}{\SI{13}{\V}} \cdot 100\% = \mathbf{5.77\%}
-\end{equation}
-
-Para determinar la resistencia interna equivalente de la etapa no regulada en condiciones dinámicas de carga, se evalúa la caída de tensión bajo máxima solicitación de corriente:
-\begin{equation}
-    R_{\text{int}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{I_{\text{máx}}} = \frac{\SI{17.1}{\V} - \SI{13}{\V}}{\SI{1.5}{\A}} = \mathbf{2.73\,\Omega}
-\end{equation}
-
-\subsection{Mediciones finales (Salida Regulada)}
-Una vez conectado el regulador integrado LM317, se repitieron los ensayos obteniendo los siguientes valores sobre la carga: $V_{\text{vacio}} = \SI{7.49V}{\V}$, $V_{\text{carga}} = \SI{7.33V}{\V}$, $V_{r(\text{pp})} = \SI{5mV}{\mV}$ y $V_{r(\text{rms})} = \SI{1.44mV}{\mV}$. 
-
-La regulación de voltaje final de la fuente es:
-\begin{equation}
-    RV = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{7.49}{\V} - \SI{7.33}{\V}}{\SI{7.33}{\V}} \cdot 100\% = \mathbf{2.18\%}
-\end{equation}
-
-Y el factor de ripple remanente en la salida resulta:
-\begin{equation}
-    FR = \frac{V_{r(\text{rms})}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{1.44mV}{\mV}}{\SI{7.33V}{\V}} \cdot 100\% = \mathbf{0.0196\%}
-\end{equation}
-
-Para evaluar los parámetros de estabilización frente a perturbaciones externas, se procesaron las variaciones medidas en los extremos de operación de la línea ($\Delta V_i = \SI{24}{\V} - \SI{12}{\V} = \SI{12}{\V}$). A partir de la máxima variación registrada en la salida bajo estas condiciones, se calcula la regulación de línea ($R_{\text{línea}}$):
-\begin{equation}
-    R_{\text{línea}} = \frac{\frac{\Delta V_O}{V_O}}{\Delta V_i} \cdot 100\%/\text{V} = \frac{\frac{\SI{1.5}{\V}}{\SI{7.33}{\V}}}{\SI{12}{\V}} \cdot 100\%/\text{V} \approx \mathbf{1.705\%/\text{V}}
-\end{equation}
-
-Asimismo, la regulación de carga ($R_{\text{load}}$) porcentual se establece como:
-\begin{equation}
-    R_{\text{load}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{7.49}{\V} - \SI{7.33}{\V}}{\SI{7.33}{\V}} \cdot 100\% = \mathbf{2.183\%}
-\end{equation}
-
-Para el análisis térmico del dispositivo se tomaron lecturas con la termocupla de un multímetro digital, registrándose una temperatura ambiente $T_{\text{Amb}} = \SI{22}{\celsius}$ y una temperatura sobre la cápsula TO-220 del componente $T_{\text{Carc}} = \SI{51}{\celsius}$. 
-
-Con una caída de tensión estática medida en el regulador de $V_{\text{in}} - V_{\text{out}} = \SI{3.1}{\V}$ a la corriente máxima de ensayo ($I_{\text{máx}} = \SI{1.5}{\A}$), la potencia disipada por el integrado es:
-\begin{equation}
-    P_{\text{reg}} = (V_{\text{in}} - V_{\text{out}}) \cdot I_{\text{máx}} = \SI{3.1}{\V} \cdot \SI{1.5}{\A} = \mathbf{4.65\,\text{W}}
-\end{equation}
-
-A partir de estos valores, la resistencia térmica efectiva entre la carcasa y el ambiente ($R_{\theta CA}$) para la condición de ensayo resulta:
-\begin{equation}
-    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{4.65}{\W}} \approx \mathbf{6.236\,\text{\celsius/\W}}
-\end{equation}
-
-%--------------------------------
-\section{Conclusión}
-%--------------------------------
-A partir de los ensayos experimentales realizados, se verificó el correcto funcionamiento de las distintas etapas de la fuente de alimentación regulada. La implementación planteada demostró ser altamente eficiente para el aprovechamiento integral del transformador disponible. 
-
-El bloque de filtrado capacitivo, utilizando un componente comercial de \SI{3300}{\micro\F}, exhibió un factor de ripple inicial del \mathbf{5.77\%} bajo condiciones de máxima carga (\SI{1.5}{\A}). El análisis matemático dinámico demostró que, a pesar de la elevada amplitud del rizado pico a pico (\SI{2.6}{\V} en banco), el nivel inferior de la tensión continua transitoria se mantuvo en \SI{10.93}{\V}, valor que supera de forma segura el umbral crítico de dropout del regulador.
-
-Tras la incorporación del integrado LM317, se constató la robustez del sistema de regulación lineal. El factor de ripple residual en la salida se redujo drásticamente a un valor despreciable de \mathbf{0.0196\%}, lo que representa una atenuación de más de \SI{54}{\dB}. Los parámetros de regulación de línea (\SI{1.705\%/\text{V}}) y de carga (\SI{2.183\%}) ratifican la estabilidad de la tensión suministrada frente a fluctuaciones en la red o demandas dinámicas de corriente. 
-
-Finalmente, el análisis térmico determinó una resistencia de carcasa a ambiente de \SI{6.236}{\celsius/\W}. Dado el nivel de potencia disipada (\SI{4.65}{\W}) y el hecho de que la temperatura de la cápsula alcanzó los \SI{51° }{\celsius} en un entorno controlado de \SI{22° }{\celsius}, se concluye la necesidad de un disipador térmico exterior de baja resistencia térmica en aplicaciones permanentes, asegurando así que la juntura interna del semiconductor permanezca lejos de su límite de destrucción térmica.
-%--------------------------------
-%--------------------------------
-\section{Anexo}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{med.jpeg}
-    \caption{Medición de V_D_C}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{osc.jpeg}
-    \caption{Osciloscopio utilizado}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\textwidth]{osc1.jpeg}
-    \caption{Función en osciloscopio }
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{temp.jpeg}
-    \caption{Medición de temperatura}
-\end{figure}
-
-%--------------------------------
-
-
-\end{document}\documentclass[12pt,a4paper]{article}
-
-%--------------------------------
-% PAQUETES
-%--------------------------------
-\usepackage[spanish]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{geometry}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{amsmath}
-\usepackage{hyperref}
-
-\geometry{margin=2.5cm}
-
-%--------------------------------
-% DATOS DEL INFORME (COMPLETAR)
-%--------------------------------
-
-%--------------------------------
-\begin{document}
-
-%--------------------------------
-% PORTADA
-%--------------------------------
-\begin{titlepage}
-    \centering
-
-    {\scshape\LARGE Universidad Tecnológica Nacional \par}
-    \vspace{0.3cm}
-    {\scshape\Large Facultad Regional Córdoba \par}
-    \vspace{1.5cm}
-
-    {\scshape\Large Electrónica Aplicada I \par}
-    \vspace{2cm}
-
-    {\Huge\bfseries Trabajo Práctico N°2 \par}
-    \vspace{0.5cm}
-    {\LARGE Fuente de Alimentación \par}
-
-    \vspace{2cm}
-
-    \begin{flushleft}
-    \textbf{Integrantes:} \\
-    Cortesini Pérez, Luciano Tomás -- 402719 \\
-    Moreyra, Iván Agustín -- 413687 \\
-    Pedregoza, Juan Ignacio  -- 408644 \\
-
-    \vspace{0.5cm}
-
-    \textbf{Curso:} 3R\_4 \\
-    %\textbf{Grupo:} 02 \\
-    \textbf{Docente:} Ing. Pablo Miklosa ; Dr. Ing. Guillermo Riva  \\
-    \textbf{Año:} 2026 \\
-    \end{flushleft}
-
-    \vfill
-
-\end{titlepage}
-\thispagestyle{empty}
-
-\vspace{1cm}
-
-\tableofcontents
-\newpage
-
-%--------------------------------
-\section{Introducción}
-%--------------------------------
-
-
-\vspace{0.5cm}
-
-%--------------------------------
-\section{Cálculos teóricos}
-%--------------------------------
-%\section{Especificaciones del Diseño}
-Se realiza el rediseño de la fuente de alimentación regulada propuesta en el \textit{Ejemplo 1} utilizando un nuevo transformador con derivación central (punto medio). Las especificaciones requeridas por la carga se mantienen idénticas:
-\begin{itemize}
-%    \item Tensión de salida deseada ($V_O$): \SI{9}{\V}
-%    \item Corriente máxima en la carga ($I_O$ o $I_L$): \SI{1,5}{\A} 
-%    \item Rizado máximo admitido en el PDF ($V_{\text{ripple}}$): $< \SI{1}{\V_{pp}}$
-    \item \textbf{Transformador:} \SI{220}{\V} / $\SI{12}{\V} + \SI{12}{\V}$ ($\SI{3}{\A}$ totales, \SI{1.5}{\A} por rama), \SI{50}{\Hz}.
-\end{itemize}
-
-Dado que el transformador posee punto medio, se adopta una configuración de \textbf{rectificación de onda completa con 2 diodos}, optimizando el rendimiento térmico en los semiconductores del rectificador.
-
-
-
-\section{Desarrollo de los cálculos teóricos}
-
-\subsection{Tensión Continua después del Rectificador ($V_{DC}$)}
-A diferencia del puente de diodos convencional donde la corriente circula por dos componentes simétricos, en la configuración con toma central la corriente fluye a través de un único diodo por cada semiciclo. La tensión de pico en el capacitor de filtro se calcula como:
-\begin{equation}
-    V_{DC} = \sqrt{2} \cdot V_{S(\text{rms})} - 2 V_D
-\end{equation}
-Asumiendo una caída típica en el diodo de silicio de $V_D = \SI{0.7}{\V}$:
-\begin{equation}
-    V_{DC} = \sqrt{2} \cdot \SI{12}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{15.57}{\V}}
-\end{equation}
-\begin{equation}
-    V_{DC} = \sqrt{2} \cdot \SI{24}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{32.54}{\V}}
-\end{equation}
-
-\subsection{Dimensionamiento de los Diodos Rectificadores}
-El circuito requiere únicamente $2$ diodos en lugar de los $4$ del puente original.
-\begin{itemize}
-    \item \textbf{Corriente promedio por diodo ($I_{F(AV)}$):} Cada diodo conduce durante la mitad del ciclo completo.
-    \begin{equation}
-        I_{F(AV)} = \frac{I_O}{2} = \frac{\SI{1500mA}{\mA}}{2} = \mathbf{\SI{750mA}{\mA}}
-    \end{equation}
-    \item \textbf{Corriente eficaz ($I_S(RMS)$):}
-    \begin{equation}
-        I_S(RMS) \approx I_O \cdot K \approx 1,5A \cdot 1,8 = 2,7 A
-    \end{equation}
-    \item \textbf{Tensión Inversa de Pico ($V_{RRM}$):} En esta topología, el diodo en estado de bloqueo debe soportar el doble de la tensión de pico del devanado secundario:
-    \begin{equation}
-        V_{RRM} = (\sqrt{2} \cdot V_{S(\text{rms})}) - V_D
+        V_{RRM} = \SI{32.54V}{\V} - \SI{0.7V}{\V} = \mathbf{\SI{31.84V}{\V}}
     \end{equation}
     \item \begin{equation}
         V_{RRM} = \SI{15.57V}{\V} - \SI{0.7V}{\V} = \mathbf{\SI{14,87V}{\V}}
@@ -394,22 +127,22 @@ El circuito requiere únicamente $2$ diodos en lugar de los $4$ del puente origi
     
     \item \textbf{Potencia disipada por diodo ($P_D$):}
     \begin{equation}
-        P_D = V_D \cdot I_{F(AV)} = \SI{0.7}{\V} \cdot \SI{0.75}{\A} = \mathbf{\SI{0.525}{\W}}
+        P_D = V_D \cdot I_{F(AV)} = \SI{0.7}{\V} \cdot \SI{0.75}{\A} = \mathbf{\SI{0.525W}{\W}}
     \end{equation}
 \end{itemize}
 
-\subsection{Cálculo y Verificación del Capacitor de Filtro ($C_1$)}
-La frecuencia de la señal rectificada en onda completa es el doble de la frecuencia de red ($f_{\text{ripple}} = 2 \cdot \SI{50}{\Hz} = \SI{100}{\Hz}$). 
-
-\subsubsection{Valor Teórico (Para $V_{\text{ripple}} = \SI{1}{\V_{pp}}$)}
+%\subsection{Cálculo y Verificación del Capacitor de Filtro ($C_1$)}
+%La frecuencia de la señal rectificada en onda completa es el doble de la frecuencia %de red ($f_{\text{ripple}} = 2 \cdot \SI{50Hz}{\Hz} = \SI{100Hz}{\Hz}$). 
+%
+%\subsubsection{Valor Teórico (Para $V_{\text{ripple}} = \SI{1}{\V_{pp}}$)}
+%\begin{equation}
+%    C_1 = \frac{I_L}{2 \cdot f_{\text{red}} \cdot V_{\text{ripple}}} = \frac{\SI{1.5}%{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{1}{\V}} = \mathbf{\SI{15000uF}{\micro\F}}
+%\end{equation}
+%
+\subsection{Verificación Práctica (Con Capacitor Real de \SI{3300uF}{\micro\F}$)}
+Para la implementación física del circuito se utiliza un valor comercial estandarizado de \SI{3300uF}{\micro\F}. Despejando el rizado real obtenido bajo máxima carga resulta:
 \begin{equation}
-    C_1 = \frac{I_L}{2 \cdot f_{\text{red}} \cdot V_{\text{ripple}}} = \frac{\SI{1.5}{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{1}{\V}} = \mathbf{\SI{15000uF}{\micro\F}}
-\end{equation}
-
-\subsubsection{Verificación Práctica (Con Capacitor Real de \SI{3300}{\micro\F}$)}
-Para la implementación física del circuito se utiliza un valor comercial estandarizado de \SI{3300}{\micro\F}. Despejando el rizado real obtenido bajo máxima carga resulta:
-\begin{equation}
-    V_{r(\text{real})} = \frac{I_L}{2 \cdot f_{\text{red}} \cdot C_{\text{real}}} = \frac{\SI{1.5}{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{3300}{\micro\F}} \approx \mathbf{\SI{4.54}{\V_{pp}}}
+    V_{r(\text{real})} = \frac{I_L}{2 \cdot f_{\text{red}} \cdot C_{\text{real}}} = \frac{\SI{1.5}{\A}}{2 \cdot \SI{50Hz}{\Hz} \cdot \SI{3300uF}{\micro\F}} \approx \mathbf{\SI{4.54V}{\V_{pp}}}
 \end{equation}
 
 
@@ -418,9 +151,9 @@ La tensión de salida está determinada exclusivamente por la malla de realiment
 \begin{equation}
     V_O = V_{\text{ref}} \cdot \left(1 + \frac{R_2}{R_1}\right) + I_{\text{adj}} \cdot R_2
 \end{equation}
-Despreciando la corriente del terminal de ajuste ($I_{\text{adj}} \approx \SI{50}{\micro\A}$) y tomando $V_{\text{ref}} = \SI{1.25}{\V}$:
+Despreciando la corriente del terminal de ajuste ($I_{\text{adj}} \approx \SI{50uA}{\micro\A}$) y tomando $V_{\text{ref}} = \SI{1.25V}{\V}$:
 \begin{equation}
-    \SI{9V}{\V} = \SI{1.25V}{\V} \cdot \left(1 + \frac{R_2}{\SI{220}{\Omega}}\right) \implies R_2 = \mathbf{\SI{1.36}{\k\Omega}}
+    \SI{9V}{\V} = \SI{1.25V}{\V} \cdot \left(1 + \frac{R_2}{\SI{220}{\Omega}}\right) \implies R_2 = \mathbf{\SI{1.36K}{\k\Omega}}
 \end{equation}
 
 \subsection{Análisis Térmico del Regulador ($P_{\text{reg}}$)}
@@ -429,15 +162,15 @@ La potencia que el LM317 disipa en forma de calor depende directamente de la ca�
     P_{\text{reg}} = (V_{DC} - V_O) \cdot I_O
 \end{equation}
 \begin{equation}
-    P_{\text{reg}} = (\SI{15.57}{\V} - \SI{9}{\V}) \cdot \SI{1.5}{\A} = \SI{7.27}{\V} \cdot \SI{1.5}{\A} = \mathbf{\SI{9.855W}{\W}}
+    P_{\text{reg}} = (\SI{15.57V}{\V} - \SI{9V}{\V}) \cdot \SI{1.5 A}{\A} = \SI{7.27V}{\V} \cdot \SI{1.5 A}{\A} = \mathbf{\SI{9.855W}{\W}}
 \end{equation}
 
-Estableciendo una temperatura ambiente máxima de seguridad $T_a = \SI{25}{\celsius}$ y conociendo que la temperatura máxima de la juntura del semiconductor es $T_j = \SI{150}{\celsius}$, calculamos la resistencia térmica total máxima permitida del sistema:
+Estableciendo una temperatura ambiente máxima de seguridad $T_a = \SI{25^{\circ}C}{\Ce}$ y conociendo que la temperatura máxima de la juntura del semiconductor es $T_j = \SI{150^{\circ}C}{\celsius}$, calculamos la resistencia térmica total máxima permitida del sistema:
 \begin{equation}
-    R_{\theta JA(\text{máx})} = \frac{T_j - T_a}{P_{\text{reg}}} = \frac{\SI{150}{\celsius} - \SI{25}{\celsius}}{\SI{9.855}{\W}} \approx \mathbf{\SI{12.69 C/W}{\celsius\per\W}}
+    R_{\theta JA(\text{máx})} = \frac{T_j - T_a}{P_{\text{reg}}} = \frac{\SI{150^{\circ}C}{\celsius} - \SI{25^{\circ}C}{\celsius}}{\SI{9.855W}{\W}} \approx \mathbf{\SI{12.69 ^{\circ}C/W}{\celsius\per\W}}
 \end{equation}
 
-\textbf{Conclusión Térmica:} Debido a que la resistencia térmica intrínseca de un encapsulado TO-220 al aire libre ronda los $\SI{50}{\celsius\per\W}$ (valor superior al límite de \SI{12.69}{\celsius\per\W}), \textbf{es estrictamente obligatorio instalar un disipador térmico externo} para evitar que actúe la protección térmica interna del integrado por sobrecalentamiento.
+\textbf{Conclusión Térmica:} Debido a que la resistencia térmica intrínseca de un encapsulado TO-220 al aire libre ronda los $\SI{50^{\circ}C/W}{\celsius\per\W}$ (valor superior al límite de {$\SI{12.69 C/W}{\celsius\per\W}}), \textbf{es estrictamente obligatorio instalar un disipador térmico externo} para evitar que actúe la protección térmica interna del integrado por sobrecalentamiento.
 
 
 %--------------------------------
@@ -445,25 +178,25 @@ Estableciendo una temperatura ambiente máxima de seguridad $T_a = \SI{25}{\cels
 %--------------------------------
 \subsection{Mediciones de ripple}
 
-El voltaje de ripple pico-pico medido a la salida del filtro capacitivo con el osciloscopio fue de 2.6V. Si se aproxima la señal a una onda triangular, el valor eficaz resulta: 
+El voltaje de ripple pico-pico en la salida del filtro capacitivo sin regulador de tension, medido con un osciloscopio fue de 2.6 V. Si se aproxima la señal a una onda triangular, el valor eficaz resulta: 
 
 \begin{equation}
-    V_{r(\text{rms})} = \frac{V_{r(\text{pp})}}{2\sqrt{3}} = \frac{\SI{2.6}{\V}}{2\sqrt{3}} \approx \mathbf{\SI{0.75}{\V}}
+    V_{r(\text{rms})} = \frac{V_{r(\text{pp})}}{2\sqrt{3}} = \frac{\SI{2.6V}{\V}}{2\sqrt{3}} \approx \mathbf{\SI{0.75V}{\V}}
 \end{equation}
 
-Para el ensayo del rectificador con filtro se midieron, además, los siguientes valores: $V_{\text{vacio}} = \SI{17.1}{\V}$, $V_{\text{carga}} = \SI{13}{\V}$ y una corriente máxima $I_{\text{máx}} = \SI{1.5}{\A}$. A partir de estos datos, se determina la regulación de voltaje ($RV$) del bloque de filtrado:
+Para el ensayo del rectificador con filtro se midieron, además, los siguientes valores: $V_{\text{vacio}} = \SI{17.1 V}{\V}$, $V_{\text{carga}} = \SI{13 V}{\V}$ y una corriente máxima $I_{\text{máx}} = \SI{1.5 A}{\A}$. A partir de estos datos, se determina la regulación de voltaje ($RV$) del bloque de filtrado:
 \begin{equation}
-    RV = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{17.1}{\V} - \SI{13}{\V}}{\SI{13}{\V}} \cdot 100\% = \mathbf{31.54\%}
+    RV = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{17.1 V}{\V} - \SI{13 V}{\V}}{\SI{13 V}{\V}} \cdot 100\% = \mathbf{31.54\%}
 \end{equation}
 
 El factor de ripple ($FR$) en bornes del capacitor se calcula como:
 \begin{equation}
-    FR = \frac{V_{r(\text{rms})}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{0.75}{\V}}{\SI{13}{\V}} \cdot 100\% = \mathbf{5.77\%}
+    FR = \frac{V_{r(\text{rms})}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{0.75 V}{\V}}{\SI{13 V}{\V}} \cdot 100\% = \mathbf{5.77\%}
 \end{equation}
 
 Para determinar la resistencia interna equivalente de la etapa no regulada en condiciones dinámicas de carga, se evalúa la caída de tensión bajo máxima solicitación de corriente:
 \begin{equation}
-    R_{\text{int}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{I_{\text{máx}}} = \frac{\SI{17.1}{\V} - \SI{13}{\V}}{\SI{1.5}{\A}} = \mathbf{2.73\,\Omega}
+    R_{\text{int}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{I_{\text{máx}}} = \frac{\SI{17.1 V}{\V} - \SI{13 V}{\V}}{\SI{1.5 A}{\A}} = \mathbf{2.73\,\Omega}
 \end{equation}
 
 \subsection{Mediciones finales (Salida Regulada)}
@@ -471,7 +204,7 @@ Una vez conectado el regulador integrado LM317, se repitieron los ensayos obteni
 
 La regulación de voltaje final de la fuente es:
 \begin{equation}
-    RV = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{7.49}{\V} - \SI{7.33}{\V}}{\SI{7.33}{\V}} \cdot 100\% = \mathbf{2.18\%}
+    RV = R_{\text{load}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{7.49V}{\V} - \SI{7.33V}{\V}}{\SI{7.33V}{\V}} \cdot 100\% = \mathbf{2.18\%}
 \end{equation}
 
 Y el factor de ripple remanente en la salida resulta:
@@ -484,10 +217,7 @@ Para evaluar los parámetros de estabilización frente a perturbaciones externas
     R_{\text{línea}} = \frac{\frac{\Delta V_O}{V_O}}{\Delta V_i} \cdot 100\%/\text{V} = \frac{\frac{\SI{1.5}{\V}}{\SI{7.33}{\V}}}{\SI{12}{\V}} \cdot 100\%/\text{V} \approx \mathbf{1.705\%/\text{V}}
 \end{equation}
 
-Asimismo, la regulación de carga ($R_{\text{load}}$) porcentual se establece como:
-\begin{equation}
-    R_{\text{load}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{7.49}{\V} - \SI{7.33}{\V}}{\SI{7.33}{\V}} \cdot 100\% = \mathbf{2.183\%}
-\end{equation}
+
 
 Para el análisis térmico del dispositivo se tomaron lecturas con la termocupla de un multímetro digital, registrándose una temperatura ambiente $T_{\text{Amb}} = \SI{22}{\celsius}$ y una temperatura sobre la cápsula TO-220 del componente $T_{\text{Carc}} = \SI{51}{\celsius}$. 
 
@@ -498,7 +228,7 @@ Con una caída de tensión estática medida en el regulador de $V_{\text{in}} - 
 
 A partir de estos valores, la resistencia térmica efectiva entre la carcasa y el ambiente ($R_{\theta CA}$) para la condición de ensayo resulta:
 \begin{equation}
-    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{4.65}{\W}} \approx \mathbf{6.236\,\text{\celsius/\W}}
+    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51 C}{\celsius} - \SI{22 C}{\celsius}}{\SI{4.65 W}{\W}} \approx {6.236 °C/W}
 \end{equation}
 
 %--------------------------------
@@ -506,11 +236,11 @@ A partir de estos valores, la resistencia térmica efectiva entre la carcasa y e
 %--------------------------------
 A partir de los ensayos experimentales realizados, se verificó el correcto funcionamiento de las distintas etapas de la fuente de alimentación regulada. La implementación planteada demostró ser altamente eficiente para el aprovechamiento integral del transformador disponible. 
 
-El bloque de filtrado capacitivo, utilizando un componente comercial de \SI{3300}{\micro\F}, exhibió un factor de ripple inicial del \mathbf{5.77\%} bajo condiciones de máxima carga (\SI{1.5}{\A}). El análisis matemático dinámico demostró que, a pesar de la elevada amplitud del rizado pico a pico (\SI{2.6}{\V} en banco), el nivel inferior de la tensión continua transitoria se mantuvo en \SI{10.93}{\V}, valor que supera de forma segura el umbral crítico de dropout del regulador.
+El bloque de filtrado capacitivo, utilizando un componente comercial de \SI{3300uF}{\micro\F}, exhibió un factor de ripple inicial del \mathbf{5.77\%} bajo condiciones de máxima carga (\SI{1.5 A}{\A}). El análisis matemático dinámico demostró que, a pesar de la elevada amplitud del rizado pico a pico (\SI{2.6 V }{\V} en banco), el nivel inferior de la tensión continua transitoria se mantuvo en \SI{10.93 V}{\V}, valor que supera de forma segura el umbral crítico de dropout del regulador.
 
-Tras la incorporación del integrado LM317, se constató la robustez del sistema de regulación lineal. El factor de ripple residual en la salida se redujo drásticamente a un valor despreciable de \mathbf{0.0196\%}, lo que representa una atenuación de más de \SI{54}{\dB}. Los parámetros de regulación de línea (\SI{1.705\%/\text{V}}) y de carga (\SI{2.183\%}) ratifican la estabilidad de la tensión suministrada frente a fluctuaciones en la red o demandas dinámicas de corriente. 
+Tras la incorporación del integrado LM317, se constató la robustez del sistema de regulación lineal. El factor de ripple residual en la salida se redujo drásticamente a un valor despreciable de \mathbf{0.0196\%}, lo que representa una atenuación de más de \SI{54Db}{\dB}. Los parámetros de regulación de línea (\SI{1.705\%/\text{V}}) y de carga (\SI{2.183\%}) ratifican la estabilidad de la tensión suministrada frente a fluctuaciones en la red o demandas dinámicas de corriente. 
 
-Finalmente, el análisis térmico determinó una resistencia de carcasa a ambiente de \SI{6.236}{\celsius/\W}. Dado el nivel de potencia disipada (\SI{4.65}{\W}) y el hecho de que la temperatura de la cápsula alcanzó los \SI{51° }{\celsius} en un entorno controlado de \SI{22° }{\celsius}, se concluye la necesidad de un disipador térmico exterior de baja resistencia térmica en aplicaciones permanentes, asegurando así que la juntura interna del semiconductor permanezca lejos de su límite de destrucción térmica.
+Finalmente, el análisis térmico determinó una resistencia de carcasa a ambiente de \SI{6.236 °C/W}{\celsius\W}. Dado el nivel de potencia disipada (\SI{4.65W}{\W}) y el hecho de que la temperatura de la cápsula alcanzó los \SI{51° }{\celsius} en un entorno controlado de \SI{22° }{\celsius}, se concluye la necesidad de un disipador térmico exterior de baja resistencia térmica en aplicaciones permanentes, asegurando así que la juntura interna del semiconductor permanezca lejos de su límite de destrucción térmica.
 %--------------------------------
 %--------------------------------
 \section{Anexo}
