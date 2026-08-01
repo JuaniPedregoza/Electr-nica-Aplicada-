@@ -126,21 +126,23 @@ El circuito requiere únicamente $2$ diodos en lugar de los $4$ del puente origi
     \begin{equation}
         I_{F(AV)} = \frac{I_O}{2} = \frac{\SI{1500}{\mA}}{2} = \mathbf{\SI{750}{\mA}}
     \end{equation}
+
     \item \textbf{Corriente eficaz ($I_S(\text{RMS})$):}
     \begin{equation}
         I_S(\text{RMS}) \approx I_O \cdot K \approx \SI{1.5}{\A} \cdot 1.8 = \SI{2.7}{\A}
     \end{equation}
+
     \item \textbf{Tensión Inversa de Pico ($V_{RRM}$):} En esta topología, el diodo en estado de bloqueo debe soportar el doble de la tensión de pico del devanado secundario:
     \begin{equation}
         V_{RRM} = (\sqrt{2} \cdot V_{S(\text{rms})}) - V_D
     \end{equation}
-    \item \begin{equation}
+    \begin{equation}
         V_{RRM} = \SI{32.54}{\V} - \SI{0.7}{\V} = \mathbf{\SI{31.84}{\V}}
     \end{equation}
-    \item \begin{equation}
+    \begin{equation}
         V_{RRM} = \SI{15.57}{\V} - \SI{0.7}{\V} = \mathbf{\SI{14.87}{\V}}
     \end{equation}
-    
+
     \item \textbf{Potencia disipada por diodo ($P_D$):}
     \begin{equation}
         P_D = V_D \cdot I_{F(AV)} = \SI{0.7}{\V} \cdot \SI{0.75}{\A} = \mathbf{\SI{0.525}{\W}}
