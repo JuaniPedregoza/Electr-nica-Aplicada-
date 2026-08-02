@@ -230,23 +230,25 @@ Y el factor de ripple remanente en la salida resulta:
     FR = \frac{V_{r(\text{rms})}}{V_{\text{carga}}} \cdot 100\% = \frac{\SI{1.44}{\mV}}{\SI{7.33}{\V}} \cdot 100\% = \mathbf{0.0196\%}
 \end{equation}
 
-Para evaluar los parámetros de estabilización frente a perturbaciones externas, se procesaron las variaciones medidas en los extremos de operación de la línea ($\Delta V_i = \SI{24}{\V} - \SI{12}{\V} = \SI{12}{\V}$). A partir de la máxima variación registrada en la salida bajo estas condiciones, se calcula la regulación de línea ($R_{\text{línea}}$):
+Para evaluar los parámetros de estabilización frente a perturbaciones externas, se procesaron las variaciones medidas en
+los extremos de operación de la línea ($\Delta V_i = \SI{24}{\V} - \SI{12}{\V} = \SI{12}{\V}$).
+A partir de la máxima variación registrada en la salida: $\Delta V_O = 0.06$ para $V_O = \SI{9.02}{\V}$ y $I_O = \SI{680}{\mA} $.
+se calcula la regulación de línea ($R_{\text{línea}}$):
+
 \begin{equation}
-    R_{\text{línea}} = \frac{\frac{\Delta V_O}{V_O}}{\Delta V_i} \cdot 100\%/\text{V} = \frac{\frac{\SI{1.5}{\V}}{\SI{7.33}{\V}}}{\SI{12}{\V}} \cdot 100\%/\text{V} \approx \mathbf{1.705\%/\text{V}}
+    R_{\text{línea}} = \frac{\frac{\Delta V_O}{V_O}}{\Delta V_i} \cdot 100\%/\text{V} = \frac{\frac{\SI{0.06}{\V}}{\SI{9.02}{\V}}}{\SI{12}{\V}} \cdot 100\%/\text{V} \approx \mathbf{0.0462\%/\text{V}}
 \end{equation}
-
-
 
 Para el análisis térmico del dispositivo se tomaron lecturas con la termocupla de un multímetro digital, registrándose una temperatura ambiente $T_{\text{Amb}} = \SI{22}{\celsius}$ y una temperatura sobre la cápsula TO-220 del componente $T_{\text{Carc}} = \SI{51}{\celsius}$. 
 
-Con una caída de tensión estática medida en el regulador de $V_{\text{in}} - V_{\text{out}} = \SI{3.1}{\V}$ a la corriente máxima de ensayo ($I_{\text{máx}} = \SI{1.5}{\A}$), la potencia disipada por el integrado es:
+Con una caída de tensión estática medida en el regulador de $V_{\text{in}} - V_{\text{out}} = \SI{10}{\V}$ a la corriente máxima de ensayo ($I_{\text{máx}} = \SI{1.5}{\A}$), la potencia disipada por el integrado es:
 \begin{equation}
-    P_{\text{reg}} = (V_{\text{in}} - V_{\text{out}}) \cdot I_{\text{máx}} = \SI{3.1}{\V} \cdot \SI{1.5}{\A} = \mathbf{4.65\,\text{W}}
+    P_{\text{reg}} = (V_{\text{in}} - V_{\text{out}}) \cdot I_{\text{máx}} = \SI{10}{\V} \cdot \SI{1.5}{\A} = \mathbf{15\,\text{W}}
 \end{equation}
 
 A partir de estos valores, la resistencia térmica efectiva entre la carcasa y el ambiente ($R_{\theta CA}$) para la condición de ensayo resulta:
 \begin{equation}
-    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{4.65}{\W}} \approx \SI{6.236}{\celsius\per\W}
+    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{15}{\W}} \approx \SI{1.933}{\celsius\per\W}
 \end{equation}
 
 %--------------------------------
