@@ -191,16 +191,24 @@ La potencia que el LM317 disipa en forma de calor depende directamente de la ca�
 \begin{equation}
     P_{\text{reg}} = (V_{DC} - V_O) \cdot I_O
 \end{equation}
+
+Teniendo en cuenta la tensión de salida mínima entregada por el regulador ($V_O = \SI{1.25}{\V}$) y la tensión de salida
+del filtro capacitivo ($V_{DC} = \SI{15.57}{\V}$), la potencia disipada por el integrado bajo máxima carga resulta:
+
 \begin{equation}
-    P_{\text{reg}} = (\SI{15.57}{\V} - \SI{9}{\V}) \cdot \SI{1.5}{\A} = \SI{7.27}{\V} \cdot \SI{1.5}{\A} = \mathbf{\SI{9.855}{\W}}
+    P_{\text{reg}} = (\SI{15.57}{\V} - \SI{1.25}{\V}) \cdot \SI{1.5}{\A} = \SI{14.32}{\V} \cdot \SI{1.5}{\A} = \mathbf{\SI{21.48}{\W}}
 \end{equation}
 
-Estableciendo una temperatura ambiente máxima de seguridad $T_a = \SI{25}{\celsius}$ y conociendo que la temperatura máxima de la juntura del semiconductor es $T_j = \SI{150}{\celsius}$, calculamos la resistencia térmica total máxima permitida del sistema:
+Estableciendo una temperatura ambiente $T_a = \SI{25}{\celsius}$ y conociendo que la temperatura máxima de la juntura 
+del semiconductor es $T_j = \SI{150}{\celsius}$, calculamos la resistencia térmica total máxima permitida del sistema:
+
 \begin{equation}
-    R_{\theta JA(\text{máx})} = \frac{T_j - T_a}{P_{\text{reg}}} = \frac{\SI{150}{\celsius} - \SI{25}{\celsius}}{\SI{9.855}{\W}} \approx \mathbf{\SI{12.69}{\celsius\per\W}}
+    R_{\theta JA(\text{máx})} = \frac{T_j - T_a}{P_{\text{reg}}} = \frac{\SI{150}{\celsius} - \SI{25}{\celsius}}{\SI{21.48}{\W}} \approx \mathbf{\SI{5.819}{\celsius\per\W}}
 \end{equation}
 
-\textbf{Conclusión Térmica:} Debido a que la resistencia térmica intrínseca de un encapsulado TO-220 al aire libre ronda los \SI{50}{\celsius\per\W} (valor superior al límite de \SI{12.69}{\celsius\per\W}), \textbf{es estrictamente obligatorio instalar un disipador térmico externo} para evitar que actúe la protección térmica interna del integrado por sobrecalentamiento.
+\textbf{Conclusión Térmica:} Debido a que la resistencia térmica intrínseca de un encapsulado TO-220 al aire libre ronda
+los \SI{50}{\celsius\per\W}, \textbf{es estrictamente obligatorio instalar un disipador térmico} para evitar que actúe
+la protección térmica interna del integrado por sobrecalentamiento.
 
 
 %--------------------------------
