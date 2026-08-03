@@ -218,6 +218,8 @@ la protección térmica interna del integrado por sobrecalentamiento.
 
 El voltaje de ripple pico-pico en la salida del filtro capacitivo sin regulador de tension, medido con un osciloscopio fue de \SI{2.6}{\V}. Si se aproxima la señal a una onda triangular, el valor eficaz resulta: 
 
+Ver mediciones en el anexo \ref{sec:anexo} \ref{fig:osc}, y \ref{fig:osc1}.
+
 \begin{equation}
     V_{r(\text{rms})} = \frac{V_{r(\text{pp})}}{2\sqrt{3}} = \frac{\SI{2.6}{\V}}{2\sqrt{3}} \approx \mathbf{\SI{0.75}{\V}}
 \end{equation}
@@ -267,6 +269,9 @@ Con una caída de tensión estática medida en el regulador de $V_{\text{in}} - 
 \end{equation}
 
 A partir de estos valores, la resistencia térmica efectiva entre la carcasa y el ambiente ($R_{\theta CA}$) para la condición de ensayo resulta:
+
+Ver en el anexo \ref{sec:anexo} las mediciones correspondientes \ref{fig:temp}, y \ref{fig:tension-reg}.
+
 \begin{equation}
     R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{15}{\W}} \approx \SI{1.933}{\celsius\per\W}
 \end{equation}
@@ -283,27 +288,34 @@ Tras la incorporación del integrado LM317, se constató la robustez del sistema
 Finalmente, el análisis térmico determinó una resistencia de carcasa a ambiente de \SI{6.236}{\celsius\per\W}. Dado el nivel de potencia disipada (\SI{4.65}{\W}) y el hecho de que la temperatura de la cápsula alcanzó los \SI{51}{\celsius} en un entorno controlado de \SI{22}{\celsius}, se concluye la necesidad de un disipador térmico exterior de baja resistencia térmica en aplicaciones permanentes, asegurando así que la juntura interna del semiconductor permanezca lejos de su límite de destrucción térmica.
 
 %--------------------------------
+\section{Anexo} \label{sec:anexo}
 %--------------------------------
-\section{Anexo}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.6\textwidth]{med.jpeg}
-    \caption{Medición de $V_{DC}$}
-\end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{osc.jpeg}
     \caption{Osciloscopio utilizado}
+    \label{fig:osc}
 \end{figure}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{osc1.jpeg}
     \caption{Función en osciloscopio}
+    \label{fig:osc1}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{med.jpeg}
+    \caption{Caida de tensión en el regulador}
+    \label{fig:tension-reg}
+\end{figure}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{temp.jpeg}
     \caption{Medición de temperatura}
+    \label{fig:temp}
 \end{figure}
 
 %--------------------------------
