@@ -169,7 +169,7 @@ Durante cada semiciclo, solo dos diodos del puente se encuentran conduciendo.
 %    C_1 = \frac{I_L}{2 \cdot f_{\text{red}} \cdot V_{\text{ripple}}} = \frac{\SI{1.5}%{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{1}{\V}} = \mathbf{\SI{15000}{\micro\F}}
 %\end{equation}
 %
-\subsection{Verificación Práctica (Con Capacitor Real de \SI{3300}{\micro\F})}
+\subsection{Cálculo de ripple en el filtro}
 Para la implementación física del circuito se utiliza un valor comercial estandarizado de \SI{3300}{\micro\F}. Despejando el rizado real obtenido bajo máxima carga resulta:
 \begin{equation}
     V_{r(\text{real})} = \frac{I_L}{2 \cdot f_{\text{red}} \cdot C_{\text{real}}} = \frac{\SI{1.5}{\A}}{2 \cdot \SI{50}{\Hz} \cdot \SI{3300}{\micro\F}} \approx \mathbf{\SI{4.54}{\V_{\text{pp}}}}
@@ -206,7 +206,7 @@ Estableciendo una temperatura ambiente máxima de seguridad $T_a = \SI{25}{\cels
 %--------------------------------
 \section{Ensayos y mediciones}
 %--------------------------------
-\subsection{Mediciones de ripple}
+\subsection{Ensayos sin regulador}
 
 El voltaje de ripple pico-pico en la salida del filtro capacitivo sin regulador de tension, medido con un osciloscopio fue de \SI{2.6}{\V}. Si se aproxima la señal a una onda triangular, el valor eficaz resulta: 
 
@@ -229,7 +229,7 @@ Para determinar la resistencia interna equivalente de la etapa no regulada en co
     R_{\text{int}} = \frac{V_{\text{vacio}} - V_{\text{carga}}}{I_{\text{máx}}} = \frac{\SI{17.1}{\V} - \SI{13}{\V}}{\SI{1.5}{\A}} = \mathbf{2.73\,\Omega}
 \end{equation}
 
-\subsection{Mediciones finales (Salida Regulada)}
+\subsection{Ensayos con regulador}
 Una vez conectado el regulador integrado LM317, se repitieron los ensayos obteniendo los siguientes valores sobre la carga: $V_{\text{vacio}} = \SI{7.49}{\V}$, $V_{\text{carga}} = \SI{7.33}{\V}$, $V_{r(\text{pp})} = \SI{5}{\mV}$ y $V_{r(\text{rms})} = \SI{1.44}{\mV}$. 
 
 La regulación de voltaje final de la fuente es:
