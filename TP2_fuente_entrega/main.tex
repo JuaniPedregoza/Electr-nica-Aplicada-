@@ -116,21 +116,17 @@ La elección de un transformador con derivación central, permite
 utilizar el punto bajo (\SI{12}{\V}) u alto (\SI{24}{\V}) según la tensión de salida deseada.
 Reducieno de esta forma la caida de tensión en el regulador, y por ende la potencia que debe disipar.
 
-
-
-\section{Desarrollo de los cálculos teóricos}
-
-\subsection{Tensión Continua después del Rectificador \texorpdfstring{($V_{DC}$)}{(V_{DC})}}
-A diferencia del puente de diodos convencional donde la corriente circula por dos componentes simétricos, en la configuración con toma central la corriente fluye a través de un único diodo por cada semiciclo. La tensión de pico en el capacitor de filtro se calcula como:
+\subsection{Tensión Continua después del Rectificador $V_{DC}$}
+La tensión de pico en el capacitor de filtro se calcula como:
 \begin{equation}
     V_{DC} = \sqrt{2} \cdot V_{S(\text{rms})} - 2 V_D
 \end{equation}
 Asumiendo una caída típica en el diodo de silicio de $V_D = \SI{0.7}{\V}$:
 \begin{equation}
-    V_{DC} = \sqrt{2} \cdot \SI{12}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{15.57}{\V}}
+  V_{DC_{(bajo)}} = \sqrt{2} \cdot \SI{12}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{15.57}{\V}}
 \end{equation}
 \begin{equation}
-    V_{DC} = \sqrt{2} \cdot \SI{24}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{32.54}{\V}}
+    V_{DC_{(alto)}} = \sqrt{2} \cdot \SI{24}{\V} - \SI{1.4}{\V}  = \mathbf{\SI{32.54}{\V}}
 \end{equation}
 
 \subsection{Dimensionamiento de los Diodos Rectificadores}
