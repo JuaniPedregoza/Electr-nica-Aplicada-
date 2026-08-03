@@ -274,19 +274,31 @@ A partir de estos valores, la resistencia térmica efectiva entre la carcasa y e
 Ver en el anexo \ref{sec:anexo} las mediciones correspondientes \ref{fig:temp}, y \ref{fig:tension-reg}.
 
 \begin{equation}
-    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{15}{\W}} \approx \SI{1.933}{\celsius\per\W}
+    R_{\theta CA} = \frac{T_{\text{Carc}} - T_{\text{Amb}}}{P_{\text{reg}}} = \frac{\SI{51}{\celsius} - \SI{22}{\celsius}}{\SI{4.65}{\W}} \approx \SI{6.236}{\celsius\per\W}
 \end{equation}
+
+Este valor es significativamente menor al límite máximo calculado en la sección de cálculos teóricos, lo que indica que
+el disipador térmico utilizado en el ensayo es adecuado para mantener la temperatura de la juntura del semiconductor
+dentro de los límites seguros de operación.
+
 
 %--------------------------------
 \section{Conclusión}
 %--------------------------------
-A partir de los ensayos experimentales realizados, se verificó el correcto funcionamiento de las distintas etapas de la fuente de alimentación regulada. La implementación planteada demostró ser altamente eficiente para el aprovechamiento integral del transformador disponible. 
+A partir de los ensayos experimentales realizados, se verificó el correcto funcionamiento de las distintas etapas de la
+fuente de alimentación regulada.
 
-El bloque de filtrado capacitivo, utilizando un componente comercial de \SI{3300}{\micro\F}, exhibió un factor de ripple inicial del \textbf{5.77\%} bajo condiciones de máxima carga (\SI{1.5}{\A}). El análisis matemático dinámico demostró que, a pesar de la elevada amplitud del rizado pico a pico (\SI{2.6}{\V} en banco), el nivel inferior de la tensión continua transitoria se mantuvo en \SI{10.93}{\V}, valor que supera de forma segura el umbral crítico de dropout del regulador.
+El bloque de filtrado capacitivo, utilizando un componente comercial de \SI{3300}{\micro\F}, exhibió un factor de ripple
+inicial del \textbf{5.77\%} bajo condiciones de máxima carga (\SI{1.5}{\A}).
 
-Tras la incorporación del integrado LM317, se constató la robustez del sistema de regulación lineal. El factor de ripple residual en la salida se redujo drásticamente a un valor despreciable de \textbf{0.0196\%}, lo que representa una atenuación de más de \SI{54}{\dB}. Los parámetros de regulación de línea (\SI{1.705}{\%/\text{V}}) y de carga (\SI{2.183}{\%}) ratifican la estabilidad de la tensión suministrada frente a fluctuaciones en la red o demandas dinámicas de corriente. 
+Tras la incorporación del integrado LM317, el factor de ripple
+residual en la salida se redujo drásticamente a un valor despreciable de \textbf{0.0196\%}, lo que representa una atenuación
+de más de \SI{54}{\dB}. Los parámetros de regulación de línea (\SI{0.0462}{\%/\text{V}}) y de carga (\SI{2.183}{\%}) ratifican
+la estabilidad de la tensión suministrada frente a fluctuaciones en la red o demandas dinámicas de corriente. 
 
-Finalmente, el análisis térmico determinó una resistencia de carcasa a ambiente de \SI{6.236}{\celsius\per\W}. Dado el nivel de potencia disipada (\SI{4.65}{\W}) y el hecho de que la temperatura de la cápsula alcanzó los \SI{51}{\celsius} en un entorno controlado de \SI{22}{\celsius}, se concluye la necesidad de un disipador térmico exterior de baja resistencia térmica en aplicaciones permanentes, asegurando así que la juntura interna del semiconductor permanezca lejos de su límite de destrucción térmica.
+Finalmente, el análisis térmico determinó una resistencia de carcasa a ambiente de \SI{6.236}{\celsius\per\W}. Valida la
+elección del disipador térmico utilizado, asegurando que la temperatura de la juntura del LM317 permanezca dentro de los
+límites seguros de operación.
 
 %--------------------------------
 \section{Anexo} \label{sec:anexo}
