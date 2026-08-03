@@ -130,16 +130,18 @@ Asumiendo una caída típica en el diodo de silicio de $V_D = \SI{0.7}{\V}$:
 \end{equation}
 
 \subsection{Dimensionamiento de los Diodos Rectificadores}
-El circuito requiere únicamente $2$ diodos en lugar de los $4$ del puente original.
+
+Durante cada semiciclo, solo dos diodos del puente se encuentran conduciendo.
+
 \begin{itemize}
     \item \textbf{Corriente promedio por diodo ($I_{F(AV)}$):} Cada diodo conduce durante la mitad del ciclo completo.
     \begin{equation}
         I_{F(AV)} = \frac{I_O}{2} = \frac{\SI{1500}{\mA}}{2} = \mathbf{\SI{750}{\mA}}
     \end{equation}
 
-    \item \textbf{Corriente eficaz ($I_S(\text{RMS})$):}
+  \item \textbf{Corriente eficaz ($I_{S(\text{RMS}})$):}
     \begin{equation}
-        I_S(\text{RMS}) \approx I_O \cdot K \approx \SI{1.5}{\A} \cdot 1.8 = \SI{2.7}{\A}
+      I_{S(\text{RMS})} \approx I_O \cdot K \approx \SI{1.5}{\A} \cdot 1.8 = \SI{2.7}{\A}
     \end{equation}
 
     \item \textbf{Tensión Inversa de Pico ($V_{RRM}$):} En esta topología, el diodo en estado de bloqueo debe soportar el doble de la tensión de pico del devanado secundario:
