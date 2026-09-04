@@ -1,0 +1,178 @@
+\chapter{Análisis de Pequeña Señal y Parámetros del Amplificador}
+\label{chap:pequena_senal}
+
+En este capítulo se desarrolla el modelo linealizado de pequeña señal para la configuración en emisor común a partir
+de los parámetros híbridos del transistor bipolar, deduciendo analíticamente las expresiones de ganancia y de
+impedancia. Asimismo, se describen los fundamentos de los métodos de medición experimental utilizados en laboratorio.
+
+\section{Modelo Híbrido Equivalente del Transistor}
+
+Para señales de amplitud reducida superpuestas al punto de reposo $Q$, el transistor BJT se comporta como un
+dispositivo lineal. Despreciando los efectos de realimentación inversa ($h_{re} \approx 0$) y la conductancia de
+salida ($h_{oe} \approx 0$) frente a la carga de colector, el transistor queda representado por su resistencia
+dinámica de entrada $h_{ie}$ y su generador de corriente controlado por corriente $h_{fe} \cdot i_b$.
+
+En la figura~\ref{crkt:pequena_senal} se presenta el circuito equivalente de pequeña señal del amplificador completo.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_pequena_senal.tex}
+  \caption{Modelo equivalente de pequeña señal en parámetros híbridos para el amplificador emisor común.}
+  \label{crkt:pequena_senal}
+\end{figure}
+
+A partir de la física del semiconductor, la resistencia dinámica de la juntura base-emisor polarizada en directa es:
+\begin{equation}
+  r_e' = \frac{V_T}{I_{CQ}}
+  \label{eq:re_prima}
+\end{equation}
+donde $V_T = k T / q \approx 25.0\mV$ representa el potencial térmico a temperatura ambiente de laboratorio ($T \approx 290\Kelvin$).
+
+Tomando el valor de corriente de reposo medido en banco ($I_{CQ} = 7.683\mA$):
+\begin{equation}
+  r_e' = \frac{25.0\mV}{7.683\mA} \approx 3.254\ohm
+\end{equation}
+
+La resistencia dinámica de entrada del transistor en emisor común ($h_{ie}$) resulta:
+\begin{equation}
+  h_{ie} \approx (\beta + 1) \cdot r_e' \approx h_{fe} \cdot \frac{V_T}{I_{CQ}} = 284 \cdot \frac{25.0\mV}{7.683\mA} \approx 924.08\ohm
+  \label{eq:hie_calculo}
+\end{equation}
+y la ganancia de corriente en cortocircuito es $h_{fe} = \beta = 284$.
+
+\section{Cálculo Analítico de Parámetros del Cuadripolo}
+
+A partir del análisis de mallas y nodos del circuito de la figura~\ref{crkt:pequena_senal}, se deducen las expresiones
+de los parámetros fundamentales del amplificador.
+
+\subsection{Impedancia de Entrada (\texorpdfstring{$Z_i$}{Zi})}
+La impedancia que la etapa presenta a la fuente de excitación comprende el paralelo de la red de polarización de base
+($R_B = R_1 \parallel R_2$) y la resistencia de entrada del BJT ($h_{ie}$):
+\begin{equation}
+  Z_i = R_1 \parallel R_2 \parallel h_{ie} = R_B \parallel h_{ie}
+  \label{eq:Zi_formula}
+\end{equation}
+
+Evaluando con $R_B = 5790.39\ohm$ y $h_{ie} = 924.08\ohm$:
+\begin{equation}
+  Z_i = \frac{5790.39\ohm \cdot 924.08\ohm}{5790.39\ohm + 924.08\ohm} \approx 796.90\ohm
+  \label{eq:Zi_teorica}
+\end{equation}
+
+\subsection{Impedancia de Salida (\texorpdfstring{$Z_o$}{Zo})}
+La impedancia de salida se evalúa anulando la fuente de excitación de entrada ($v_i = 0$). En dicha condición, la
+corriente de base se extingue ($i_b = 0$), lo cual anula el generador dependiente de colector ($h_{fe} i_b = 0$).
+Por lo tanto, la impedancia de salida vista desde los terminales de la carga resulta:
+\begin{equation}
+  Z_o = R_C = 1200\ohm
+  \label{eq:Zo_teorica}
+\end{equation}
+
+\subsection{Ganancia de Tensión (\texorpdfstring{$A_v$}{Av})}
+La tensión alterna desarrollada sobre la carga $R_L$ viene dada por la corriente inyectada por el colector sobre el
+paralelo de resistencias:
+\begin{equation}
+  v_L = -h_{fe} \cdot i_b \cdot (R_C \parallel R_L)
+\end{equation}
+mientras que la tensión en los terminales de entrada es:
+\begin{equation}
+  v_i = i_b \cdot h_{ie}
+\end{equation}
+
+El cociente entre ambas tensiones define la ganancia de tensión de la etapa:
+\begin{equation}
+  A_v = \frac{v_L}{v_i} = -\frac{h_{fe} \cdot (R_C \parallel R_L)}{h_{ie}} = -\frac{R_C \parallel R_L}{r_e'}
+  \label{eq:Av_formula}
+\end{equation}
+
+Reemplazando los valores numéricos:
+\begin{equation}
+  A_v = -\frac{545.45\ohm}{3.254\ohm} \approx -167.62
+  \label{eq:Av_teorica}
+\end{equation}
+donde el signo negativo explicita la inversión de fase de $180^\circ$ de la topología emisor común.
+
+\subsection{Ganancia de Corriente (\texorpdfstring{$A_i$}{Ai})}
+La ganancia de corriente se define como la razón entre la corriente alterna que atraviesa la carga ($i_L$) y la
+corriente total que suministra el generador a la entrada del amplificador ($i_i$):
+\begin{equation}
+  i_L = \frac{v_L}{R_L}, \quad i_i = \frac{v_i}{Z_i}
+\end{equation}
+\begin{equation}
+  A_i = \frac{i_L}{i_i} = \frac{v_L / R_L}{v_i / Z_i} = A_v \cdot \frac{Z_i}{R_L}
+  \label{eq:Ai_formula}
+\end{equation}
+
+En valor absoluto:
+\begin{equation}
+  |A_i| = 167.62 \cdot \frac{796.90\ohm}{1000\ohm} \approx 133.58
+  \label{eq:Ai_teorica}
+\end{equation}
+
+\section{Métodos de Medición Experimental en Laboratorio}
+
+La determinación práctica de las impedancias en pequeña señal no puede realizarse de forma directa con un ohmímetro
+convencional, ya que los instrumentos de corriente continua alterarían los puntos de polarización del transistor. Por
+ello, se recurre al método de inserción de una resistencia serie ($R_S$) calibrada.
+
+\subsection{Medición de \texorpdfstring{$Z_i$, $A_v$ y $A_i$}{Zi, Av y Ai} (Método del Resistor Serie de Entrada)}
+En la figura~\ref{crkt:medicion_zi} se ilustra el esquema de conexionado.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_medicion_zi.tex}
+  \caption{Esquema de medición de $Z_i$, $A_v$ y $A_i$ intercalando un resistor serie $R_S$ en la entrada.}
+  \label{crkt:medicion_zi}
+\end{figure}
+
+Se intercala un resistor conocido $R_S = 820\ohm$ entre el generador de funciones y la entrada del amplificador.
+Mediante un osciloscopio de dos canales se miden simultáneamente la tensión suministrada por el generador ($v_s$) y la
+tensión efectiva que ingresa a la base tras la caída en $R_S$ ($v_i$).
+
+La corriente que ingresa a la etapa resulta de la ley de Ohm sobre el resistor testigo:
+\begin{equation}
+  i_i = \frac{v_s - v_i}{R_S}
+  \label{eq:ii_exp}
+\end{equation}
+
+Conociendo $i_i$ y $v_i$, la impedancia de entrada se determina de forma inmediata como:
+\begin{equation}
+  Z_i = \frac{v_i}{i_i} = \frac{v_i \cdot R_S}{v_s - v_i}
+  \label{eq:Zi_exp_formula}
+\end{equation}
+
+Simultáneamente, midiendo la amplitud pico a pico de la tensión sobre la carga $R_L$ ($v_L$), se computan la ganancia
+de tensión experimental:
+\begin{equation}
+  A_v = \frac{v_L}{v_i}
+  \label{eq:Av_exp_formula}
+\end{equation}
+y la ganancia de corriente experimental:
+\begin{equation}
+  A_i = \frac{i_L}{i_i} = \frac{v_L / R_L}{(v_s - v_i) / R_S}
+  \label{eq:Ai_exp_formula}
+\end{equation}
+
+\subsection{Medición de \texorpdfstring{$Z_o$}{Zo} (Método de Inyección en Salida)}
+Para evaluar la impedancia de salida de la etapa, se utiliza el montaje de la figura~\ref{crkt:medicion_zo}.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_medicion_zo.tex}
+  \caption{Esquema de inyección de señal para la medición de la impedancia de salida $Z_o$.}
+  \label{crkt:medicion_zo}
+\end{figure}
+
+Se cortocircuita a masa la entrada de señal en alterna ($v_{in} = 0$) para anular cualquier excitación propia del
+transistor, conservando intacta su polarización en continua. En el terminal de colector se desacopla la carga $R_L$ y se
+conecta el generador de funciones en serie con un resistor patrón de $R_S = 1200\ohm$.
+
+Midiendo la tensión del generador ($v_s$) y la tensión en el colector ($v_o$), la corriente inyectada es:
+\begin{equation}
+  i_o = \frac{v_s - v_o}{R_S}
+\end{equation}
+y la impedancia de salida queda determinada como:
+\begin{equation}
+  Z_o = \frac{v_o}{i_o} = \frac{v_o \cdot R_S}{v_s - v_o}
+  \label{eq:Zo_exp_formula}
+\end{equation}

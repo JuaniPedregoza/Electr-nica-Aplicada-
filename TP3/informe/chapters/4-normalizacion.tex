@@ -1,0 +1,127 @@
+\chapter{Normalización de Componentes y Recálculo del Punto Q}
+\label{chap:normalizacion}
+
+Los valores calculados analíticamente en el capítulo anterior ($R_1 = 6.01\kohm$ y $R_2 = 34.19\kohm$) corresponden
+a valores teóricos ideales que no forman parte de las series comerciales normalizadas de resistores (series E12 y E24).
+Por este motivo, se requiere adoptar componentes existentes en plaza asegurando que la dispersión introducida sobre
+el punto de trabajo en reposo no exceda el límite del $10\%$ fijado en la consigna del trabajo práctico.
+
+\section{Selección de Resistores Comerciales}
+
+El factor primordial al seleccionar los resistores del divisor consiste en preservar con máxima fidelidad la relación
+de transferencia de tensión Thévenin:
+\begin{equation}
+  \frac{V_{BB}}{V_{CC}} = \frac{R_1}{R_1 + R_2} \approx \frac{2.242\V}{15\V} \approx 0.1495
+\end{equation}
+manteniendo a su vez la resistencia equivalente $R_B = R_1 \parallel R_2$ en un valor cercano a los $5.11\kohm$ de diseño.
+
+A partir de los valores comerciales disponibles se evaluaron dos alternativas:
+\begin{itemize}
+  \item Opción 1: $R_2 = 33\kohm$ y $R_1 = 5.6\kohm$, cuya relación resulta $5.6 / 38.6 \approx 0.1451$ (error del $-2.94\%$),
+    con una resistencia Thévenin de $R_B = 4.78\kohm$.
+  \item Opción 2: $R_2 = 39\kohm$ y $R_1 = 6.8\kohm$, cuya relación resulta $6.8 / 45.8 \approx 0.1485$ (error del $-0.67\%$),
+    con una resistencia Thévenin de $R_B = 5.79\kohm$.
+\end{itemize}
+
+Se seleccionó la Opción 2 debido a su excelente aproximación a la relación de continua ideal y a que su resistencia de
+base ($5.79\kohm$) respeta plenamente el criterio de estabilidad térmica frente a variaciones de $\beta$.
+
+\section{Recálculo Analítico con Valores Normalizados}
+
+Con los componentes comerciales adoptados ($R_1 = 6.8\kohm$, $R_2 = 39\kohm$, $R_C = 1.2\kohm$, $R_E = 180\ohm$ y
+$R_L = 1\kohm$), se recalculan los parámetros de polarización en corriente continua.
+
+El equivalente de Thévenin de la red de base pasa a ser:
+\begin{equation}
+  V_{BB} = 15\V \cdot \frac{6.8\kohm}{6.8\kohm + 39\kohm} = 15\V \cdot \frac{6.8}{45.8} \approx 2.227\V
+  \label{eq:Vbb_norm}
+\end{equation}
+\begin{equation}
+  R_B = \frac{6.8\kohm \cdot 39\kohm}{6.8\kohm + 39\kohm} \approx 5790.39\ohm
+  \label{eq:Rb_norm}
+\end{equation}
+
+Planteando la ecuación exacta de la malla de entrada de base:
+\begin{equation}
+  I_{BQ} = \frac{V_{BB} - V_{BE}}{R_B + (\beta + 1) \cdot R_E} = \frac{2.227\V - 0.70\V}{5790.39\ohm + 285 \cdot 180\ohm} = \frac{1.527\V}{57090.39\ohm} \approx 26.75\uA
+  \label{eq:Ibq_norm}
+\end{equation}
+
+A partir de la corriente de base se deduce la corriente de colector:
+\begin{equation}
+  I_{CQ} = \beta \cdot I_{BQ} = 284 \cdot 26.75\uA \approx 7.597\mA \approx 7.60\mA
+  \label{eq:Icq_norm}
+\end{equation}
+y la corriente de emisor:
+\begin{equation}
+  I_{EQ} = (\beta + 1) \cdot I_{BQ} = 285 \cdot 26.75\uA \approx 7.624\mA
+\end{equation}
+
+Las tensiones en los diferentes nodos del circuito respecto a la referencia común de masa son:
+\begin{equation}
+  V_E = I_{EQ} \cdot R_E = 7.624\mA \cdot 180\ohm \approx 1.372\V
+\end{equation}
+\begin{equation}
+  V_B = V_E + V_{BE} = 1.372\V + 0.70\V = 2.072\V
+\end{equation}
+\begin{equation}
+  V_C = V_{CC} - I_{CQ} \cdot R_C = 15\V - (7.597\mA \cdot 1200\ohm) = 15\V - 9.116\V \approx 5.884\V
+\end{equation}
+
+Por ende, la tensión continua colector-emisor de reposo resulta:
+\begin{equation}
+  V_{CEQ} = V_C - V_E = 5.884\V - 1.372\V \approx 4.512\V
+  \label{eq:Vceq_norm}
+\end{equation}
+
+Las corrientes a través de las ramas del divisor resistivo se calculan como:
+\begin{equation}
+  I_{R2} = \frac{V_{CC} - V_B}{R_2} = \frac{15\V - 2.072\V}{39\kohm} = \frac{12.928\V}{39\kohm} \approx 0.331\mA = 331.5\uA
+\end{equation}
+\begin{equation}
+  I_{R1} = \frac{V_B}{R_1} = \frac{2.072\V}{6.8\kohm} \approx 0.305\mA = 304.7\uA
+\end{equation}
+verificando la ley de corrientes de Kirchhoff en el nodo de base:
+\begin{equation}
+  I_{R2} - I_{R1} = 331.5\uA - 304.7\uA = 26.8\uA \approx I_{BQ}
+\end{equation}
+
+\section{Verificación de Tolerancia}
+
+Para certificar que los valores normalizados satisfacen las especificaciones de diseño, se calcula el error
+porcentual relativo frente a los valores óptimos de MES:
+\begin{equation}
+  \varepsilon_{I_{CQ}} = \frac{|I_{CQ,\text{norm}} - I_{CQ,\text{MES}}|}{I_{CQ,\text{MES}}} \times 100\% = \frac{|7.60\mA - 7.79\mA|}{7.79\mA} \times 100\% = 2.44\%
+\end{equation}
+\begin{equation}
+  \varepsilon_{V_{CEQ}} = \frac{|V_{CEQ,\text{norm}} - V_{CEQ,\text{MES}}|}{V_{CEQ,\text{MES}}} \times 100\% = \frac{|4.51\V - 4.25\V|}{4.25\V} \times 100\% = 6.12\%
+\end{equation}
+
+En la tabla~\ref{tab:comparativa_mes_normalizado} se expone la comparación directa entre el diseño MES y el circuito normalizado.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Magnitud de Polarización} & \textbf{Diseño Teórico MES} & \textbf{Valor Normalizado} & \textbf{Error Relativo} & \textbf{Tolerancia} \\
+    \hline
+    Resistencia $R_1$ & $6.01\kohm$ & $6.80\kohm$ & $+13.1\%$ & Comercial E12 \\
+    Resistencia $R_2$ & $34.19\kohm$ & $39.00\kohm$ & $+14.1\%$ & Comercial E12 \\
+    Tensión Thévenin $V_{BB}$ & $2.242\V$ & $2.227\V$ & $-0.67\%$ & Admitida \\
+    Resistencia Thévenin $R_B$ & $5.112\kohm$ & $5.790\kohm$ & $+13.3\%$ & Admitida \\
+    Corriente de colector $I_{CQ}$ & $7.790\mA$ & $7.597\mA$ & $-2.44\%$ & $\le 10\%$ (Cumple) \\
+    Tensión colector-emisor $V_{CEQ}$ & $4.250\V$ & $4.512\V$ & $+6.12\%$ & $\le 10\%$ (Cumple) \\
+    Tensión de colector $V_C$ & $5.652\V$ & $5.884\V$ & $+4.10\%$ & $\le 10\%$ (Cumple) \\
+    Tensión de emisor $V_E$ & $1.402\V$ & $1.372\V$ & $-2.14\%$ & $\le 10\%$ (Cumple) \\
+    Tensión de base $V_B$ & $2.102\V$ & $2.072\V$ & $-1.43\%$ & $\le 10\%$ (Cumple) \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Comparación cuantitativa entre el diseño ideal MES y el circuito con resistores normalizados.}
+  \label{tab:comparativa_mes_normalizado}
+\end{table}
+
+Dado que tanto la corriente de colector como la tensión colector-emisor exhiben desviaciones significativamente
+inferiores al límite exigido del $10\%$, se concluye que la etapa normalizada se encuentra en óptimas condiciones
+para su simulación e implementación experimental.

@@ -1,0 +1,57 @@
+\chapter{Introducción y Objetivos}
+\label{chap:introduccion}
+
+La configuración en emisor común con transistor bipolar de juntura (BJT) constituye una de las topologías
+amplificadoras fundamentales en la electrónica analógica discreta. Su amplia difusión se debe a su capacidad
+de proveer simultáneamente una ganancia de tensión significativa y una ganancia de corriente apreciable,
+brindando una ganancia de potencia global elevada con respecto a otras configuraciones elementales.
+
+\section{Objetivos del Trabajo Práctico}
+
+El presente trabajo de laboratorio persigue los siguientes objetivos técnicos y formativos:
+\begin{enumerate}
+  \item Diseñar un amplificador con transistor BJT NPN en configuración emisor común polarizado por divisor resistivo,
+    estableciendo el punto de operación en reposo $Q(V_{CEQ}, I_{CQ})$ bajo el criterio de Máxima Excursión Simétrica (MES).
+  \item Garantizar la estabilidad térmica del punto de reposo frente a dispersiones del parámetro $\beta$ y variaciones
+    de temperatura ambiental mediante la adecuada elección de la red de polarización y resistencia de emisor.
+  \item Evaluar el comportamiento del circuito mediante simulación computarizada en LTspice, analizando el punto de
+    operación en continua (.op) y la respuesta temporal en régimen transitorio (.tran) ante señales senoidales de $1\kHz$.
+  \item Normalizar los componentes calculados adoptando resistores comerciales de las series estándar (E12/E24),
+    verificando que la desviación respecto a los valores analíticos no exceda la tolerancia máxima admitida del $10\%$.
+  \item Realizar el análisis gráfico de las rectas de carga estática de corriente continua (CC) y dinámica de corriente
+    alterna (CA), cuantificando la excursión simétrica real sin distorsión sobre la carga.
+  \item Determinar mediante el modelo híbrido equivalente de pequeña señal los parámetros circuitales fundamentales:
+    impedancia de entrada ($Z_i$), impedancia de salida ($Z_o$), ganancia de tensión ($A_v$) y ganancia de corriente ($A_i$).
+  \item Montar físicamente el circuito en placa de circuito impreso (PCB) en laboratorio y relevar de manera experimental
+    las magnitudes estáticas de polarización y los parámetros dinámicos empleando el método del resistor serie ($R_S$).
+  \item Contrastar de forma cuantitativa los resultados analíticos, las simulaciones y las mediciones de banco.
+\end{enumerate}
+
+\section{Especificaciones de Partida y Circuito Base}
+
+Los parámetros iniciales del circuito fueron suministrados por la cátedra en la consigna de trabajo:
+\begin{itemize}
+  \item Tensión continua de alimentación: $V_{CC} = 15\V$.
+  \item Resistencia de emisor para polarización: $R_E = 180\ohm$.
+  \item Resistencia de colector: $R_C = 1.2\kohm$.
+  \item Resistencia de carga conectada a la salida: $R_L = 1\kohm$.
+  \item Frecuencia de señal de prueba de alterna: $f = 1\kHz$.
+  \item Transistor NPN de silicio de uso general seleccionado: BC547B, con ganancia de corriente medida de $\beta = 284$.
+  \item Caída de tensión directa base-emisor estimada para silicio: $V_{BE} = 0.70\V$.
+\end{itemize}
+
+En la figura~\ref{crkt:emisor_comun} se representa el diagrama esquemático completo de la etapa amplificadora a implementar.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_emisor_comun.tex}
+  \caption{Esquema circuital completo del amplificador en configuración emisor común con desacoplo de emisor.}
+  \label{crkt:emisor_comun}
+\end{figure}
+
+El capacitor $C_1$ cumple la función de desacoplar el nivel continuo de la señal de entrada $v_s$, impidiendo que la
+resistencia interna de la fuente modifique la polarización de base. De forma análoga, el capacitor de acoplo de salida
+$C_2$ bloquea la tensión continua presente en el colector ($V_{CQ}$), asegurando que sobre la carga $R_L$ se desarrolle
+únicamente la componente senoidal amplificada $v_L$. Finalmente, el capacitor de paso o desacoplo de emisor $C_E$ actúa
+como un cortocircuito para la componente alterna a la frecuencia de trabajo ($1\kHz$), derivando la señal directamente a
+masa y maximizando consecuentemente la ganancia de tensión de la etapa sin perjudicar la estabilidad en continua.

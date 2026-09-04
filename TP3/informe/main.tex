@@ -1,0 +1,65 @@
+\documentclass[]{informeutn}
+
+% Paquetes adicionales requeridos por la guía
+\usepackage{csquotes}
+\usepackage[backend=bibtex, style=alphabetic, sorting=ynt]{biblatex}
+\addbibresource{fuentes.bib}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{siunitx}
+
+% Definición de unidades adicionales complementarias a informeutn.cls
+\newcommand{\kHz}{\,\mathrm{kHz}}
+\newcommand{\MHz}{\,\mathrm{MHz}}
+\newcommand{\pF}{\,\mathrm{pF}}
+\newcommand{\Vpp}{\,\mathrm{V}_{\mathrm{pp}}}
+\newcommand{\mVpp}{\,\mathrm{mV}_{\mathrm{pp}}}
+\newcommand{\uApp}{\,\mu\mathrm{A}_{\mathrm{pp}}}
+\newcommand{\mApp}{\,\mathrm{mA}_{\mathrm{pp}}}
+
+% Configuración del estilo de listados para simulaciones LTspice
+\lstdefinestyle{ltspice}{
+  backgroundcolor=\color{gray!10},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  frame=single,
+  breaklines=true,
+  captionpos=b
+}
+
+% Metadatos y datos de portada
+\materia{Electrónica Aplicada I}
+\titulo{Trabajo Práctico N°3}
+\subtitulo{Amplificador en Configuración Emisor Común:\\
+Diseño para Máxima Excursión Simétrica, Rectas de Carga y Pequeña Señal}
+\comision{3R4}
+\autores{Cortesini Pérez, Luciano Tomás -- 402719 \par
+         Moreyra, Iván Agustín -- 413687 \par
+         Pedregoza, Juan Ignacio -- 408644}
+\fecha{Septiembre de 2026}
+
+\begin{document}
+
+  \maketitle
+  \tableofcontents
+  \setcounter{page}{1}
+  \thispagestyle{plain}
+
+  \input{chapters/1-integrantes.tex}
+  \input{chapters/2-introduccion.tex}
+  \input{chapters/3-diseno_teorico.tex}
+  \input{chapters/4-normalizacion.tex}
+  \input{chapters/5-simulacion.tex}
+  \input{chapters/6-rectas_de_carga.tex}
+  \input{chapters/7-pequena_senal.tex}
+  \input{chapters/8-mediciones_laboratorio.tex}
+  \input{chapters/9-conclusiones.tex}
+
+  % Bibliografía
+  \nocite{*}
+  \printbibliography[heading=bibnumbered, title={Fuentes}]
+
+  % Anexos
+  \input{chapters/10-anexos.tex}
+
+\end{document}
