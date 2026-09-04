@@ -1,0 +1,169 @@
+\chapter{Diseño Analítico para Máxima Excursión Simétrica}
+\label{chap:diseno_teorico}
+
+El objetivo prioritario del dimensionamiento en corriente continua consiste en situar el punto de trabajo en
+reposo $Q(V_{CEQ}, I_{CQ})$ en el centro óptimo de la recta de carga dinámica de corriente alterna. De este modo se
+garantiza que la señal senoidal de salida pueda oscilar con la máxima amplitud pico a pico antes de alcanzar la zona
+de corte o la zona de saturación del transistor, condición denominada Máxima Excursión Simétrica (MES).
+
+\section{Resistencias de Carga en Continua y Alterna}
+
+Para el circuito bajo estudio, la resistencia equivalente que determina la recta de carga de corriente continua (CC)
+comprende la suma de las resistencias conectadas en los terminales de colector y emisor:
+\begin{equation}
+  R_{CC} = R_C + R_E = 1200\ohm + 180\ohm = 1380\ohm
+  \label{eq:Rcc}
+\end{equation}
+
+En régimen dinámico de corriente alterna (CA), a la frecuencia de interés ($1\kHz$), el capacitor de emisor $C_E$ actúa
+como un cortocircuito perfecto a masa, anulando la realimentación negativa en alterna de $R_E$. A su vez, el capacitor
+$C_2$ acopla la resistencia de carga $R_L$ en paralelo con $R_C$. Por consiguiente, la resistencia de carga dinámica
+vista desde el colector resulta:
+\begin{equation}
+  R_{CA} = R_C \parallel R_L = \frac{R_C \cdot R_L}{R_C + R_L} = \frac{1200\ohm \cdot 1000\ohm}{1200\ohm + 1000\ohm} \approx 545.45\ohm
+  \label{eq:Rca}
+\end{equation}
+
+\section{Condición de Máxima Excursión Simétrica}
+
+La excursión máxima de la corriente de colector hacia la saturación viene dada por el valor de reposo:
+\begin{equation}
+  \Delta i_{C,\text{sat}} \approx I_{CQ} - I_{C,\text{sat}} \approx I_{CQ}
+\end{equation}
+asumiendo $V_{CE,\text{sat}} \approx 0\V$. Por su parte, la excursión hacia la región de corte está restringida por la
+máxima caída de tensión admisible sobre la carga dinámica:
+\begin{equation}
+  \Delta i_{C,\text{corte}} = \frac{V_{CEQ}}{R_{CA}}
+\end{equation}
+
+Igualando ambas amplitudes para lograr una excursión perfectamente simétrica sin recorte:
+\begin{equation}
+  I_{CQ} = \frac{V_{CEQ}}{R_{CA}} \implies V_{CEQ} = I_{CQ} \cdot R_{CA}
+  \label{eq:condicion_mes}
+\end{equation}
+
+Por otra parte, la ecuación de la malla de colector-emisor en continua impone:
+\begin{equation}
+  V_{CC} = V_{CEQ} + I_{CQ} \cdot R_{CC}
+  \label{eq:malla_cc}
+\end{equation}
+
+Sustituyendo la condición de la ecuación~\eqref{eq:condicion_mes} en la ecuación~\eqref{eq:malla_cc}:
+\begin{equation}
+  V_{CC} = I_{CQ} \cdot R_{CA} + I_{CQ} \cdot R_{CC} = I_{CQ} \cdot (R_{CC} + R_{CA})
+\end{equation}
+de donde se despeja la corriente de reposo óptima para MES:
+\begin{equation}
+  I_{CQ(\text{MES})} = \frac{V_{CC}}{R_{CC} + R_{CA}} = \frac{15\V}{1380\ohm + 545.45\ohm} = \frac{15\V}{1925.45\ohm} \approx 7.790\mA
+  \label{eq:Icq_mes}
+\end{equation}
+
+Reemplazando en la ecuación~\eqref{eq:condicion_mes}, la tensión continua colector-emisor resulta:
+\begin{equation}
+  V_{CEQ(\text{MES})} = I_{CQ(\text{MES})} \cdot R_{CA} = 7.790\mA \cdot 545.45\ohm \approx 4.250\V
+  \label{eq:Vceq_mes}
+\end{equation}
+
+\section{Diseño de la Red de Polarización de Base}
+
+Para asegurar la estabilidad del punto de trabajo ante la dispersión de la ganancia de corriente $\beta$ y las
+variaciones de temperatura, se aplica el teorema de Thévenin al divisor resistivo de entrada ($R_1$ y $R_2$).
+En la figura~\ref{crkt:thevenin} se muestra el circuito equivalente resultante.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_thevenin.tex}
+  \caption{Circuito equivalente de Thévenin para el análisis de polarización de base.}
+  \label{crkt:thevenin}
+\end{figure}
+
+El criterio de diseño estándar de la cátedra para garantizar que el divisor sea rígido y que la corriente que circula
+por $R_1$ y $R_2$ sea mucho mayor que la corriente de base ($I_{BQ}$) establece:
+\begin{equation}
+  R_B \le \frac{\beta}{10} \cdot R_E
+  \label{eq:criterio_rb}
+\end{equation}
+donde $\beta = 284$ es la ganancia medida del transistor BC547B. Adoptando el límite superior:
+\begin{equation}
+  R_B = \frac{284}{10} \cdot 180\ohm = 5112\ohm
+  \label{eq:Rb_calculada}
+\end{equation}
+
+Analizando la malla de entrada del circuito equivalente de Thévenin:
+\begin{equation}
+  V_{BB} = I_{BQ} \cdot R_B + V_{BE} + I_{EQ} \cdot R_E
+  \label{eq:malla_entrada}
+\end{equation}
+
+Teniendo en cuenta que $I_{BQ} = I_{CQ}/\beta$, el primer término puede reescribirse como:
+\begin{equation}
+  I_{BQ} \cdot R_B = \frac{I_{CQ}}{\beta} \cdot \left(\frac{\beta}{10} \cdot R_E\right) = 0.10 \cdot I_{CQ} \cdot R_E
+\end{equation}
+
+Aproximando $I_{EQ} \approx I_{CQ}$, la suma de las caídas resistivas resulta:
+\begin{equation}
+  I_{BQ} \cdot R_B + I_{EQ} \cdot R_E \approx 0.10 \cdot I_{CQ} \cdot R_E + 1.0 \cdot I_{CQ} \cdot R_E = 1.10 \cdot I_{CQ} \cdot R_E
+\end{equation}
+lo que conduce a la ecuación práctica de diseño:
+\begin{equation}
+  V_{BB} = I_{CQ(\text{MES})} \cdot 1.10 \cdot R_E + V_{BE}
+  \label{eq:Vbb_formula}
+\end{equation}
+
+Evaluando numéricamente con $V_{BE} = 0.70\V$:
+\begin{equation}
+  V_{BB} = 7.790\mA \cdot 1.10 \cdot 180\ohm + 0.70\V = 1.542\V + 0.70\V = 2.242\V
+  \label{eq:Vbb_calculada}
+\end{equation}
+
+\section{Determinación de los Resistores del Divisor}
+
+Las ecuaciones que definen el divisor resistivo de entrada son:
+\begin{equation}
+  V_{BB} = V_{CC} \cdot \frac{R_1}{R_1 + R_2} \quad \text{y} \quad R_B = R_1 \parallel R_2 = \frac{R_1 \cdot R_2}{R_1 + R_2}
+\end{equation}
+
+Dividiendo miembro a miembro:
+\begin{equation}
+  \frac{V_{BB}}{R_B} = \frac{V_{CC}}{R_2} \implies R_2 = \left(\frac{V_{CC}}{V_{BB}}\right) \cdot R_B
+  \label{eq:R2_formula}
+\end{equation}
+
+Reemplazando los valores obtenidos:
+\begin{equation}
+  R_2 = \left(\frac{15\V}{2.242\V}\right) \cdot 5112\ohm \approx 34.19\kohm
+  \label{eq:R2_teorica}
+\end{equation}
+
+A partir de la relación del divisor, se obtiene la expresión para $R_1$:
+\begin{equation}
+  R_1 = \frac{R_2}{\left(\frac{V_{CC}}{V_{BB}}\right) - 1} = \frac{34.19\kohm}{6.690 - 1} \approx 6.01\kohm
+  \label{eq:R1_teorica}
+\end{equation}
+
+En la tabla~\ref{tab:resumen_diseno_teorico} se sintetizan todas las magnitudes calculadas para el punto de reposo y los
+componentes ideales del circuito bajo la condición de Máxima Excursión Simétrica.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|l|}
+    \hline
+    \textbf{Parámetro} & \textbf{Símbolo} & \textbf{Valor Teórico} & \textbf{Unidad} \\
+    \hline
+    Resistencia Thévenin de base & $R_B$ & $5112$ & $\Omega$ \\
+    Resistencia de carga en CC & $R_{CC}$ & $1380$ & $\Omega$ \\
+    Resistencia de carga en CA & $R_{CA}$ & $545.45$ & $\Omega$ \\
+    Corriente de colector de reposo (MES) & $I_{CQ(\text{MES})}$ & $7.790$ & $\mA$ \\
+    Tensión colector-emisor de reposo & $V_{CEQ(\text{MES})}$ & $4.250$ & $\V$ \\
+    Tensión Thévenin de base & $V_{BB}$ & $2.242$ & $\V$ \\
+    Resistencia superior del divisor & $R_2$ & $34.19$ & $\kohm$ \\
+    Resistencia inferior del divisor & $R_1$ & $6.01$ & $\kohm$ \\
+    Tensión continua de emisor & $V_E$ & $1.402$ & $\V$ \\
+    Tensión continua de base & $V_B$ & $2.102$ & $\V$ \\
+    Tensión continua de colector & $V_C$ & $5.652$ & $\V$ \\
+    Corriente de base de reposo & $I_{BQ}$ & $27.43$ & $\uA$ \\
+    \hline
+  \end{tabular}
+  \caption{Resumen del dimensionamiento teórico para Máxima Excursión Simétrica.}
+  \label{tab:resumen_diseno_teorico}
+\end{table}
