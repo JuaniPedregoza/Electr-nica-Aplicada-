@@ -1,0 +1,118 @@
+\chapter{Anexos}
+\label{chap:anexos}
+
+\section{Extracto de la Hoja de Datos del Transistor BC547B}
+
+El transistor utilizado en los ensayos es un BJT NPN epitaxial de silicio de uso general, fabricado por ON
+Semiconductor. En la tabla~\ref{tab:datasheet_ratings} y la tabla~\ref{tab:datasheet_caract} se transcriben los valores
+límites absolutos y las características eléctricas más relevantes extraídas de la hoja de datos oficial del fabricante.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Parámetro Máximo Admisible} & \textbf{Símbolo} & \textbf{Valor Límite} & \textbf{Unidad} \\
+    \hline
+    Tensión colector-emisor con base abierta & $V_{CEO}$ & $45$ & $\V$ \\
+    Tensión colector-base con emisor abierto & $V_{CBO}$ & $50$ & $\V$ \\
+    Tensión emisor-base con colector abierto & $V_{EBO}$ & $6.0$ & $\V$ \\
+    Corriente continua de colector máxima & $I_C$ & $100$ & $\mA$ \\
+    Corriente pico de colector & $I_{CM}$ & $200$ & $\mA$ \\
+    Disipación total de potencia a $T_A = 25^\circ\text{C}$ & $P_D$ & $625$ & $\mW$ \\
+    Rango de temperatura de juntura operativa & $T_J$ & $-55 \text{ a } +150$ & $^\circ\text{C}$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Límites máximos absolutos de operación del transistor BC547B (ON Semiconductor).}
+  \label{tab:datasheet_ratings}
+\end{table}
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Característica Eléctrica} & \textbf{Símbolo} & \textbf{Mín.} & \textbf{Típ.} & \textbf{Máx.} & \textbf{Unidad} \\
+    \hline
+    Ganancia de corriente en continua ($I_C = 2\mA, V_{CE} = 5\V$) & $h_{FE}$ & $200$ & $290$ & $450$ & -- \\
+    Tensión de saturación colector-emisor ($I_C = 10\mA, I_B = 0.5\mA$) & $V_{CE(\text{sat})}$ & -- & $0.09$ & $0.25$ & $\V$ \\
+    Tensión base-emisor en conducción ($I_C = 2\mA, V_{CE} = 5\V$) & $V_{BE(\text{on})}$ & $0.58$ & $0.66$ & $0.70$ & $\V$ \\
+    Frecuencia de transición ($I_C = 10\mA, V_{CE} = 5\V, f = 100\MHz$) & $f_T$ & $100$ & $300$ & -- & $\MHz$ \\
+    Capacitancia de colector a base ($V_{CB} = 10\V, f = 1\MHz$) & $C_{obo}$ & -- & $3.5$ & $4.5$ & $\text{pF}$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Características eléctricas típicas del grupo de ganancia B del transistor BC547.}
+  \label{tab:datasheet_caract}
+\end{table}
+
+La ganancia medida en el laboratorio ($\beta = 284$) se ubica en el centro de la distribución típica del grupo B ($290$).
+Asimismo, la disipación estática de reposo en el circuito implementado resulta:
+\begin{equation}
+  P_{D,Q} = V_{CEQ} \cdot I_{CQ} = 4.166\V \cdot 7.683\mA \approx 32.01\mW
+\end{equation}
+valor que representa apenas el $5.1\%$ de la disipación máxima admisible ($625\mW$), garantizando que el componente
+funciona holgadamente dentro de su zona de operación segura (SOA) y sin elevación perceptible de temperatura.
+
+\section{Netlist Completo de Simulación en LTspice}
+
+A continuación se reproduce el netlist de simulación correspondiente al circuito con valores comerciales normalizados:
+
+\begin{lstlisting}[style=ltspice, caption={Netlist de simulación para el circuito con valores comerciales en LTspice.}, label={list:netlist_comercial}]
+* C:\users\corte\Documents\utn\Electr-nica-Aplicada-\TP3\sim\ValoresComerciales.asc
+Q1 n001 B n004 0 BC546C
+VCC n003 0 15
+Rc n003 n001 1.2k
+Re n004 0 180
+R2 n003 B 39k
+R1 B 0 6.8k
+C1 n004 0 2200uF
+C2 n001 n005 22uF
+Rl n005 0 1k
+VBB n002 0 SINE(0 10m 1k)
+C3 B n002 22uf
+.model BC546C NPN(Is=21.43f Xti=3 Eg=1.11 Vaf=74.03 Bf=290
++ Ise=43.11f Ne=1.442 Ikf=97.09m Nk=.5 Xtb=1.5 Br=9.837
++ Isc=144.3f Nc=1.522 Ikr=2.476 Rc=1 Cjc=5.25p Mjc=.3147
++ Vjc=.5697 Fc=.5 Cje=11.5p Mje=.6115 Vje=.8194 Tr=10n
++ Tf=443.2p Itf=.7 Vtf=4 Xtf=4 Vceo=65 Icrating=100m mfg=Philips)
+.tran 0 1 990m
+.backanno
+.end
+\end{lstlisting}
+
+\section{Planilla de Registro de Mediciones de Banco}
+
+En la tabla~\ref{tab:planilla_cruda} se detallan los registros primarios volcados en la hoja de cálculo de laboratorio
+\texttt{mediciones.ods}.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|l|}
+    \hline
+    \textbf{Registro / Parámetro de Banco} & \textbf{Valor} & \textbf{Unidad} & \textbf{Observaciones de Laboratorio} \\
+    \hline
+    Tensión de alimentación medida $V_{CC}$ & $14.77$ & $\V$ & Medida en bornes de placa con multímetro \\
+    Tensión de emisor $V_E$ & $1.384$ & $\V$ & Tensión continua respecto a masa \\
+    Tensión de base $V_B$ & $2.064$ & $\V$ & Tensión continua respecto a masa \\
+    Tensión de colector $V_C$ & $5.550$ & $\V$ & Tensión continua respecto a masa \\
+    Caída sobre $R_C$ ($V_{RC}$) & $9.220$ & $\V$ & Calculada: $V_{CC} - V_C$ \\
+    Tensión colector-emisor $V_{CEQ}$ & $4.166$ & $\V$ & Calculada: $V_C - V_E$ (multímetro: $4.16\V$) \\
+    Corriente de colector $I_{CQ}$ & $7.683$ & $\mA$ & Deducida por ley de Ohm: $V_{RC} / R_C$ \\
+    Corriente de base $I_{BQ}$ & $22.27$ & $\uA$ & Deducida: $I_{R2} - I_{R1}$ \\
+    Ganancia medida en multímetro $\beta$ & $284$ & -- & Medida en zócalo hFE de multímetro UT890C \\
+    Resistencia serie de entrada $R_S$ & $820$ & $\Omega$ & Resistor testigo para medición de $Z_i$ y $A_v$ \\
+    Tensión del generador $v_s$ (entrada) & $18$ & $\mV_{pp}$ & Medida con osciloscopio analógico CH1 \\
+    Tensión de entrada en base $v_i$ & $10$ & $\mV_{pp}$ & Medida con osciloscopio analógico CH2 \\
+    Tensión de salida en carga $v_L$ & $1.30$ & $\V_{pp}$ & Señal senoidal limpia a $1\kHz$ \\
+    Resistencia serie de salida $R_S$ & $1200$ & $\Omega$ & Resistor testigo para inyección en $Z_o$ \\
+    Tensión del generador $v_s$ (salida) & $1.00$ & $\V_{pp}$ & Inyección en colector con entrada a masa \\
+    Tensión de salida atenuada $v_o$ & $0.50$ & $\V_{pp}$ & Medida sobre terminal de colector \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Planilla de datos crudos y observaciones experimentales registradas en banco de trabajo.}
+  \label{tab:planilla_cruda}
+\end{table}

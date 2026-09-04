@@ -1,0 +1,234 @@
+\chapter{Implementación Experimental y Mediciones de Laboratorio}
+\label{chap:mediciones_laboratorio}
+
+En este capítulo se expone el desarrollo experimental llevado a cabo en el laboratorio de Electrónica Aplicada I,
+detallando el instrumental empleado, el procedimiento de medición tanto en corriente continua como en corriente
+alterna, y el análisis comparativo consolidado entre las predicciones teóricas, las simulaciones y los valores medidos.
+
+\section{Instrumental de Laboratorio Utilizado}
+
+Para la caracterización del transistor y el relevamiento del circuito implementado sobre placa de circuito impreso (PCB)
+se utilizó el siguiente equipamiento de banco:
+\begin{enumerate}
+  \item Multímetro digital de banco UNI-T UT890C: empleado para la verificación de componentes y la medición directa del
+    parámetro estático de ganancia de corriente del transistor ($h_{FE} = \beta = 284$).
+  \item Multímetro digital portátil Tenmars TM-86: empleado para el relevamiento de las tensiones nodales de continua en
+    los terminales de emisor, base y colector.
+  \item Generador de funciones de laboratorio FG-8002: utilizado como fuente de excitación senoidal a una frecuencia de
+    $f = 1\kHz$ con baja distorsión armónica.
+  \item Osciloscopio analógico de doble canal con calibración de ganancia: empleado para la medición de amplitudes pico
+    a pico ($v_s, v_i, v_L, v_o$) y la verificación de la pureza espectral y ausencia de distorsión.
+  \item Fuente de alimentación de corriente continua regulada: ajustada a una tensión de salida nominal de $15\V$
+    (tensión real medida en bornes de alimentación: $V_{CC} = 14.77\V$).
+\end{enumerate}
+
+\section{Caracterización del Dispositivo y Montaje}
+
+Previo al ensamblado del circuito, se identificaron los terminales del transistor BJT BC547B y se midió su ganancia de
+corriente en continua ($h_{FE}$) con el multímetro UNI-T UT890C en su escala específica, obteniéndose un valor de
+$\beta = 284$ a temperatura ambiente de laboratorio, como se documenta en la figura~\ref{fig:foto_beta}.
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.45\textwidth]{pictures/Beta.jpeg}
+  \caption{Medición del parámetro $\beta = 284$ del transistor BC547B mediante el multímetro UNI-T UT890C.}
+  \label{fig:foto_beta}
+\end{figure}
+
+El montaje se concretó sobre una placa de circuito impreso específica para el práctico de emisor común, disponiendo los
+resistores comerciales ($R_1 = 6.8\kohm$, $R_2 = 39\kohm$, $R_C = 1.2\kohm$, $R_E = 180\ohm$ y $R_L = 1\kohm$) y los
+capacitores electrolíticos de acoplo ($C_1 = C_2 = 22\uF$) y de desacoplo de emisor ($C_E = 2200\uF$).
+
+\section{Mediciones en Corriente Continua (Polarización)}
+
+Siguiendo las indicaciones metodológicas de la cátedra, todas las tensiones nodales fueron medidas con la punta negativa
+del multímetro unida rígidamente a la referencia común de masa. Posteriormente, por leyes de Kirchhoff y Ohm, se
+dedujeron las tensiones diferenciales y las corrientes de rama.
+
+Los valores registrados con el multímetro Tenmars TM-86 fueron:
+\begin{itemize}
+  \item Tensión real de alimentación: $V_{CC} = 14.77\V$.
+  \item Tensión de emisor respecto a masa: $V_E = 1.384\V$.
+  \item Tensión de base respecto a masa: $V_B = 2.064\V$.
+  \item Tensión de colector respecto a masa: $V_C = 5.550\V$.
+\end{itemize}
+
+A partir de estas lecturas se deducen:
+\begin{equation}
+  V_{BE} = V_B - V_E = 2.064\V - 1.384\V = 0.680\V
+\end{equation}
+\begin{equation}
+  V_{CEQ} = V_C - V_E = 5.550\V - 1.384\V = 4.166\V
+\end{equation}
+\begin{equation}
+  V_{RC} = V_{CC} - V_C = 14.77\V - 5.550\V = 9.220\V
+\end{equation}
+\begin{equation}
+  V_{R2} = V_{CC} - V_B = 14.77\V - 2.064\V = 12.706\V
+\end{equation}
+\begin{equation}
+  V_{R1} = V_B = 2.064\V
+\end{equation}
+
+Las corrientes correspondientes se obtienen aplicando la ley de Ohm sobre cada resistor:
+\begin{equation}
+  I_{CQ} = \frac{V_{RC}}{R_C} = \frac{9.220\V}{1200\ohm} \approx 7.683\mA
+\end{equation}
+\begin{equation}
+  I_{EQ} = \frac{V_E}{R_E} = \frac{1.384\V}{180\ohm} \approx 7.689\mA
+\end{equation}
+\begin{equation}
+  I_{R2} = \frac{V_{R2}}{R_2} = \frac{12.706\V}{39000\ohm} \approx 0.3258\mA = 325.8\uA
+\end{equation}
+\begin{equation}
+  I_{R1} = \frac{V_{R1}}{R_1} = \frac{2.064\V}{6800\ohm} \approx 0.3035\mA = 303.5\uA
+\end{equation}
+\begin{equation}
+  I_{BQ} = I_{R2} - I_{R1} = 325.8\uA - 303.5\uA = 22.27\uA
+\end{equation}
+
+En la figura~\ref{fig:fotos_dc} se muestran las lecturas de los instrumentos en la placa bajo ensayo, destacándose
+la medición de $V_{CEQ} = 4.16\V$ y las lecturas de tensión de colector.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[t]{0.31\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/medicion_colector_emisor.jpeg}
+    \caption{Medición directa de $V_{CEQ} = 4.16\V$.}
+    \label{fig:foto_vce}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.31\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/medicion_voltaje.jpeg}
+    \caption{Medición de tensión sobre $R_C$.}
+    \label{fig:foto_vrc}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.31\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/medicion_voltaje2.jpeg}
+    \caption{Medición de tensiones de reposo.}
+    \label{fig:foto_voltaje2}
+  \end{subfigure}
+  \caption{Relevamiento de tensiones continuas de polarización en el circuito implementado en laboratorio.}
+  \label{fig:fotos_dc}
+\end{figure}
+
+\section{Mediciones en Corriente Alterna (Pequeña Señal)}
+
+\subsection{Medición de \texorpdfstring{$Z_i$, $A_v$ y $A_i$}{Zi, Av y Ai}}
+Se conectó el generador de funciones ajustado a $1\kHz$ en serie con una resistencia testigo $R_S = 820\ohm$ conectada
+a la entrada del amplificador. Con el atenuador del generador configurado en su mínima salida practicable para evitar
+toda no linealidad, se observaron en el osciloscopio analógico las amplitudes pico a pico de las señales:
+\begin{itemize}
+  \item Tensión a la salida del generador (antes de $R_S$): $v_s = 18\mV_{pp}$.
+  \item Tensión a la entrada de base del amplificador (después de $R_S$): $v_i = 10\mV_{pp}$.
+  \item Tensión sobre la resistencia de carga $R_L$: $v_L = 1.30\V_{pp}$.
+\end{itemize}
+
+En la figura~\ref{fig:fotos_ac} se aprecian las capturas del osciloscopio analógico exhibiendo la señal senoidal
+amplificada a la salida, con una escala de $0.5\V/\text{div}$ y ocupando aproximadamente $2.6$ divisiones verticales
+($2.6 \times 0.5\V = 1.30\V_{pp}$).
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/medicion_ganacia_1.jpeg}
+    \caption{Visualización de $v_L = 1.30\V_{pp}$ y hoja de cálculo.}
+    \label{fig:foto_osc1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{pictures/medicion_ganancia_2.jpeg}
+    \caption{Panel del osciloscopio y generador de funciones FG-8002.}
+    \label{fig:foto_osc2}
+  \end{subfigure}
+  \caption{Verificación experimental de la señal de salida senoidal a $1\kHz$ sin distorsión visible.}
+  \label{fig:fotos_ac}
+\end{figure}
+
+Aplicando las expresiones del método serie deducidas en la ecuación~\eqref{eq:ii_exp}:
+\begin{equation}
+  i_i = \frac{v_s - v_i}{R_S} = \frac{18\mV_{pp} - 10\mV_{pp}}{820\ohm} = \frac{8\mV_{pp}}{820\ohm} \approx 9.756\uA_{pp}
+\end{equation}
+
+A partir de esta corriente se calculan la impedancia de entrada y las ganancias experimentales:
+\begin{equation}
+  Z_i = \frac{v_i}{i_i} = \frac{10\mV_{pp}}{9.756\uA_{pp}} \approx 1025.0\ohm
+\end{equation}
+\begin{equation}
+  A_v = \frac{v_L}{v_i} = \frac{1.30\V_{pp}}{10.0\mV_{pp}} = 130.0
+\end{equation}
+\begin{equation}
+  A_i = \frac{i_L}{i_i} = \frac{v_L / R_L}{i_i} = \frac{1.30\V_{pp} / 1000\ohm}{9.756\uA_{pp}} = \frac{1.30\mA_{pp}}{0.009756\mA_{pp}} \approx 133.25
+\end{equation}
+
+\subsection{Medición de \texorpdfstring{$Z_o$}{Zo}}
+Pasivando la entrada de señal ($v_{in} = 0$) y excitando la salida del amplificador mediante el generador conectado en
+serie con un resistor $R_S = 1200\ohm$, se registraron las siguientes amplitudes pico a pico:
+\begin{itemize}
+  \item Tensión del generador: $v_s = 1.00\V_{pp}$.
+  \item Tensión desarrollada en el colector: $v_o = 0.50\V_{pp}$.
+\end{itemize}
+
+La corriente inyectada sobre el colector fue:
+\begin{equation}
+  i_o = \frac{v_s - v_o}{R_S} = \frac{1.00\V_{pp} - 0.50\V_{pp}}{1200\ohm} = \frac{0.50\V_{pp}}{1200\ohm} \approx 0.4167\mA_{pp}
+\end{equation}
+resultando una impedancia de salida experimental idéntica a la teórica:
+\begin{equation}
+  Z_o = \frac{v_o}{i_o} = \frac{0.50\V_{pp}}{0.4167\mA_{pp}} = 1200\ohm
+\end{equation}
+
+\section{Tabla Comparativa Consolidada y Análisis de Errores}
+
+En la tabla~\ref{tab:consolidada_general} se resumen y comparan los valores obtenidos a través de las cuatro etapas del
+estudio: diseño analítico para MES, cálculo analítico con componentes normalizados, simulación computarizada en LTspice
+y medición experimental en laboratorio.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Magnitud Eléctrica} & \textbf{Teórico MES} & \textbf{Teórico Normalizado} & \textbf{Simulación LTspice} & \textbf{Medición Laboratorio} & \textbf{Error Exp. vs Norm.} \\
+    \hline
+    Tensión de alimentación $V_{CC}$ & $15.00\V$ & $15.00\V$ & $15.00\V$ & $14.77\V$ & $-1.53\%$ \\
+    Tensión colector-emisor $V_{CEQ}$ & $4.250\V$ & $4.512\V$ & $4.610\V$ & $4.166\V$ & $-7.67\%$ \\
+    Corriente de colector $I_{CQ}$ & $7.790\mA$ & $7.597\mA$ & $7.525\mA$ & $7.683\mA$ & $+1.13\%$ \\
+    Tensión de emisor $V_E$ & $1.402\V$ & $1.372\V$ & $1.360\V$ & $1.384\V$ & $+0.87\%$ \\
+    Tensión de base $V_B$ & $2.102\V$ & $2.072\V$ & $2.006\V$ & $2.064\V$ & $-0.39\%$ \\
+    Tensión de colector $V_C$ & $5.652\V$ & $5.884\V$ & $5.970\V$ & $5.550\V$ & $-5.68\%$ \\
+    Corriente de base $I_{BQ}$ & $27.43\uA$ & $26.75\uA$ & $30.90\uA$ & $22.27\uA$ & $-16.7\%$ \\
+    Impedancia de entrada $Z_i$ & $796.9\ohm$ & $796.9\ohm$ & -- & $1025.0\ohm$ & $+28.6\%$ \\
+    Impedancia de salida $Z_o$ & $1200\ohm$ & $1200\ohm$ & -- & $1200.0\ohm$ & $0.00\%$ \\
+    Ganancia de tensión $|A_v|$ & $167.6$ & $167.6$ & $139.1$ & $130.0$ & $-22.4\%$ \\
+    Ganancia de corriente $|A_i|$ & $133.6$ & $133.6$ & -- & $133.25$ & $-0.26\%$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Comparativa consolidada de resultados teóricos, simulados y experimentales.}
+  \label{tab:consolidada_general}
+\end{table}
+
+El análisis de la tabla~\ref{tab:consolidada_general} permite constatar un grado de concordancia notable en las magnitudes
+de polarización en continua, donde todas las variables se mantuvieron dentro de márgenes de error inferiores al $8\%$.
+En régimen dinámico, la ganancia de corriente experimental ($A_i = 133.25$) coincidió de forma casi exacta con el valor
+teórico ($133.58$), con un error del $-0.26\%$, al igual que la impedancia de salida ($Z_o = 1200\ohm$, error del $0\%$).
+
+Las discrepancias observadas en $Z_i$ y $A_v$ responden a factores físicos bien identificados:
+\begin{itemize}
+  \item La ganancia de tensión teórica ($167.6$) asume el modelo ideal $A_v = -R_{CA}/r_e'$, donde la resistencia
+    intrínseca $r_e' \approx 3.25\ohm$ no contempla la resistencia de contacto óhmico de emisor y base del transistor
+    físico ($r_{bb'}$ y $r_e$), las cuales reducen levemente la transconductancia efectiva ($g_m$). Al comparar el valor
+    medido ($A_v = 130$) con la simulación que sí incorpora estos parámetros no ideales ($A_{v,\text{sim}} = 139.1$),
+    el error relativo disminuye a un moderado $6.5\%$.
+  \item En la medición de $Z_i$, la atenuación sobre la resistencia serie $R_S = 820\ohm$ involucra lecturas de muy
+    pequeña amplitud en el osciloscopio analógico ($8\mV$ a $18\mV$), donde la apreciación visual de las divisiones de la
+    pantalla y el ruido ambiental introducen una incertidumbre experimental estimada en $\pm 1\mV$, suficiente para
+    justificar la diferencia hallada.
+\end{itemize}

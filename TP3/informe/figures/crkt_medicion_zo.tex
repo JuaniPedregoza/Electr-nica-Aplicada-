@@ -1,0 +1,22 @@
+\begin{circuitikz}[scale=0.9, transform shape]
+  % Entrada pasivada
+  \draw (0, 2.0) node[above] {Entrada pasivada}
+    to[short, o-*] (1.0, 2.0)
+    to[short] (1.0, 0) node[ground] {};
+
+  % Bloque amplificador
+  \draw (1.2, -0.5) rectangle (4.0, 3.0);
+  \node at (2.6, 1.25) [align=center] {Amplificador\\($v_{in} = 0$, polarizado)\\($Z_o$)};
+
+  \draw (1.0, 2.0) to[short] (1.2, 2.0);
+  \draw (1.0, 0) to[short] (1.2, 0);
+
+  % Red de inyección en salida
+  \draw (4.0, 2.0) to[short, -*] (5.2, 2.0) coordinate (vo_node)
+    to[R, l_=$R_S$] (7.2, 2.0)
+    to[sV, l_=$v_s$] (7.2, 0) node[ground] {};
+  \draw (4.0, 0) to[short] (7.2, 0);
+
+  \draw (vo_node) to[short, *-o] (5.2, 3.0) node[above] {Osc. CH2 ($v_o$)};
+  \draw (7.2, 2.0) to[short, *-o] (7.2, 3.0) node[above] {Osc. CH1 ($v_s$)};
+\end{circuitikz}
