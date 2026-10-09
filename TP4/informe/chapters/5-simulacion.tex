@@ -1,0 +1,82 @@
+\chapter{Simulación Circuital en LTspice}
+\label{chap:simulacion}
+
+Con el propósito de validar computacionalmente el diseño analítico y contrastar el comportamiento del circuito,
+se implementó y simuló la etapa amplificadora en el software LTspice XVII. Se estudió el punto estático de
+polarización en continua (.op) y la respuesta dinámica en el dominio del tiempo (.tran) ante excitaciones senoidales.
+
+\section{Directivas de Simulación y Modelos Empleados}
+
+Para reproducir de forma realista el transistor utilizado en el laboratorio, se adoptó el modelo SPICE del BC546C/BC547
+con ganancia directa ajustada a $B_f = 284$, idéntica al valor medido en el multímetro de banco.
+
+En el listado~\ref{list:directivas_spice_tp4} se transcriben las directivas de simulación y el modelo configurado en
+el archivo esquemático \texttt{ValoresComerciales.asc}.
+
+\begin{lstlisting}[style=ltspice, caption={Directivas de simulación y modelo SPICE del transistor en LTspice.}, label={list:directivas_spice_tp4}]
+* Modelo SPICE del transistor NPN (Philips) con Bf = 284
+.model BC546C NPN(Is=21.43f Xti=3 Eg=1.11 Vaf=74.03 Bf=284
++ Ise=43.11f Ne=1.442 Ikf=97.09m Nk=.5 Xtb=1.5 Br=9.837
++ Isc=144.3f Nc=1.522 Ikr=2.476 Rc=1 Cjc=5.25p Mjc=.3147
++ Vjc=.5697 Fc=.5 Cje=11.5p Mje=.6115 Vje=.8194 Tr=10n
++ Tf=443.2p Itf=.7 Vtf=4 Xtf=4 Vceo=65 Icrating=100m mfg=Philips)
+
+* Fuente de senal senoidal de entrada: Amplitud 10 mVp (20 mVpp), f = 1 kHz
+VBB n002 0 SINE(0 10m 1k)
+
+* Directiva de analisis en el dominio del tiempo
+.tran 50m
+\end{lstlisting}
+
+La directiva \lstinline[style=ltspice]{.tran 50m} ejecuta un análisis temporal durante un intervalo total de $50\ms$
+(correspondiente a 50 ciclos completos de la señal de audio a $1\kHz$). Este tiempo de integración permite superar
+holgadamente los transitorios iniciales de carga de los capacitores de acoplo ($C_1 = C_2 = 22\uF$), alcanzando
+el régimen permanente periódico estable.
+
+\section{Simulación del Punto de Operación en Continua (.op)}
+
+La simulación del punto de trabajo estático arrojó los siguientes valores numéricos volcados en \texttt{op.txt}:
+\begin{itemize}
+  \item Tensión continua de alimentación: $V(v_c) = V_{CC} = 5.000\V$.
+  \item Tensión de base respecto a masa: $V(b) = V_B = 1.683\V$.
+  \item Tensión de emisor respecto a masa: $V(v_{re}) = V_E = 1.048\V$.
+  \item Tensión continua colector-emisor: $V_{CEQ} = V(v_c) - V(v_{re}) = 5.000\V - 1.048\V = 3.952\V$.
+  \item Tensión base-emisor en conducción: $V_{BE} = V(b) - V(v_{re}) = 1.683\V - 1.048\V = 0.635\V$.
+  \item Corriente de colector de reposo: $I_{CQ} = 1.0429\mA \approx 1.043\mA$.
+  \item Corriente de emisor de reposo: $I_{EQ} = 1.0476\mA \approx 1.048\mA$.
+  \item Corriente de base de reposo: $I_{BQ} = 4.637\uA$.
+  \item Corrientes en el divisor: $I(R_1) = 35.81\uA$ e $I(R_2) = 40.45\uA$.
+\end{itemize}
+
+Comparando con el cálculo analítico normalizado ($I_{CQ} = 1.012\mA$ y $V_{CEQ} = 3.985\V$), la coincidencia es
+notable, presentando una discrepancia de tan solo $+3.06\%$ en corriente y $-0.83\%$ en tensión. Esta mínima diferencia
+proviene de la caída base-emisor no lineal del modelo SPICE ($V_{BE} = 0.635\V$ en lugar de los $0.70\V$ supuestos
+idealmente) y de la modulación del ancho de base (efecto Early con $V_{af} = 74.03\V$).
+
+\section{Análisis de Formas de Onda y Ganancia Dinámica}
+
+A partir del archivo de exportación temporal de simulación \texttt{ValoresComerciales.txt}, se extrajeron los datos
+del régimen permanente periódico entre $48\ms$ y $50\ms$. En la figura~\ref{fig:sim_waveforms} se presentan las señales
+superpuestas de entrada ($v_i$) y salida sobre la carga ($v_L$).
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/plot_sim_waveforms.tex}
+  \caption{Formas de onda en régimen permanente a $1\kHz$: respuesta temporal de entrada $v_i(t)$ y salida $v_L(t)$ sobre $R_L$.}
+  \label{fig:sim_waveforms}
+\end{figure}
+
+A partir de los datos crudos simulados se constata:
+\begin{itemize}
+  \item Tensión de entrada pico a pico: $v_i = 20.00\mVpp$ (amplitud pico de $10.00\mV$).
+  \item Tensión de salida sobre la carga: $v_L = 19.474\mVpp$ (amplitud pico de $9.737\mV$).
+\end{itemize}
+
+La ganancia de tensión simulada resulta:
+\begin{equation}
+  A_{v,\mathrm{sim}} = \frac{v_L}{v_i} = \frac{19.474\mVpp}{20.000\mVpp} \approx 0.9737
+  \label{eq:Av_simulada}
+\end{equation}
+
+Asimismo, en la figura~\ref{fig:sim_waveforms} se verifica visualmente que ambas ondas se encuentran rigurosamente en
+fase ($0^\circ$), confirmando el comportamiento intrínseco de seguidor emisor sin inversión de polaridad.

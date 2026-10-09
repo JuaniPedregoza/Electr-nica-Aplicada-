@@ -1,0 +1,183 @@
+\chapter{Análisis de Pequeña Señal y Parámetros del Amplificador}
+\label{chap:pequena_senal}
+
+En este capítulo se analiza el comportamiento dinámico linealizado para señales de pequeña amplitud mediante el
+modelo híbrido equivalente del transistor BJT, deduciendo las expresiones teóricas para la impedancia de entrada
+($Z_i$), impedancia de salida ($Z_o$), ganancia de tensión ($A_v$) y ganancia de corriente ($A_i$). Asimismo, se
+formalizan los métodos de medición experimental implementados en el laboratorio.
+
+\section{Modelo Híbrido Equivalente del Transistor}
+
+En régimen de pequeña señal, el transistor BJT polarizado en zona activa se modela linealmente despreciando la
+conductancia de salida ($h_{oe} \approx 0$) y la realimentación inversa ($h_{re} \approx 0$). En la configuración
+colector común, el terminal de colector actúa como masa de señal de corriente alterna.
+
+En la figura~\ref{crkt:pequena_senal} se ilustra el circuito equivalente del amplificador completo.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_pequena_senal.tex}
+  \caption{Modelo equivalente de pequeña señal en parámetros híbridos para la etapa en colector común.}
+  \label{crkt:pequena_senal}
+\end{figure}
+
+A partir de la física de semiconductores, la resistencia dinámica de la juntura emisor-base en directa es:
+\begin{equation}
+  r_e = h_{ib} = \frac{V_T}{I_{CQ}}
+  \label{eq:re_formula}
+\end{equation}
+donde $V_T = k T / q \approx 25.0\mV$ es el potencial térmico a temperatura ambiente ($T \approx 290\Kelvin$). Evaluando
+con la corriente de colector simulada ($I_{CQ} = 1.043\mA$):
+\begin{equation}
+  r_e = \frac{25.0\mV}{1.043\mA} \approx 23.97\ohm
+\end{equation}
+
+La resistencia dinámica de entrada entre base y emisor ($h_{ie}$) resulta:
+\begin{equation}
+  h_{ie} = (\beta + 1) \cdot r_e = (284 + 1) \cdot 23.97\ohm = 285 \cdot 23.97\ohm \approx 6.83\kohm
+  \label{eq:hie_val}
+\end{equation}
+
+\section{Cálculo Analítico de Parámetros del Cuadripolo}
+
+\subsection{Impedancia de Entrada (\texorpdfstring{$Z_i$}{Zi})}
+La impedancia vista hacia la base del transistor ($R_{i,\mathrm{base}}$) incluye el efecto multiplicador de la
+resistencia conectada en el emisor por la ganancia de corriente:
+\begin{equation}
+  R_{i,\mathrm{base}} = h_{ie} + (\beta + 1) \cdot (R_E \parallel R_L)
+\end{equation}
+\begin{equation}
+  R_{i,\mathrm{base}} = 6.83\kohm + 285 \cdot 909.09\ohm = 6.83\kohm + 259.09\kohm \approx 265.92\kohm
+\end{equation}
+
+La impedancia de entrada total de la etapa comprende el paralelo con la red de polarización de base ($R_B = R_1 \parallel R_2$):
+\begin{equation}
+  Z_i = R_B \parallel R_{i,\mathrm{base}} = R_1 \parallel R_2 \parallel \left[ h_{ie} + (\beta + 1)(R_E \parallel R_L) \right]
+  \label{eq:Zi_formula}
+\end{equation}
+
+Evaluando numéricamente con $R_B = 29.876\kohm$:
+\begin{equation}
+  Z_i = \frac{29.876\kohm \cdot 265.92\kohm}{29.876\kohm + 265.92\kohm} = \frac{7944.62}{295.80}\kohm \approx 26.86\kohm
+  \label{eq:Zi_teorico}
+\end{equation}
+comprobándose que la etapa ofrece una impedancia de entrada considerablemente mayor a la resistencia del micrófono
+($Z_i = 26.86\kohm \ge 2.6 \cdot R_S$), minimizando la atenuación de entrada.
+
+\subsection{Impedancia de Salida (\texorpdfstring{$Z_o$}{Zo})}
+La impedancia de salida se evalúa desde los bornes del emisor (desacoplando la carga $R_L$) pasivando la fuente de señal
+externa ($v_s = 0$) pero conservando su resistencia interna $R_S$:
+\begin{equation}
+  Z_o = R_E \parallel \left[ r_e + \frac{R_S \parallel R_B}{\beta + 1} \right]
+  \label{eq:Zo_formula}
+\end{equation}
+
+Para las condiciones nominales del micrófono ($R_S = 10\kohm$):
+\begin{equation}
+  R_S \parallel R_B = 10\kohm \parallel 29.876\kohm = \frac{298.76}{39.876}\kohm \approx 7.492\kohm
+\end{equation}
+\begin{equation}
+  Z_o = 1000\ohm \parallel \left[ 23.97\ohm + \frac{7492\ohm}{285} \right] = 1000\ohm \parallel [23.97\ohm + 26.29\ohm] = 1000\ohm \parallel 50.26\ohm \approx 47.85\ohm
+  \label{eq:Zo_teorico}
+\end{equation}
+evidenciando un valor sumamente bajo ($Z_o < 50\ohm \ll R_L = 10\kohm$), ideal para atacar la línea de audio de
+$30\unit{\meter}$ sin pérdida de tensión ni filtrado de agudos.
+
+\subsection{Ganancia de Tensión (\texorpdfstring{$A_v$}{Av})}
+La tensión alterna desarrollada sobre la carga de salida $R_L$ en bornes del emisor es:
+\begin{equation}
+  v_L = (\beta + 1) \cdot i_b \cdot (R_E \parallel R_L)
+\end{equation}
+mientras que la tensión aplicada a la base es:
+\begin{equation}
+  v_i = i_b \cdot \left[ h_{ie} + (\beta + 1)(R_E \parallel R_L) \right]
+\end{equation}
+
+Dividiendo ambas expresiones:
+\begin{equation}
+  A_v = \frac{v_L}{v_i} = \frac{(\beta + 1)(R_E \parallel R_L)}{h_{ie} + (\beta + 1)(R_E \parallel R_L)} = \frac{R_E \parallel R_L}{r_e + (R_E \parallel R_L)}
+  \label{eq:Av_formula}
+\end{equation}
+
+Sustituyendo los valores analíticos:
+\begin{equation}
+  A_v = \frac{909.09\ohm}{23.97\ohm + 909.09\ohm} = \frac{909.09}{933.06} \approx 0.9743
+  \label{eq:Av_teorica}
+\end{equation}
+confirmando una ganancia de tensión no inversora ($0^\circ$) levemente inferior a la unidad debido a la pequeña caída
+dinámica en la resistencia intrínseca de emisor $r_e$.
+
+\subsection{Ganancia de Corriente (\texorpdfstring{$A_i$}{Ai})}
+La ganancia de corriente representa el cociente entre la corriente entregada a la carga ($i_L$) y la corriente total
+absorbida por el amplificador ($i_i$):
+\begin{equation}
+  i_L = \frac{v_L}{R_L}, \quad i_i = \frac{v_i}{Z_i}
+\end{equation}
+\begin{equation}
+  A_i = \frac{i_L}{i_i} = \frac{v_L / R_L}{v_i / Z_i} = A_v \cdot \frac{Z_i}{R_L}
+  \label{eq:Ai_formula}
+\end{equation}
+
+Evaluando numéricamente:
+\begin{equation}
+  A_i = 0.9743 \cdot \frac{26.86\kohm}{10.00\kohm} \approx 2.617
+  \label{eq:Ai_teorica}
+\end{equation}
+
+\section{Métodos de Medición Experimental en Laboratorio}
+
+Las impedancias dinámicas no pueden relevarse con ohmímetros convencionales debido a que las corrientes continuas
+de prueba alterarían la polarización del BJT. Por ello, se implementaron los métodos de inserción resistiva.
+
+\subsection{Medición de \texorpdfstring{$Z_i$, $A_v$ y $A_i$}{Zi, Av y Ai} (Método del Resistor Serie de Entrada)}
+En la figura~\ref{crkt:medicion_zi} se muestra el esquema del ensayo experimental.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_medicion_zi.tex}
+  \caption{Esquema circuital de medición de $Z_i$, $A_v$ y $A_i$ mediante resistor serie $R_S$ en la entrada.}
+  \label{crkt:medicion_zi}
+\end{figure}
+
+Se intercala un resistor patrón conocido ($R_S = 27.3\kohm$) entre el generador de funciones y la entrada del circuito.
+Midiendo con el osciloscopio la tensión antes de la resistencia ($v_s$) y la tensión en la entrada de la placa ($v_i$),
+la corriente de entrada resulta:
+\begin{equation}
+  i_i = \frac{v_s - v_i}{R_S}
+  \label{eq:ii_exp_formula}
+\end{equation}
+
+La impedancia de entrada y las ganancias se deducen de forma directa como:
+\begin{equation}
+  Z_i = \frac{v_i}{i_i} = \frac{v_i \cdot R_S}{v_s - v_i}
+  \label{eq:Zi_exp_formula}
+\end{equation}
+\begin{equation}
+  A_v = \frac{v_L}{v_i}
+  \label{eq:Av_exp_formula}
+\end{equation}
+\begin{equation}
+  A_i = \frac{i_L}{i_i} = \frac{v_L / R_L}{(v_s - v_i) / R_S}
+  \label{eq:Ai_exp_formula}
+\end{equation}
+
+\subsection{Medición de \texorpdfstring{$Z_o$}{Zo} (Método de Inyección en Salida)}
+En la figura~\ref{crkt:medicion_zo} se ilustra el conexionado de medición de la impedancia de salida.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_medicion_zo.tex}
+  \caption{Esquema de inyección de señal externa para la medición experimental de $Z_o$.}
+  \label{crkt:medicion_zo}
+\end{figure}
+
+Se cortocircuita la entrada de alterna a masa ($v_i = 0$), se desacopla la carga $R_L$ y se inyecta una señal senoidal
+mediante un resistor serie patrón ($R_S = 112\ohm$) sobre el terminal de salida (emisor). La corriente inyectada es:
+\begin{equation}
+  i_o = \frac{v_s - v_o}{R_S}
+\end{equation}
+y la impedancia de salida experimental resulta:
+\begin{equation}
+  Z_o = \frac{v_o}{i_o} = \frac{v_o \cdot R_S}{v_s - v_o}
+  \label{eq:Zo_exp_formula}
+\end{equation}

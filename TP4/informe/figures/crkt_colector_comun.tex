@@ -1,0 +1,28 @@
+\begin{circuitikz}[scale=0.95, transform shape]
+  % Referencia y fuente de señal
+  \draw (0,0) node[ground] {}
+    to[sV, l=$v_s$] (0,3)
+    to[R, l=$R_s$] (1.8,3)
+    to[C, l=$C_1$, -*] (3.5,3) coordinate (base_node);
+
+  % Divisor resistivo de entrada (R1 a masa, R2 a VCC)
+  \draw (3.5,6.5) node[vcc] {$V_{CC}$} coordinate (vcc_node)
+    to[R, l=$R_2$, -*] (base_node)
+    to[R, l=$R_1$, *-] (3.5,0) node[ground] {};
+
+  % Transistor BJT NPN en Colector Común
+  \draw (base_node) to[short] (4.2,3) node[npn, anchor=B] (Q1) {};
+  \node[right=4pt] at (Q1.right) {$Q_1$ (BC547B)};
+
+  % Colector directamente a VCC (o desacoplado a masa en CA)
+  \draw (Q1.C) to[short] ++(0,1.5) coordinate (aux_c) to[short] (vcc_node -| aux_c) node[vcc] {$V_{CC}$};
+
+  % Malla de emisor con resistencia RE
+  \draw (Q1.E) to[short, -*] ++(0,-0.6) coordinate (emit_node);
+  \draw (emit_node) to[R, l=$R_E$] ++(0,-2.0) node[ground] {};
+
+  % Red de acoplo de salida desde el emisor y carga RL
+  \draw (emit_node) to[C, l=$C_2$] ++(3.5,0) coordinate (out_node)
+    to[short, -o] ++(1,0) node[above] {$v_L$};
+  \draw (out_node) to[R, l=$R_L$, *-] ++(0,-2.0) node[ground] {};
+\end{circuitikz}

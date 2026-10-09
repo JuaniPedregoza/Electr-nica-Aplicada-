@@ -1,0 +1,134 @@
+\chapter{Normalización de Componentes y Recálculo del Punto Q}
+\label{chap:normalizacion}
+
+Los valores de resistencia calculados analíticamente en el capítulo previo ($R_1 = 44.38\kohm$ y $R_2 = 78.89\kohm$)
+corresponden a valores ideales no disponibles de forma directa en las series comerciales estándar. Por consiguiente,
+se procede a seleccionar los resistores más próximos de la serie normalizada E12/E24, verificando que la variación del
+punto de trabajo en reposo no exceda la tolerancia del $10\%$ requerida por la cátedra.
+
+\section{Selección de Resistores Comerciales}
+
+Al normalizar el divisor de base, el objetivo fundamental radica en preservar con máxima fidelidad la relación
+de transferencia de tensión Thévenin ($V_{BB}/V_{CC} = 1.80/5.0 = 0.360$) manteniendo a la vez una resistencia
+equivalente $R_B$ del orden de los $28.4\kohm$.
+
+A partir de los valores disponibles comercialmente se seleccionaron los siguientes resistores:
+\begin{itemize}
+  \item Resistor inferior del divisor: $R_1 = 47\kohm$ (desviación de $+5.9\%$ respecto a los $44.38\kohm$ calculados).
+  \item Resistor superior del divisor: $R_2 = 82\kohm$ (desviación de $+3.9\%$ respecto a los $78.89\kohm$ calculados).
+  \item Resistor de emisor: $R_E = 1.0\kohm$ (valor estándar disponible directamente en serie E12).
+  \item Resistor de carga: $R_L = 10\kohm$ (valor estándar de serie E12).
+\end{itemize}
+
+En el Cuadro~\ref{tab:resistores_normalizados} se presenta la comparación entre los valores de diseño y los componentes
+comerciales adoptados.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Etapa} & $R_1$ & $R_2$ & $R_E$ & $R_L$ \\
+    \hline
+    Diseño Teórico & $44.38\kohm$ & $78.89\kohm$ & $1.00\kohm$ & $10.00\kohm$ \\
+    Normalizado Comercial & $47.00\kohm$ & $82.00\kohm$ & $1.00\kohm$ & $10.00\kohm$ \\
+    \hline
+  \end{tabular}
+  \caption{Valores calculados y normalizados de los resistores utilizados en la etapa.}
+  \label{tab:resistores_normalizados}
+\end{table}
+
+\section{Recálculo Analítico con Valores Normalizados}
+
+Con los componentes comerciales adoptados, el equivalente de Thévenin de la red de base resulta:
+\begin{equation}
+  R_B = R_1 \parallel R_2 = \frac{47\kohm \cdot 82\kohm}{47\kohm + 82\kohm} = \frac{3854\kohm^2}{129\kohm} \approx 29.876\kohm
+  \label{eq:RB_norm}
+\end{equation}
+\begin{equation}
+  V_{BB} = V_{CC} \cdot \frac{R_1}{R_1 + R_2} = 5.0\V \cdot \frac{47}{129} \approx 1.8217\V
+  \label{eq:VBB_norm}
+\end{equation}
+
+La relación de tensión resultante es $V_{BB}/V_{CC} = 47/129 \approx 0.3643$, con un desvío mínimo de apenas $+1.2\%$
+respecto a la relación de diseño ($0.3600$).
+
+Planteando la ecuación exacta de la malla de base-emisor con $\beta = 284$ y $V_{BE} = 0.70\V$:
+\begin{equation}
+  I_{BQ} = \frac{V_{BB} - V_{BE}}{R_B + (\beta + 1) R_E} = \frac{1.8217\V - 0.7000\V}{29876\ohm + 285 \cdot 1000\ohm} = \frac{1.1217\V}{314876\ohm} \approx 3.562\uA
+  \label{eq:IBQ_norm}
+\end{equation}
+
+A partir de la corriente de base se deducen las corrientes de colector y de emisor:
+\begin{equation}
+  I_{CQ} = \beta \cdot I_{BQ} = 284 \cdot 3.562\uA \approx 1.0117\mA \approx 1.01\mA
+  \label{eq:ICQ_norm}
+\end{equation}
+\begin{equation}
+  I_{EQ} = (\beta + 1) \cdot I_{BQ} = 285 \cdot 3.562\uA \approx 1.0153\mA \approx 1.02\mA
+  \label{eq:IEQ_norm}
+\end{equation}
+
+Las tensiones estáticas nodales resultan:
+\begin{equation}
+  V_E = I_{EQ} \cdot R_E = 1.0153\mA \cdot 1000\ohm \approx 1.015\V
+  \label{eq:VE_norm}
+\end{equation}
+\begin{equation}
+  V_B = V_E + V_{BE} = 1.015\V + 0.700\V = 1.715\V
+  \label{eq:VB_norm}
+\end{equation}
+\begin{equation}
+  V_{CEQ} = V_{CC} - V_E = 5.000\V - 1.015\V = 3.985\V
+  \label{eq:VCEQ_norm}
+\end{equation}
+
+Las corrientes a través de las ramas del divisor resistivo verifican:
+\begin{equation}
+  I_{R2} = \frac{V_{CC} - V_B}{R_2} = \frac{5.000\V - 1.715\V}{82\kohm} = \frac{3.285\V}{82000\ohm} \approx 40.06\uA
+\end{equation}
+\begin{equation}
+  I_{R1} = \frac{V_B}{R_1} = \frac{1.715\V}{47\kohm} \approx 36.49\uA
+\end{equation}
+\begin{equation}
+  I_{R2} - I_{R1} = 40.06\uA - 36.49\uA = 3.57\uA \approx I_{BQ}
+\end{equation}
+cumpliendo plenamente la ley de corrientes de Kirchhoff en el nodo de base.
+
+\section{Verificación de Tolerancia y Desviaciones}
+
+Se evalúa el error porcentual relativo de las magnitudes normalizadas respecto al diseño teórico:
+\begin{equation}
+  \varepsilon_{I_{CQ}} = \frac{|I_{CQ,\mathrm{norm}} - I_{CQ,\mathrm{teor}}|}{I_{CQ,\mathrm{teor}}} \times 100\% = \frac{|1.012\mA - 1.000\mA|}{1.000\mA} \times 100\% = 1.17\%
+\end{equation}
+\begin{equation}
+  \varepsilon_{V_{CEQ}} = \frac{|V_{CEQ,\mathrm{norm}} - V_{CEQ,\mathrm{teor}}|}{V_{CEQ,\mathrm{teor}}} \times 100\% = \frac{|3.985\V - 4.000\V|}{4.000\V} \times 100\% = 0.38\%
+\end{equation}
+\begin{equation}
+  \varepsilon_{V_E} = \frac{|V_{E,\mathrm{norm}} - V_{E,\mathrm{teor}}|}{V_{E,\mathrm{teor}}} \times 100\% = \frac{|1.015\V - 1.000\V|}{1.000\V} \times 100\% = 1.50\%
+\end{equation}
+
+En el Cuadro~\ref{tab:comparacion_diseno_norm} se sintetiza el análisis comparativo.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Magnitud Eléctrica} & \textbf{Diseño Teórico} & \textbf{Valor Normalizado} & \textbf{Error Relativo} & \textbf{Tolerancia} \\
+    \hline
+    Resistencia $R_1$ & $44.38\kohm$ & $47.00\kohm$ & $+5.9\%$ & Comercial E12 \\
+    Resistencia $R_2$ & $78.89\kohm$ & $82.00\kohm$ & $+3.9\%$ & Comercial E12 \\
+    Resistencia $R_E$ & $1.00\kohm$ & $1.00\kohm$ & $0.0\%$ & Comercial E12 \\
+    Tensión Thévenin $V_{BB}$ & $1.800\V$ & $1.822\V$ & $+1.2\%$ & Admitida \\
+    Resistencia Thévenin $R_B$ & $28.40\kohm$ & $29.88\kohm$ & $+5.2\%$ & Admitida \\
+    Corriente de colector $I_{CQ}$ & $1.000\mA$ & $1.012\mA$ & $+1.17\%$ & $\le 10\%$ (Cumple) \\
+    Tensión colector-emisor $V_{CEQ}$ & $4.000\V$ & $3.985\V$ & $-0.38\%$ & $\le 10\%$ (Cumple) \\
+    Tensión continua de emisor $V_E$ & $1.000\V$ & $1.015\V$ & $+1.50\%$ & $\le 10\%$ (Cumple) \\
+    Tensión continua de base $V_B$ & $1.700\V$ & $1.715\V$ & $+0.88\%$ & $\le 10\%$ (Cumple) \\
+    \hline
+  \end{tabular}
+  \caption{Comparación cuantitativa entre el diseño teórico y el circuito con componentes normalizados.}
+  \label{tab:comparacion_diseno_norm}
+\end{table}
+
+Dado que todas las desviaciones resultaron inferiores al $1.5\%$, situándose muy por debajo del límite del $10\%$,
+se valida el dimensionamiento normalizado para su simulación computacional e implementación física.

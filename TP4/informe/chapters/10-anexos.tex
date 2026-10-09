@@ -1,0 +1,128 @@
+\chapter{Anexos}
+\label{chap:anexos}
+
+\section{Extracto de la Hoja de Datos del Transistor BC547B}
+
+El transistor utilizado en los ensayos es un BJT NPN epitaxial de silicio de uso general, fabricado por ON Semiconductor.
+En el Cuadro~\ref{tab:datasheet_ratings_tp4} y el Cuadro~\ref{tab:datasheet_caract_tp4} se transcriben los valores
+límites absolutos y las características eléctricas más relevantes extraídas de la hoja de datos oficial del fabricante
+(\texttt{BC547B.pdf}).
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Parámetro Máximo Admisible} & \textbf{Símbolo} & \textbf{Valor Límite} & \textbf{Unidad} \\
+    \hline
+    Tensión colector-emisor con base abierta & $V_{CEO}$ & $45$ & $\V$ \\
+    Tensión colector-base con emisor abierto & $V_{CBO}$ & $50$ & $\V$ \\
+    Tensión emisor-base con colector abierto & $V_{EBO}$ & $6.0$ & $\V$ \\
+    Corriente continua de colector máxima & $I_C$ & $100$ & $\mA$ \\
+    Corriente pico de colector & $I_{CM}$ & $200$ & $\mA$ \\
+    Disipación total de potencia a $T_A = 25^\circ\text{C}$ & $P_D$ & $625$ & $\mW$ \\
+    Rango de temperatura de juntura operativa & $T_J$ & $-55 \text{ a } +150$ & $^\circ\text{C}$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Límites máximos absolutos de operación del transistor BC547B (ON Semiconductor).}
+  \label{tab:datasheet_ratings_tp4}
+\end{table}
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Característica Eléctrica} & \textbf{Símbolo} & \textbf{Mín.} & \textbf{Típ.} & \textbf{Máx.} & \textbf{Unidad} \\
+    \hline
+    Ganancia de corriente en continua ($I_C = 2\mA, V_{CE} = 5\V$) & $h_{FE}$ & $200$ & $290$ & $450$ & -- \\
+    Tensión de saturación colector-emisor ($I_C = 10\mA, I_B = 0.5\mA$) & $V_{CE(\mathrm{sat})}$ & -- & $0.09$ & $0.25$ & $\V$ \\
+    Tensión base-emisor en conducción ($I_C = 2\mA, V_{CE} = 5\V$) & $V_{BE(\mathrm{on})}$ & $0.55$ & -- & $0.70$ & $\V$ \\
+    Frecuencia de transición ($I_C = 10\mA, V_{CE} = 5\V, f = 100\MHz$) & $f_T$ & $150$ & $300$ & -- & $\MHz$ \\
+    Capacitancia de colector a base ($V_{CB} = 10\V, f = 1\MHz$) & $C_{obo}$ & -- & $1.7$ & $4.5$ & $\pF$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Características eléctricas típicas del grupo de ganancia B del transistor BC547.}
+  \label{tab:datasheet_caract_tp4}
+\end{table}
+
+La ganancia medida en el laboratorio ($\beta = 284$) se ubica perfectamente dentro del rango garantizado del grupo B
+($200$ a $450$). Asimismo, la disipación estática de reposo en la etapa implementada resulta:
+\begin{equation}
+  P_{D,Q} = V_{CEQ} \cdot I_{CQ} = 3.888\V \cdot 1.122\mA \approx 4.36\mW
+\end{equation}
+valor que representa apenas el $0.7\%$ de la disipación máxima admisible ($625\mW$), garantizando una operación
+completamente segura y sin calentamiento del dispositivo.
+
+\section{Netlist Completo de Simulación en LTspice}
+
+A continuación se reproduce el netlist de simulación correspondiente al archivo esquemático \texttt{ValoresComerciales.asc}:
+
+\begin{lstlisting}[style=ltspice, caption={Netlist de simulación para el circuito colector común en LTspice.}, label={list:netlist_colector_comun}]
+* Circuito Colector Comun para Acondicionamiento de Microfono Piezoelectrico
+* Archivo: sim/ValoresComerciales.asc
+Q1 V_C B V_RE 0 BC546C
+VCC V_C 0 5
+Re V_RE 0 1k
+R2 V_C B 82k
+R1 B 0 47k
+C2 V_RE v_L 22uF
+Rl v_L 0 10k
+VBB v_i 0 SINE(0 10m 1k)
+C3 B v_i 22uF
+.model BC546C NPN(Is=21.43f Xti=3 Eg=1.11 Vaf=74.03 Bf=284
++ Ise=43.11f Ne=1.442 Ikf=97.09m Nk=.5 Xtb=1.5 Br=9.837
++ Isc=144.3f Nc=1.522 Ikr=2.476 Rc=1 Cjc=5.25p Mjc=.3147
++ Vjc=.5697 Fc=.5 Cje=11.5p Mje=.6115 Vje=.8194 Tr=10n
++ Tf=443.2p Itf=.7 Vtf=4 Xtf=4 Vceo=65 Icrating=100m mfg=Philips)
+.tran 50m
+.backanno
+.end
+\end{lstlisting}
+
+\section{Planilla de Registro de Mediciones de Banco}
+
+En el Cuadro~\ref{tab:planilla_cruda_tp4} se transcriben los registros primarios volcados en la hoja de cálculo de
+laboratorio \texttt{mediciones.ods}.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|l|}
+    \hline
+    \textbf{Registro / Parámetro de Banco} & \textbf{Valor} & \textbf{Unidad} & \textbf{Observaciones de Laboratorio} \\
+    \hline
+    Tensión de alimentación medida $V_{CC}$ & $5.003$ & $\V$ & Medida en bornes de placa con multímetro \\
+    Tensión de emisor respecto a masa $V_E$ & $1.114$ & $\V$ & Caída continua sobre $R_E$ ($V_{RE}$) \\
+    Tensión de base respecto a masa $V_B$ & $1.749$ & $\V$ & Caída continua sobre $R_1$ ($V_{R1}$) \\
+    Caída sobre resistor superior $V_{R2}$ & $3.240$ & $\V$ & Medida entre $V_{CC}$ y base \\
+    Tensión colector-emisor $V_{CEQ}$ & $3.888$ & $\V$ & Medida directa entre colector y emisor \\
+    Resistor inferior medido $R_1$ & $46930$ & $\Omega$ & Valor nominal $47\kohm$ (error $-0.15\%$) \\
+    Resistor superior medido $R_2$ & $79900$ & $\Omega$ & Valor nominal $82\kohm$ (error $-2.56\%$) \\
+    Resistor de emisor medido $R_E$ & $993$ & $\Omega$ & Valor nominal $1\kohm$ (error $-0.70\%$) \\
+    Corriente de rama inferior $I_{R1}$ & $37.27$ & $\uA$ & Deducida por ley de Ohm: $V_{R1} / R_1$ \\
+    Corriente de rama superior $I_{R2}$ & $40.55$ & $\uA$ & Deducida por ley de Ohm: $V_{R2} / R_2$ \\
+    Corriente de base en reposo $I_{BQ}$ & $3.28$ & $\uA$ & Deducida: $I_{R2} - I_{R1}$ \\
+    Corriente de emisor en reposo $I_{EQ}$ & $1.122$ & $\mA$ & Deducida por ley de Ohm: $V_{RE} / R_E$ \\
+    Corriente de colector deducida $I_{CQ}$ & $1.119$ & $\mA$ & Deducida: $I_{EQ} - I_{BQ}$ \\
+    Ganancia estática medida $\beta$ & $284$ & -- & Medida en zócalo $h_{FE}$ de multímetro UT890C \\
+    Resistor sensor de entrada $R_S$ & $27.3$ & $\kohm$ & Resistor patrón para medición de $Z_i$ y $A_v$ \\
+    Tensión del generador $v_s$ (entrada) & $570$ & $\mV_p$ & Medida en osciloscopio ($1.14\Vpp$) \\
+    Tensión de entrada en base $v_i$ & $280$ & $\mV_p$ & Medida en osciloscopio tras caída en $R_S$ ($0.56\Vpp$) \\
+    Tensión de salida en carga $v_L$ & $275$ & $\mV_p$ & Medida sobre $R_L = 10\kohm$ ($0.55\Vpp$) \\
+    Corriente de entrada de alterna $i_i$ & $10.62$ & $\uA_p$ & Calculada: $(v_s - v_i) / R_S$ \\
+    Impedancia de entrada medida $Z_i$ & $26.36$ & $\kohm$ & Calculada: $v_i / i_i$ \\
+    Ganancia de tensión medida $A_v$ & $0.982$ & -- & Calculada: $v_L / v_i$ \\
+    Ganancia de corriente medida $A_i$ & $2.589$ & -- & Calculada: $(v_L/R_L) / i_i$ \\
+    Resistor sensor de salida $R_S$ & $112$ & $\Omega$ & Resistor testigo para inyección de señal en $Z_o$ \\
+    Tensión del generador $v_s$ (salida) & $150$ & $\mV_p$ & Inyección en emisor con entrada a masa \\
+    Tensión de emisor atenuada $v_o$ & $80$ & $\mV_p$ & Medida sobre terminal de emisor \\
+    Impedancia de salida medida $Z_o$ & $128.0$ & $\Omega$ & Calculada: $v_o \cdot R_S / (v_s - v_o)$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Planilla de datos crudos y observaciones experimentales registradas en banco de trabajo (\texttt{mediciones.ods}).}
+  \label{tab:planilla_cruda_tp4}
+\end{table}

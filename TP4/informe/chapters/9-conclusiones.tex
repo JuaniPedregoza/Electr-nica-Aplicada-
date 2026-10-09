@@ -1,0 +1,37 @@
+\chapter{Conclusiones}
+\label{chap:conclusiones}
+
+El desarrollo integral de este trabajo práctico permitió afianzar y corroborar experimentalmente los criterios de
+diseño, simulación y medición de amplificadores con transistores bipolares de juntura, aplicados a la resolución de un
+problema concreto de ingeniería de acondicionamiento de señales.
+
+A partir del análisis de los resultados obtenidos se formulan las siguientes conclusiones técnicas:
+\begin{enumerate}
+  \item Idoneidad de la topología Colector Común como etapa buffer: El análisis del requerimiento práctico demostró
+    que la interposición de una etapa seguidor de emisor resuelve de manera óptima la incompatibilidad entre un
+    transductor piezoeléctrico de alta impedancia ($R_S \approx 10\kohm$) y una carga receptora de $10\kohm$ unida
+    mediante un cable de $30\unit{\meter}$. Al proveer una elevada impedancia de entrada ($Z_i \approx 26.36\kohm$),
+    el circuito previene la caída excesiva de tensión en la fuente; simultáneamente, su reducida impedancia de salida
+    ($Z_o \approx 128\ohm$) inmuniza la línea frente a pérdidas de alta frecuencia provocadas por la capacidad
+    parásita distribuida del cable coaxial.
+  \item Preservación de amplitud y ausencia de distorsión: La ganancia de tensión cercana a la unidad ($A_v \approx 0.98$)
+    y el desfase nulo ($0^\circ$) permiten transferir la señal acústica hacia el equipo de grabación sin superar el
+    límite máximo admisible de $2\Vpp$. El trazado de las rectas de carga estática y dinámica demostró que la etapa
+    admite excursiones de hasta $1.90\Vpp$ antes de alcanzar el corte, operando la señal real de $0.57\Vpp$ con
+    sobresaliente linealidad y pureza espectral, corroborada visualmente en el osciloscopio analógico PINTEK PS-200.
+  \item Rigidez y estabilidad de la polarización: La adopción del criterio de diseño $R_B \le (\beta/10) R_E$
+    garantizó una polarización sumamente estable frente a dispersiones del parámetro $\beta$ y variaciones de temperatura.
+    La normalización a resistores comerciales de las series estándar no alteró apreciablemente el punto estático $Q$,
+    manteniéndose las desviaciones dentro de márgenes tolerables inferiores al $10\%$.
+  \item Extraordinaria convergencia intermetodológica: Los resultados alcanzaron un nivel de coincidencia sobresaliente
+    entre la teoría analítica, la simulación en LTspice y los ensayos físicos de banco. Las variables dinámicas más
+    relevantes exhibieron errores experimentales mínimos: ganancia de tensión con apenas $+0.82\%$ de error, ganancia
+    de corriente con $-1.07\%$ e impedancia de entrada con $-1.86\%$.
+  \item Validación del instrumental y métodos de medición: El método del resistor serie ($R_S$) demostró ser una
+    técnica experimental confiable, práctica y no destructiva para caracterizar impedancias de pequeña señal sin
+    perturbar los puntos de reposo en continua del circuito activo.
+\end{enumerate}
+
+En síntesis, se cumplieron plenamente todos los objetivos teóricos, prácticos y formativos planteados en la consigna
+de la asignatura, validando el ciclo metodológico integral de análisis, dimensionamiento, simulación, montaje y
+verificación en laboratorio.

@@ -1,0 +1,90 @@
+\chapter{Planteo del Problema y Selección de Topología}
+\label{chap:seleccion_topologia}
+
+En este capítulo se analiza en detalle la situación práctica planteada por la cátedra, justificando desde el
+punto de vista de la ingeniería electrónica la topología óptima para satisfacer las especificaciones del sistema.
+
+\section{Descripción del Requerimiento Práctico}
+
+El sistema a desarrollar tiene como propósito acondicionar la señal generada por un micrófono piezoeléctrico
+ubicado a una distancia de $30\unit{\meter}$ del equipamiento de grabación de audio. Los parámetros de diseño
+suministrados por la consigna son:
+\begin{itemize}
+  \item Nivel de señal del transductor: $v_s = 200\mV_{\mathrm{rms}}$.
+  \item Resistencia interna del micrófono: $R_S \approx 10\kohm$.
+  \item Amplitud máxima admisible por el equipo de grabación: $v_{L,\mathrm{max}} = 2\Vpp$.
+  \item Impedancia de entrada del equipo de grabación (carga): $R_L \approx 10\kohm$.
+  \item Rango de frecuencias de operación: $100\Hz$ a $20\kHz$ (espectro audible).
+  \item Longitud de línea de transmisión: $30\unit{\meter}$ de cable apantallado.
+\end{itemize}
+
+\section{Análisis de Amplitud y Ancho de Banda}
+
+La tensión senoidal provista por el micrófono presenta un valor pico a pico de:
+\begin{equation}
+  v_{s,\mathrm{pp}} = 2\sqrt{2} \cdot v_s = 2\sqrt{2} \cdot 200\mV \approx 565.69\mVpp \approx 0.57\Vpp
+  \label{eq:vs_pp}
+\end{equation}
+
+Dado que el equipo de grabación admite una señal máxima de $2\Vpp$ y la señal del micrófono es de $0.57\Vpp$,
+se concluye que la etapa no debe aportar ganancia de tensión significativa ($A_v \approx 1$). Si se introdujera
+una ganancia de tensión moderada (por ejemplo $A_v \ge 4$), la amplitud superaría los $2\Vpp$ tolerados por el
+sistema receptor, generando recorte no lineal y distorsión armónica inaceptable.
+
+Por otra parte, la conexión directa del micrófono al equipo de grabación sin circuito de adaptación presentaría
+dos problemas severos:
+\begin{enumerate}
+  \item Atenuación resistiva por divisor de tensión: debido a que $R_S = R_L = 10\kohm$, la mitad de la tensión
+    se perdería internamente en el transductor, reduciendo la amplitud a $0.28\Vpp$.
+  \item Filtro pasabajos por capacidad del cable: una línea coaxial de audio típica presenta una capacidad distribuida
+    del orden de $100\unit{\pico\farad\per\meter}$, lo que representa una capacidad parásita total de
+    $C_{\mathrm{cable}} \approx 30\unit{\meter} \times 100\pF = 3\nF$. En una conexión pasiva, la resistencia equivalente
+    vista por el cable es $R_{\mathrm{th}} = R_S \parallel R_L = 5\kohm$, estableciendo una frecuencia de corte superior de:
+    \begin{equation}
+      f_c = \frac{1}{2\pi \cdot R_{\mathrm{th}} \cdot C_{\mathrm{cable}}} = \frac{1}{2\pi \cdot 5000\ohm \cdot 3\nF} \approx 10.6\kHz
+    \end{equation}
+    Esto provocaría una atenuación dramática en las frecuencias altas del rango de interés ($10\kHz$ a $20\kHz$).
+\end{enumerate}
+
+Para superar estas limitaciones, se requiere intercalar un circuito activo que presente alta impedancia de entrada
+para no cargar al micrófono ($Z_i \ge R_S$) y una impedancia de salida reducida ($Z_o \ll R_L$) capaz de excitar la
+capacidad de la línea sin atenuación de agudos.
+
+\section{Comparación de Topologías y Elección Justificada}
+
+En el Cuadro~\ref{tab:comparacion_topologias} se resumen las propiedades características de las tres configuraciones
+básicas con BJT.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|c|c|l|}
+    \hline
+    \textbf{Topología} & \textbf{Impedancia $Z_i$} & \textbf{Impedancia $Z_o$} & \textbf{Ganancia $A_v$} & \textbf{Ganancia $A_i$} & \textbf{Fase} & \textbf{Aplicación Típica} \\
+    \hline
+    Emisor Común & Media-alta & Media & Media-alta & Media & $180^\circ$ & Amplificación de uso general \\
+    Base Común & Muy baja & Alta & Media-alta & $\approx 1$ & $0^\circ$ & Alta frecuencia / Transimpedancia \\
+    Colector Común & Alta & Baja & $\approx 1$ & Media-alta & $0^\circ$ & Separación de etapas (buffer) \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Comparativa técnica de las configuraciones con transistor bipolar de juntura.}
+  \label{tab:comparacion_topologias}
+\end{table}
+
+Analizando cada topología frente al problema:
+\begin{itemize}
+  \item Configuración Base Común: resulta totalmente inadecuada debido a su impedancia de entrada extremadamente baja
+    ($Z_i \approx r_e \approx 25\ohm$). Al conectarla al micrófono ($R_S = 10\kohm$), la señal quedaría casi totalmente
+    atenuada en la entrada por divisor resistivo ($25 / (10000 + 25) \approx 0.0025$).
+  \item Configuración Emisor Común: provee ganancia de tensión elevada e invierte la fase $180^\circ$. Si bien su
+    impedancia de entrada es intermedia, resulta del orden de $1\kohm$ a $2\kohm$, lo cual provocaría una fuerte carga
+    sobre los $10\kohm$ del micrófono. Asimismo, la alta ganancia de tensión saturaría el equipo de grabación.
+  \item Configuración Colector Común (Seguidor Emisor): ofrece una impedancia de entrada elevada ($Z_i \ge 25\kohm$),
+    impidiendo la caída de tensión sobre la resistencia interna del micrófono; presenta muy baja impedancia de salida
+    ($Z_o \le 100\ohm$), permitiendo atacar con solvencia la carga de $10\kohm$ y la capacidad parásita del cable de
+    $30\unit{\meter}$; y provee una ganancia de tensión unitaria ($A_v \approx 1$) sin inversión de fase ($0^\circ$).
+\end{itemize}
+
+Por consiguiente, la configuración Colector Común es la única topología que satisface plenamente las exigencias del
+problema de acondicionamiento de señal.

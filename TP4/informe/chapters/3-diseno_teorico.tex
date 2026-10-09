@@ -1,0 +1,170 @@
+\chapter{Diseño Analítico de la Etapa en Colector Común}
+\label{chap:diseno_teorico}
+
+En este capítulo se desarrolla el dimensionamiento en corriente continua de la etapa amplificadora en configuración
+colector común, fundamentando la elección de las corrientes y tensiones de polarización y diseñando la red de base
+bajo criterios estrictos de estabilidad térmica.
+
+\section{Circuito Esquemático de Partida}
+
+En la figura~\ref{crkt:colector_comun} se presenta el esquema circuital completo del amplificador colector común
+(seguidor de emisor) a implementar.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_colector_comun.tex}
+  \caption{Esquema circuital completo de la etapa adaptadora en configuración colector común.}
+  \label{crkt:colector_comun}
+\end{figure}
+
+El capacitor de acoplo de entrada $C_1$ aísla el nivel continuo de la base frente al transductor, mientras que $C_2$
+bloquea la componente continua de emisor ($V_E$) para entregar únicamente la señal senoidal amplificada a la carga $R_L$.
+El colector del transistor $Q_1$ se conecta de manera directa al riel positivo de alimentación $V_{CC}$, constituyendo
+una masa dinámica de corriente alterna.
+
+\section{Dimensionamiento del Punto de Operación en Continua}
+
+La etapa se alimenta con una fuente de continua estándar de laboratorio regulada en $V_{CC} = 5.0\V$.
+
+\subsection{Fijación de la Corriente de Colector de Reposo}
+Para que la etapa opere en clase A y reproduzca la señal senoidal sin incurrir en recorte dinámico durante los semiciclos
+negativos, la corriente estática de emisor debe ser estrictamente superior a la corriente pico demandada por la carga:
+\begin{equation}
+  I_{CQ} \ge \frac{\hat{v}_L}{R_L} = \frac{\sqrt{2} \cdot 200\mV_{\mathrm{rms}}}{10\kohm} = \frac{282.84\mV}{10000\ohm} \approx 28.28\uA
+  \label{eq:Icq_min}
+\end{equation}
+
+Si bien una corriente de $30\uA$ evitaría el corte teórico, operar con corrientes tan bajas degradaría el ancho de
+banda debido a las capacidades parásitas de juntura, incrementaría la resistencia intrínseca $r_e$ elevando la
+impedancia de salida y haría al circuito muy susceptible al ruido térmico. Por tales motivos de diseño práctico,
+se adopta:
+\begin{equation}
+  I_{CQ} = 1.0\mA
+\end{equation}
+
+\subsection{Fijación de la Tensión de Emisor y Cálculo de $R_E$}
+Para permitir la libre oscilación pico de la tensión sobre el emisor sin aproximarse a masa, se exige que la tensión
+continua de reposo satisfaga $V_E \ge \hat{v}_L \approx 0.28\V$. Adoptando un margen de seguridad frente a variaciones
+térmicas y tolerancias, se define:
+\begin{equation}
+  V_E = 1.0\V
+\end{equation}
+
+A partir de la ley de Ohm en la rama de emisor:
+\begin{equation}
+  R_E = \frac{V_E}{I_{EQ}} \approx \frac{V_E}{I_{CQ}} = \frac{1.0\V}{1.0\mA} = 1000\ohm = 1.0\kohm
+  \label{eq:RE_calculo}
+\end{equation}
+
+La tensión colector-emisor de reposo resultante queda determinada por la malla de salida:
+\begin{equation}
+  V_{CEQ} = V_{CC} - V_E = 5.0\V - 1.0\V = 4.0\V
+  \label{eq:VCEQ_calculo}
+\end{equation}
+situando al transistor en una región de polarización activa directa óptima, distante tanto de la saturación
+($V_{CE,\mathrm{sat}} \approx 0.2\V$) como del corte ($V_{CE} = 5.0\V$).
+
+\section{Diseño de la Red de Polarización de Base}
+
+Para asegurar que el punto de trabajo se mantenga insensible a las dispersiones de fabricación de la ganancia
+de corriente ($\beta$) y a las fluctuaciones de temperatura, se aplica el teorema de Thévenin al divisor resistivo
+de entrada formado por $R_1$ y $R_2$. En la figura~\ref{crkt:thevenin} se ilustra el circuito equivalente.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_thevenin.tex}
+  \caption{Circuito equivalente de Thévenin para el análisis de polarización de base en colector común.}
+  \label{crkt:thevenin}
+\end{figure}
+
+El criterio de diseño estándar de la cátedra para garantizar un divisor de base rígido establece:
+\begin{equation}
+  R_B \le \frac{\beta}{10} \cdot R_E
+  \label{eq:criterio_rb}
+\end{equation}
+
+Tomando inicialmente el valor típico de catálogo para el BC548/BC547B ($\beta = 300$):
+\begin{equation}
+  R_B = \frac{300}{10} \cdot 1000\ohm = 30.0\kohm
+\end{equation}
+
+Planteando la ecuación de la malla de entrada de base:
+\begin{equation}
+  V_{BB} = I_{BQ} \cdot R_B + V_{BE} + I_{EQ} \cdot R_E
+  \label{eq:malla_thevenin}
+\end{equation}
+
+Sustituyendo $I_{BQ} = I_{CQ}/\beta$ y $R_B = (\beta/10) R_E$:
+\begin{equation}
+  I_{BQ} \cdot R_B = \frac{I_{CQ}}{\beta} \left(\frac{\beta}{10} R_E\right) = 0.10 \cdot I_{CQ} \cdot R_E
+\end{equation}
+
+Aproximando $I_{EQ} \approx I_{CQ}$ con $V_{BE} = 0.70\V$:
+\begin{equation}
+  V_{BB} = 0.10 \cdot I_{CQ} R_E + I_{CQ} R_E + V_{BE} = 1.10 \cdot I_{CQ} R_E + V_{BE}
+\end{equation}
+\begin{equation}
+  V_{BB} = 1.10 \cdot (1.0\mA \cdot 1000\ohm) + 0.70\V = 1.10\V + 0.70\V = 1.80\V
+  \label{eq:VBB_calculada}
+\end{equation}
+
+\section{Cálculo de los Resistores del Divisor ($R_1$ y $R_2$)}
+
+Las relaciones de Thévenin para el divisor de tensión con $R_1$ conectado entre base y masa y $R_2$ conectado
+entre $V_{CC}$ y base son:
+\begin{equation}
+  V_{BB} = V_{CC} \cdot \frac{R_1}{R_1 + R_2}, \quad R_B = R_1 \parallel R_2 = \frac{R_1 \cdot R_2}{R_1 + R_2}
+\end{equation}
+
+Dividiendo ambas expresiones miembro a miembro:
+\begin{equation}
+  \frac{V_{BB}}{R_B} = \frac{V_{CC}}{R_2} \implies R_2 = \left(\frac{V_{CC}}{V_{BB}}\right) \cdot R_B
+\end{equation}
+\begin{equation}
+  R_2 = \left(\frac{5.0\V}{1.80\V}\right) \cdot 30.0\kohm \approx 83.33\kohm
+  \label{eq:R2_teorico}
+\end{equation}
+
+Despejando $R_1$:
+\begin{equation}
+  R_1 = \frac{R_B}{1 - \frac{V_{BB}}{V_{CC}}} = \frac{30.0\kohm}{1 - 0.36} = \frac{30.0\kohm}{0.64} \approx 46.88\kohm
+  \label{eq:R1_teorico}
+\end{equation}
+
+\section{Ajuste Analítico para Ganancia Medida ($\beta = 284$)}
+
+En el banco de trabajo, la ganancia estática de corriente del transistor individual seleccionado se midió en
+$\beta = 284$. Recalculando con este valor exacto:
+\begin{equation}
+  R_B = \frac{284}{10} \cdot 1000\ohm = 28.4\kohm
+\end{equation}
+\begin{equation}
+  R_2 = \left(\frac{5.0\V}{1.80\V}\right) \cdot 28.4\kohm \approx 78.89\kohm
+\end{equation}
+\begin{equation}
+  R_1 = \frac{28.4\kohm}{1 - 0.36} \approx 44.38\kohm
+\end{equation}
+
+En el Cuadro~\ref{tab:resumen_diseno_teorico} se sintetizan las magnitudes ideales obtenidas para la etapa.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|l|}
+    \hline
+    \textbf{Parámetro de Diseño} & \textbf{Símbolo} & \textbf{Valor Teórico} & \textbf{Unidad} \\
+    \hline
+    Tensión de alimentación continua & $V_{CC}$ & $5.00$ & $\V$ \\
+    Corriente de colector de reposo & $I_{CQ}$ & $1.00$ & $\mA$ \\
+    Tensión continua de emisor & $V_E$ & $1.00$ & $\V$ \\
+    Tensión colector-emisor de reposo & $V_{CEQ}$ & $4.00$ & $\V$ \\
+    Tensión Thévenin de base & $V_{BB}$ & $1.80$ & $\V$ \\
+    Resistencia Thévenin de base & $R_B$ & $28.40$ & $\kohm$ \\
+    Resistencia de emisor calculada & $R_E$ & $1.00$ & $\kohm$ \\
+    Resistencia inferior del divisor (a masa) & $R_1$ & $44.38$ & $\kohm$ \\
+    Resistencia superior del divisor (a $V_{CC}$) & $R_2$ & $78.89$ & $\kohm$ \\
+    Corriente de base de reposo & $I_{BQ}$ & $3.52$ & $\uA$ \\
+    \hline
+  \end{tabular}
+  \caption{Resumen del dimensionamiento teórico en corriente continua para la etapa colector común.}
+  \label{tab:resumen_diseno_teorico}
+\end{table}
