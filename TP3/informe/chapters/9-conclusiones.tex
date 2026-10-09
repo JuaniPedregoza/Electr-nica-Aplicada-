@@ -1,0 +1,46 @@
+\chapter{Conclusiones}
+\label{chap:conclusiones}
+
+El desarrollo integral de este trabajo práctico permitió afianzar y corroborar experimentalmente los conceptos
+teóricos vinculados al diseño, análisis de polarización y respuesta dinámica de amplificadores con transistores
+bipolares en configuración emisor común.
+
+A partir del análisis de los resultados obtenidos se formulan las siguientes conclusiones técnicas:
+\begin{enumerate}
+  \item \textbf{Eficacia del diseño para Máxima Excursión Simétrica (MES):}
+    La fijación analítica del punto de reposo $Q$ mediante la condición $V_{CEQ} = I_{CQ} \cdot R_{CA}$ demostró ser un
+    método óptimo para maximizar el rango dinámico del amplificador. A través de las rectas de carga trazadas en
+    GeoGebra se comprobó que la etapa cuenta con una excursión simétrica potencial de hasta $8.33\V_{pp}$ sobre la carga
+    antes de alcanzar el corte o la saturación. Esto permitió operar el amplificador en laboratorio con amplitudes de
+    salida de $1.30\V_{pp}$ en un régimen de linealidad sobresaliente, sin recorte ni distorsión perceptible en el
+    osciloscopio.
+
+  \item \textbf{Robustez del divisor resistivo y criterio de estabilidad térmica:}
+    La adopción del criterio de diseño $R_B \le (\beta / 10) \cdot R_E$ garantizó una polarización sumamente rígida. A
+    pesar de haber reemplazado los resistores ideales por valores comerciales normalizados con desviaciones nominales de
+    hasta $+14\%$ en los valores individuales de resistencia, las variaciones sobre el punto $Q$ se mantuvieron en
+    apenas $2.44\%$ para la corriente de colector y $6.12\%$ para la tensión colector-emisor, cumpliendo con holgura el
+    criterio de tolerancia del $10\%$ requerido por la cátedra.
+
+  \item \textbf{Efectividad del desacoplo de emisor:}
+    El empleo de un capacitor electrolítico de emisor de gran capacidad ($C_E = 2200\uF$) garantizó una reactancia
+    capacitiva de apenas $X_{C_E} \approx 0.072\ohm$ a la frecuencia de prueba de $1\kHz$. Al ser esta reactancia tres
+    órdenes de magnitud inferior a $R_E = 180\ohm$, se logró poner a masa el emisor en régimen dinámico, maximizando la
+    ganancia de tensión de la etapa sin sacrificar la estabilidad térmica en continua provista por $R_E$.
+
+  \item \textbf{Convergencia entre simulación y ensayo práctico:}
+    Las simulaciones en LTspice reprodujeron con gran precisión el comportamiento físico del circuito, anticipando una
+    ganancia de tensión de $139.1$, muy cercana a los $130.0$ medidos experimentalmente (desvío de sólo $6.5\%$). Esta
+    pequeña diferencia es enteramente atribuible a las resistencias parásitas internas del transistor físico y a las
+    tolerancias del $\pm 5\%$ de los resistores comerciales de película carbón.
+
+  \item \textbf{Validación de los métodos de medición en pequeña señal:}
+    El método de la resistencia serie calibrada ($R_S$) demostró ser una técnica experimental sumamente práctica y
+    confiable para determinar impedancias dinámicas ($Z_i$ y $Z_o$) sin perturbar los niveles de polarización en
+    continua del circuito activo. La impedancia de salida experimental obtenida coincidió de forma exacta con la
+    resistencia de colector ($Z_o = 1200\ohm$, error nulo), y la ganancia de corriente experimental ($A_i = 133.25$)
+    evidenció una concordancia del $99.7\%$ respecto a la predicción teórica.
+\end{enumerate}
+
+En síntesis, se cumplieron satisfactoriamente todos los objetivos planteados en la consigna de cátedra, validando la
+metodología sistemática de diseño y su contrastación analítica, computacional y experimental.
