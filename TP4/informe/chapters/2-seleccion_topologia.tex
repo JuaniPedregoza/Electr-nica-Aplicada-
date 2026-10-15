@@ -29,7 +29,7 @@ La tensión senoidal provista por el micrófono presenta un valor pico a pico de
 Dado que el equipo de grabación admite una señal máxima de $2\Vpp$ y la señal del micrófono es de $0.57\Vpp$,
 se concluye que la etapa no debe aportar ganancia de tensión significativa ($A_v \approx 1$). Si se introdujera
 una ganancia de tensión moderada (por ejemplo $A_v \ge 4$), la amplitud superaría los $2\Vpp$ tolerados por el
-sistema receptor, generando recorte no lineal y distorsión armónica inaceptable.
+sistema receptor.
 
 Por otra parte, la conexión directa del micrófono al equipo de grabación sin circuito de adaptación presentaría
 dos problemas severos:
@@ -43,7 +43,7 @@ dos problemas severos:
     \begin{equation}
       f_c = \frac{1}{2\pi \cdot R_{\mathrm{th}} \cdot C_{\mathrm{cable}}} = \frac{1}{2\pi \cdot 5000\ohm \cdot 3\nF} \approx 10.6\kHz
     \end{equation}
-    Esto provocaría una atenuación dramática en las frecuencias altas del rango de interés ($10\kHz$ a $20\kHz$).
+    Esto provocaría atenuación en las frecuencias altas del rango de interés ($10\kHz$ a $20\kHz$).
 \end{enumerate}
 
 Para superar estas limitaciones, se requiere intercalar un circuito activo que presente alta impedancia de entrada

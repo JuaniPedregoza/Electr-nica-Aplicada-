@@ -111,6 +111,7 @@ En el Cuadro~\ref{tab:comparacion_diseno_norm} se sintetiza el análisis compara
 
 \begin{table}[!ht]
   \centering
+  \resizebox{\textwidth}{!}{%	
   \begin{tabular}{|l|c|c|c|c|}
     \hline
     \textbf{Magnitud Eléctrica} & \textbf{Diseño Teórico} & \textbf{Valor Normalizado} & \textbf{Error Relativo} & \textbf{Tolerancia} \\
@@ -125,7 +126,8 @@ En el Cuadro~\ref{tab:comparacion_diseno_norm} se sintetiza el análisis compara
     Tensión continua de emisor $V_E$ & $1.000\V$ & $1.015\V$ & $+1.50\%$ & $\le 10\%$ (Cumple) \\
     Tensión continua de base $V_B$ & $1.700\V$ & $1.715\V$ & $+0.88\%$ & $\le 10\%$ (Cumple) \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+}	
   \caption{Comparación cuantitativa entre el diseño teórico y el circuito con componentes normalizados.}
   \label{tab:comparacion_diseno_norm}
 \end{table}

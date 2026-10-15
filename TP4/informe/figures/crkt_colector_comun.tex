@@ -12,7 +12,7 @@
 
   % Transistor BJT NPN en Colector Común
   \draw (base_node) to[short] (4.2,3) node[npn, anchor=B] (Q1) {};
-  \node[right=4pt] at (Q1.right) {$Q_1$ (BC547B)};
+  \node[right=4pt] at (Q1.right) {$Q_1$ (BC546B)};
 
   % Colector directamente a VCC (o desacoplado a masa en CA)
   \draw (Q1.C) to[short] ++(0,1.5) coordinate (aux_c) to[short] (vcc_node -| aux_c) node[vcc] {$V_{CC}$};

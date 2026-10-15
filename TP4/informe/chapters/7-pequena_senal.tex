@@ -41,8 +41,7 @@ La resistencia dinámica de entrada entre base y emisor ($h_{ie}$) resulta:
 \section{Cálculo Analítico de Parámetros del Cuadripolo}
 
 \subsection{Impedancia de Entrada (\texorpdfstring{$Z_i$}{Zi})}
-La impedancia vista hacia la base del transistor ($R_{i,\mathrm{base}}$) incluye el efecto multiplicador de la
-resistencia conectada en el emisor por la ganancia de corriente:
+La impedancia vista hacia la base del transistor ($R_{i,\mathrm{base}}$) incluye a la resistencia conectada en el emisor por la ganancia de corriente:
 \begin{equation}
   R_{i,\mathrm{base}} = h_{ie} + (\beta + 1) \cdot (R_E \parallel R_L)
 \end{equation}
@@ -80,8 +79,7 @@ Para las condiciones nominales del micrófono ($R_S = 10\kohm$):
   Z_o = 1000\ohm \parallel \left[ 23.97\ohm + \frac{7492\ohm}{285} \right] = 1000\ohm \parallel [23.97\ohm + 26.29\ohm] = 1000\ohm \parallel 50.26\ohm \approx 47.85\ohm
   \label{eq:Zo_teorico}
 \end{equation}
-evidenciando un valor sumamente bajo ($Z_o < 50\ohm \ll R_L = 10\kohm$), ideal para atacar la línea de audio de
-$30\unit{\meter}$ sin pérdida de tensión ni filtrado de agudos.
+evidenciando un valor sumamente bajo ($Z_o < 50\ohm \ll R_L = 10\kohm$).
 
 \subsection{Ganancia de Tensión (\texorpdfstring{$A_v$}{Av})}
 La tensión alterna desarrollada sobre la carga de salida $R_L$ en bornes del emisor es:

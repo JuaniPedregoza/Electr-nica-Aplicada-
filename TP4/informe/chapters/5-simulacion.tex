@@ -2,7 +2,7 @@
 \label{chap:simulacion}
 
 Con el propósito de validar computacionalmente el diseño analítico y contrastar el comportamiento del circuito,
-se implementó y simuló la etapa amplificadora en el software LTspice XVII. Se estudió el punto estático de
+se implementó y simuló la etapa amplificadora en el software LTspice. Se estudió el punto estático de
 polarización en continua (.op) y la respuesta dinámica en el dominio del tiempo (.tran) ante excitaciones senoidales.
 
 \section{Directivas de Simulación y Modelos Empleados}
@@ -51,11 +51,11 @@ La simulación del punto de trabajo estático arrojó los siguientes valores num
 Comparando con el cálculo analítico normalizado ($I_{CQ} = 1.012\mA$ y $V_{CEQ} = 3.985\V$), la coincidencia es
 notable, presentando una discrepancia de tan solo $+3.06\%$ en corriente y $-0.83\%$ en tensión. Esta mínima diferencia
 proviene de la caída base-emisor no lineal del modelo SPICE ($V_{BE} = 0.635\V$ en lugar de los $0.70\V$ supuestos
-idealmente) y de la modulación del ancho de base (efecto Early con $V_{af} = 74.03\V$).
+idealmente).
 
 \section{Análisis de Formas de Onda y Ganancia Dinámica}
 
-A partir del archivo de exportación temporal de simulación \texttt{ValoresComerciales.txt}, se extrajeron los datos
+Se extrajeron los datos
 del régimen permanente periódico entre $48\ms$ y $50\ms$. En la figura~\ref{fig:sim_waveforms} se presentan las señales
 superpuestas de entrada ($v_i$) y salida sobre la carga ($v_L$).
 

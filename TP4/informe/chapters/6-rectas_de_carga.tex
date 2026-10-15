@@ -7,7 +7,7 @@ alcancen las regiones no lineales de corte o saturación.
 
 \section{Recta de Carga Estática de Corriente Continua (CC)}
 
-En corriente continua, los capacitores de acoplo se comportan como circuitos abiertos. En la topología colector común,
+En corriente continua, los capacitores se comportan como circuitos abiertos. En la topología colector común,
 el colector se vincula directamente a $V_{CC}$ sin resistor de colector ($R_C = 0$), por lo que la resistencia total
 de la malla de salida es exclusivamente la resistencia de emisor:
 \begin{equation}
@@ -58,15 +58,15 @@ La ley de variación dinámica alrededor del punto estático de reposo $Q(V_{CEQ
 Los puntos de corte de la recta dinámica son:
 \begin{enumerate}
   \item Tensión de corte dinámica ($i_C = 0$):
-    \begin{equation}
-      V_{CE,\mathrm{max(CA)}} = V_{CEQ} + I_{CQ} \cdot R_{CA} = 3.952\V + (1.043\mA \cdot 909.09\ohm) = 3.952\V + 0.948\V \approx 4.900\V
-    \end{equation}
-    correspondiente al punto coordenado $(4.90\V,\ 0\mA)$.
+%    \begin{equation}
+%      V_{CE,\mathrm{max(CA)}} = V_{CEQ} + I_{CQ} \cdot R_{CA} = 3.952\V + (1.043\mA \cdot 909.09\ohm) = 3.952\V + 0.948\V \approx 4.900\V
+%    \end{equation}
+    corresponde al punto coordenado $(4.90\V,\ 0\mA)$.
   \item Corriente de saturación dinámica ($v_{CE} = 0$):
-    \begin{equation}
-      I_{C,\mathrm{max(CA)}} = I_{CQ} + \frac{V_{CEQ}}{R_{CA}} = 1.043\mA + \frac{3.952\V}{909.09\ohm} = 1.043\mA + 4.347\mA \approx 5.390\mA
-    \end{equation}
-    correspondiente al punto coordenado $(0\V,\ 5.39\mA)$.
+%    \begin{equation}
+%      I_{C,\mathrm{max(CA)}} = I_{CQ} + \frac{V_{CEQ}}{R_{CA}} = 1.043\mA + \frac{3.952\V}{909.09\ohm} = 1.043\mA + 4.347\mA \approx 5.390\mA
+%    \end{equation}
+    corresponde al punto coordenado $(0\V,\ 5.39\mA)$.
 \end{enumerate}
 
 La pendiente dinámica es $m_{CA} = -1/R_{CA} = -1.100 \times 10^{-3}\ohm^{-1}$, exhibiendo una inclinación levemente

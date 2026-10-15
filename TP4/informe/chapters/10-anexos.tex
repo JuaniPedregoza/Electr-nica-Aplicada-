@@ -1,12 +1,11 @@
 \chapter{Anexos}
 \label{chap:anexos}
 
-\section{Extracto de la Hoja de Datos del Transistor BC547B}
+\section{Extracto de la Hoja de Datos del Transistor BC546B}
 
 El transistor utilizado en los ensayos es un BJT NPN epitaxial de silicio de uso general, fabricado por ON Semiconductor.
 En el Cuadro~\ref{tab:datasheet_ratings_tp4} y el Cuadro~\ref{tab:datasheet_caract_tp4} se transcriben los valores
-límites absolutos y las características eléctricas más relevantes extraídas de la hoja de datos oficial del fabricante
-(\texttt{BC547B.pdf}).
+límites absolutos y las características eléctricas más relevantes extraídas de la hoja de datos oficial del fabricante.
 
 \begin{table}[!ht]
   \centering
@@ -15,8 +14,8 @@ límites absolutos y las características eléctricas más relevantes extraídas
     \hline
     \textbf{Parámetro Máximo Admisible} & \textbf{Símbolo} & \textbf{Valor Límite} & \textbf{Unidad} \\
     \hline
-    Tensión colector-emisor con base abierta & $V_{CEO}$ & $45$ & $\V$ \\
-    Tensión colector-base con emisor abierto & $V_{CBO}$ & $50$ & $\V$ \\
+    Tensión colector-emisor con base abierta & $V_{CEO}$ & $65$ & $\V$ \\
+    Tensión colector-base con emisor abierto & $V_{CBO}$ & $80$ & $\V$ \\
     Tensión emisor-base con colector abierto & $V_{EBO}$ & $6.0$ & $\V$ \\
     Corriente continua de colector máxima & $I_C$ & $100$ & $\mA$ \\
     Corriente pico de colector & $I_{CM}$ & $200$ & $\mA$ \\
@@ -25,7 +24,7 @@ límites absolutos y las características eléctricas más relevantes extraídas
     \hline
   \end{tabular}
   }
-  \caption{Límites máximos absolutos de operación del transistor BC547B (ON Semiconductor).}
+  \caption{Límites máximos absolutos de operación del transistor BC546B (ON Semiconductor).}
   \label{tab:datasheet_ratings_tp4}
 \end{table}
 
@@ -44,7 +43,7 @@ límites absolutos y las características eléctricas más relevantes extraídas
     \hline
   \end{tabular}
   }
-  \caption{Características eléctricas típicas del grupo de ganancia B del transistor BC547.}
+  \caption{Características eléctricas típicas del grupo de ganancia B del transistor BC546.}
   \label{tab:datasheet_caract_tp4}
 \end{table}
 
@@ -58,7 +57,7 @@ completamente segura y sin calentamiento del dispositivo.
 
 \section{Netlist Completo de Simulación en LTspice}
 
-A continuación se reproduce el netlist de simulación correspondiente al archivo esquemático \texttt{ValoresComerciales.asc}:
+A continuación se reproduce el netlist de simulación correspondiente al archivo esquemático:
 
 \begin{lstlisting}[style=ltspice, caption={Netlist de simulación para el circuito colector común en LTspice.}, label={list:netlist_colector_comun}]
 * Circuito Colector Comun para Acondicionamiento de Microfono Piezoelectrico
@@ -85,7 +84,7 @@ C3 B v_i 22uF
 \section{Planilla de Registro de Mediciones de Banco}
 
 En el Cuadro~\ref{tab:planilla_cruda_tp4} se transcriben los registros primarios volcados en la hoja de cálculo de
-laboratorio \texttt{mediciones.ods}.
+laboratorio.
 
 \begin{table}[!ht]
   \centering
@@ -123,6 +122,6 @@ laboratorio \texttt{mediciones.ods}.
     \hline
   \end{tabular}
   }
-  \caption{Planilla de datos crudos y observaciones experimentales registradas en banco de trabajo (\texttt{mediciones.ods}).}
+  \caption{Planilla de datos crudos y observaciones experimentales registradas en banco de trabajo.}
   \label{tab:planilla_cruda_tp4}
 \end{table}
