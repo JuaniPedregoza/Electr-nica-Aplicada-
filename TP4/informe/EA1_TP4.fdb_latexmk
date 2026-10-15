@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex EA1_TP4"] 1792093173.34907 "EA1_TP4.aux" "EA1_TP4.bbl" "EA1_TP4" 1792093180.93048 0
-  "./EA1_TP4-blx.bib" 1792093180.47736 343 0c67f91e764ca6571a0a4050156874b5 ""
+["bibtex EA1_TP4"] 1792093173.34907 "EA1_TP4.aux" "EA1_TP4.bbl" "EA1_TP4" 1792094338.90337 0
+  "./EA1_TP4-blx.bib" 1792094338.429 343 0c67f91e764ca6571a0a4050156874b5 ""
   "./fuentes.bib" 1791524340.49166 687 3ad5be22ee346ce283662d847d36939b ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/biblatex/biblatex.bst" 1678141846 65484 b7949c47a88ed6dca66ebc7a04577312 ""
-  "EA1_TP4.aux" 1792093180.46536 22598 ac64b1c6fe3e481445f8288cc8c2d050 "pdflatex"
+  "EA1_TP4.aux" 1792094338.40799 22598 ac64b1c6fe3e481445f8288cc8c2d050 "pdflatex"
   (generated)
   "EA1_TP4.bbl"
   "EA1_TP4.blg"
   (rewritten before read)
-["pdflatex"] 1792093173.40727 "main.tex" "EA1_TP4.pdf" "EA1_TP4" 1792093180.93096 0
+["pdflatex"] 1792094330.54229 "main.tex" "EA1_TP4.pdf" "EA1_TP4" 1792094338.90408 0
   "/etc/texmf/web2c/texmf.cnf" 1791515817.58722 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/juani-pedregoza/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcbx2488.600pk" 1791517534.32737 35228 1181065e239e0f5cf2a42172b48d6c32 ""
   "/home/juani-pedregoza/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1791517533.76794 14040 e37ebda36574113680ce309f9cfd4411 ""
@@ -292,11 +292,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1791517180.16929 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1791517249 6830995 a2ed3442f553b93b33a68969146425e1 ""
-  "EA1_TP4.aux" 1792093180.46536 22598 ac64b1c6fe3e481445f8288cc8c2d050 "pdflatex"
+  "EA1_TP4.aux" 1792094338.40799 22598 ac64b1c6fe3e481445f8288cc8c2d050 "pdflatex"
   "EA1_TP4.bbl" 1792093173.38636 2637 a6f86c8df0f4e018536d4841efc3f53d "bibtex EA1_TP4"
-  "EA1_TP4.out" 1792093180.47236 14115 7d1c3fde99489f08dcbe6ef16a48f4ba "pdflatex"
-  "EA1_TP4.run.xml" 1792093180.48037 2552 941763ae8f3af5991cbafcf163d6b9e0 "pdflatex"
-  "EA1_TP4.toc" 1792093180.48037 5316 a9357b4dff7d3093f346aeaabd2676c8 "pdflatex"
+  "EA1_TP4.out" 1792094338.419 14115 7d1c3fde99489f08dcbe6ef16a48f4ba "pdflatex"
+  "EA1_TP4.run.xml" 1792094338.4324 2552 941763ae8f3af5991cbafcf163d6b9e0 "pdflatex"
+  "EA1_TP4.toc" 1792094338.4324 5316 a9357b4dff7d3093f346aeaabd2676c8 "pdflatex"
   "UTN_logo.png" 1791523739.0933 29839 ef884f3279b5a52ee049033e3131a13e ""
   "chapters/1-introduccion.tex" 1792091215.99517 1987 3caaaddbc6a61ed3e519b322fe5de098 ""
   "chapters/10-anexos.tex" 1792092837.86252 7026 aa47cc9560a4ffbf58a55f63a1d6bb4b ""
@@ -313,7 +313,7 @@
   "figures/crkt_medicion_zo.tex" 1791524689.47574 775 cf4745bb7e1428df9b0cb7cc111ca7a6 ""
   "figures/crkt_pequena_senal.tex" 1791526420.92215 1138 99d589c2bbe44f8e4e44c9962d1d4740 ""
   "figures/crkt_thevenin.tex" 1791524475.02676 668 57c238ce874aa5a1ce02a92ee91d93d4 ""
-  "figures/plot_rectas_de_carga.tex" 1792092231.21433 1361 dbd0a1358c95fb25c17d25c86c0d8396 ""
+  "figures/plot_rectas_de_carga.tex" 1792094326.51731 1361 21d53e95844479b2f4a208c99cb2c177 ""
   "figures/plot_sim_waveforms.tex" 1791524954.51606 785 460b9f920e0e66b279a23d083c8e1c0b ""
   "figures/waveforms_data.dat" 1791524859.26021 1115 f80bd3ef7dbb20a20bbfd504044b4e51 ""
   "informeutn.cls" 1791523739.0653 4983 aaa93fca16399d1883d2fbcffabbc298 ""
