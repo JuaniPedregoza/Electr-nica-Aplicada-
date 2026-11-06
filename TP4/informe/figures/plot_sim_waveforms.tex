@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=0.92\textwidth,
+    height=7.2cm,
+    xlabel={Tiempo $[\mathrm{ms}]$},
+    ylabel={Tensión $[\mathrm{mV}]$},
+    xmin=48.0, xmax=50.0,
+    ymin=-12, ymax=12,
+    grid=both,
+    grid style={line width=.1pt, draw=gray!30},
+    major grid style={line width=.2pt,draw=gray!50},
+    legend pos=north east,
+    legend cell align={left},
+    every axis plot/.append style={very thick}
+  ]
+    \addplot[color=blue, smooth] table [x=time, y=vi] {figures/waveforms_data.dat};
+    \addlegendentry{Entrada $v_i(t)$ ($20.00\mVpp$)}
+
+    \addplot[color=green!60!black, dashed, smooth] table [x=time, y=vl] {figures/waveforms_data.dat};
+    \addlegendentry{Salida sobre carga $v_L(t)$ ($19.47\mVpp$, $A_v \approx 0.974$)}
+  \end{axis}
+\end{tikzpicture}
