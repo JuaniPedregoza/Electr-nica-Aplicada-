@@ -55,36 +55,50 @@ Vi in 0 SINE(0 45mV 1kHz)
 \section{Simulación del Punto de Operación en Continua (.op)}
 
 A partir de la ejecución del comando \lstinline[style=ltspice]{.op}, los datos numéricos extraídos del archivo binario
-\texttt{ej\_Amp.SurtidorComun1.raw} arrojaron los siguientes resultados estáticos:
-\begin{itemize}
-  \item Tensión continua de alimentación: $V(v_{dd}) = 15.000\V$.
-  \item Tensión continua de compuerta: $V(g) = 3.2500\V$.
-  \item Tensión continua de surtidor: $V(s) = 1.4580\V$.
-  \item Tensión continua de drenador: $V(d) = 8.3905\V$.
-  \item Tensión compuerta-surtidor de reposo: $V_{GSQ} = V(g) - V(s) = 3.2500\V - 1.4580\V = 1.7920\V$.
-  \item Tensión drenador-surtidor de reposo: $V_{DSQ} = V(d) - V(s) = 8.3905\V - 1.4580\V = 6.9325\V$.
-  \item Corriente continua de drenador: $I(R_D) = 0.9720\mA$.
-  \item Corriente continua en el divisor: $I(R_1) = 25.00\uA$ e $I(R_2) = 25.00\uA$.
-  \item Corriente de compuerta: $I(M_1:g) = 0.00\uA$.
-  \item Consumo total de corriente desde la fuente: $I(V_{DD}) = -0.9970\mA$.
-\end{itemize}
+\texttt{ej\_Amp.SurtidorComun1.raw} quedan plasmados en el Cuadro~\ref{tab:resultados_op_ltspice}.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{0.92\textwidth}{!}{
+  \begin{tabular}{|l|l|c|c|}
+    \hline
+    \textbf{Variable SPICE} & \textbf{Parámetro Circuital} & \textbf{Valor Simulado} & \textbf{Unidad} \\
+    \hline
+    \lstinline[style=ltspice]{V(n001)} & Tensión continua de alimentación $V_{DD}$ & $15.0000$ & $\V$ \\
+    \lstinline[style=ltspice]{V(g)} & Tensión continua de compuerta $V_G$ & $3.2500$ & $\V$ \\
+    \lstinline[style=ltspice]{V(s)} & Tensión continua de surtidor $V_S$ & $1.4580$ & $\V$ \\
+    \lstinline[style=ltspice]{V(d)} & Tensión continua de drenador $V_D$ & $8.3905$ & $\V$ \\
+    \lstinline[style=ltspice]{V(g)-V(s)} & Tensión compuerta-surtidor de reposo $V_{GSQ}$ & $1.7920$ & $\V$ \\
+    \lstinline[style=ltspice]{V(d)-V(s)} & Tensión drenador-surtidor de reposo $V_{DSQ}$ & $6.9325$ & $\V$ \\
+    \lstinline[style=ltspice]{I(RD)} & Corriente continua de drenador $I_{DQ}$ & $0.9720$ & $\mA$ \\
+    \lstinline[style=ltspice]{I(RS)} & Corriente continua de surtidor $I_{SQ}$ & $0.9720$ & $\mA$ \\
+    \lstinline[style=ltspice]{I(R1)} & Corriente en la rama inferior del divisor & $25.00$ & $\uA$ \\
+    \lstinline[style=ltspice]{I(R2)} & Corriente en la rama superior del divisor & $25.00$ & $\uA$ \\
+    \lstinline[style=ltspice]{Ix(m1:2)} & Corriente continua de compuerta $I_G$ & $0.00$ & $\uA$ \\
+    \lstinline[style=ltspice]{I(VDD)} & Consumo total de corriente desde la fuente & $-0.9970$ & $\mA$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Resultados numéricos estáticos extraídos de la simulación .op en LTspice.}
+  \label{tab:resultados_op_ltspice}
+\end{table}
 
 En el Cuadro~\ref{tab:comparacion_op_tp5} se confrontan los resultados teóricos con los datos simulados por LTspice.
 
 \begin{table}[!ht]
   \centering
   \resizebox{0.88\textwidth}{!}{
-  \begin{tabular}{|l|c|c|c|}
+  \begin{tabular}{|c|c|c|c|}
     \hline
     \textbf{Magnitud de Reposo} & \textbf{Teórico Normalizado} & \textbf{Simulación LTspice} & \textbf{Diferencia Relativa} \\
     \hline
-    Tensión de compuerta $V_G\ [\V]$ & $3.250$ & $3.250$ & $0.00\%$ \\
-    Tensión de surtidor $V_S\ [\V]$ & $1.459$ & $1.458$ & $-0.07\%$ \\
-    Tensión de drenador $V_D\ [\V]$ & $8.386$ & $8.390$ & $+0.05\%$ \\
-    Tensión $V_{GSQ}\ [\V]$ & $1.791$ & $1.792$ & $+0.06\%$ \\
-    Tensión $V_{DSQ}\ [\V]$ & $6.927$ & $6.932$ & $+0.07\%$ \\
-    Corriente de drenador $I_{DQ}\ [\mA]$ & $0.9727$ & $0.9720$ & $-0.07\%$ \\
-    Corriente de compuerta $I_G\ [\uA]$ & $0.000$ & $0.000$ & $0.00\%$ \\
+     $V_G\ [\V]$ & $3.250$ & $3.250$ & $0.00\%$ \\
+     $V_S\ [\V]$ & $1.459$ & $1.458$ & $-0.07\%$ \\
+     $V_D\ [\V]$ & $8.386$ & $8.390$ & $+0.05\%$ \\
+     $V_{GSQ}\ [\V]$ & $1.791$ & $1.792$ & $+0.06\%$ \\
+     $V_{DSQ}\ [\V]$ & $6.927$ & $6.932$ & $+0.07\%$ \\
+     $I_{DQ}\ [\mA]$ & $0.9727$ & $0.9720$ & $-0.07\%$ \\
+     $I_G\ [\uA]$ & $0.000$ & $0.000$ & $0.00\%$ \\
     \hline
   \end{tabular}
   }
@@ -121,6 +135,6 @@ Del análisis de los datos temporales del régimen permanente periódico se cons
   \item Desfase angular: $180^\circ$ (inversión de fase perfecta respecto a la compuerta).
 \end{itemize}
 
-La ganancia simulada ($|A_v| = 42.96$) coincide de manera exacta con la predicción analítica de pequeña señal
+La ganancia simulada ($|A_v| = 42.96$) coincide con el cálculo analítico de pequeña señal
 ($|A_v| = 42.91$), presentando un error despreciable de $+0.12\%$. Las formas de onda son puramente senoidales,
 sin ningún tipo de asimetría o recorte dinámico.
