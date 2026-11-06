@@ -1,7 +1,7 @@
 \begin{circuitikz}[scale=0.95, transform shape]
   % Fuente equivalente Thevenin VGG
   \draw (0,0) node[ground] {}
-    to[battery2, l=$V_{GG}$] (0,2.5)
+    to[battery2, l=$V_{GG}$, invert] (0,2.5)
     to[R, l=$R_G$] (2.5,2.5) coordinate (gate_node);
 
   % Transistor MOSFET 2N7000

@@ -2,10 +2,9 @@
 \label{chap:diseno_teorico}
 
 En este capítulo se expone el procedimiento sistemático de cálculo para dimensionar los componentes del circuito de
-polarización en corriente continua, estableciendo criterios rigurosos de estabilidad térmica y optimización del rango
-de excursión dinámica.
+polarización en corriente continua, estableciendo criterios para la estabilidad térmica y excursión dinámica.
 
-\section{Circuito Esquemático de Partida}
+\section{Circuito Esquemático}
 
 En la figura~\ref{crkt:surtidor_comun} se ilustra el esquema eléctrico completo del amplificador en surtidor común con
 polarización por divisor de compuerta y resistencia de surtidor desacoplada.
@@ -13,17 +12,9 @@ polarización por divisor de compuerta y resistencia de surtidor desacoplada.
 \begin{figure}[!ht]
   \centering
   \input{figures/crkt_surtidor_comun.tex}
-  \caption{Circuito esquemático completo del amplificador en configuración surtidor común con MOSFET 2N7000.}
+  \caption{Circuito esquemático del amplificador en configuración surtidor común con MOSFET 2N7000.}
   \label{crkt:surtidor_comun}
 \end{figure}
-
-El capacitor de desacoplo de entrada $C_1 = 100\uF$ aísla el nivel de continua de la compuerta respecto al generador
-de funciones. El divisor resistivo integrado por $R_1$ y $R_2$ fija el potencial estático de compuerta ($V_G$). La
-resistencia de surtidor $R_S$ provee realimentación negativa en corriente continua para estabilizar el punto de trabajo
-frente a variaciones de temperatura y tolerancias del transistor. El capacitor $C_2 = 100\uF$ cortocircuita dinámicamente
-a $R_S$ a la frecuencia de señal ($1\kHz$), derivando la corriente alterna hacia masa para preservar una elevada ganancia.
-Finalmente, el capacitor $C_3 = 100\uF$ transfiere la componente senoidal de salida hacia la carga $R_L = 10\kohm$,
-bloqueando el nivel continuo del drenador ($V_D$).
 
 \section{Criterios de Diseño y Fijación del Punto de Operación}
 
@@ -34,7 +25,7 @@ los siguientes parámetros y especificaciones de partida:
   \item Parámetros medidos del transistor 2N7000: $K = 53.905\mA/\V^2$ y $V_{th} = 1.60104\V$.
   \item Impedancia de entrada del divisor: $R_G = R_1 \parallel R_2 = 100\kohm$.
   \item Criterio de estabilidad térmica de surtidor: se adopta una caída de tensión estática en surtidor equivalente al
-    $10\%$ de la tensión de alimentación:
+    $10\%$ de la tensión de a:
     \begin{equation}
       \frac{V_S}{V_{DD}} = 0.10 \implies V_S = 0.10 \cdot 15.0\V = 1.500\V
       \label{eq:criterio_VS}
