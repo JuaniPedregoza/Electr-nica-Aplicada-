@@ -1,0 +1,51 @@
+\chapter{Conclusiones}
+\label{chap:conclusiones}
+
+El desarrollo integral del presente trabajo práctico permitió profundizar y corroborar experimentalmente las etapas de
+caracterización, diseño, modelado analítico, simulación numérica y verificación en banco de un amplificador analógico
+en configuración surtidor común basado en el transistor MOSFET de enriquecimiento 2N7000.
+
+A partir del análisis crítico de los resultados obtenidos a lo largo de las distintas instancias de evaluación, se
+desprenden las siguientes conclusiones técnicas principales:
+
+\begin{enumerate}
+  \item Relevancia de la caracterización experimental previa: Se comprobó que, a diferencia de los transistores bipolares
+    cuya tensión base-emisor se encuentra acotada a un rango estrecho, los MOSFET discretos presentan una severa
+    dispersión en sus parámetros constructivos. El relevamiento experimental y la linealización mediante regresión de
+    $\sqrt{I_D}$ frente a $V_{GS}$ permitió determinar con precisión métrica la tensión umbral ($V_{th} = 1.60104\V$) y el
+    parámetro de transconductancia ($K = 53.905\mA/\V^2$). La inserción de estos parámetros exactos en el modelo SPICE
+    garantizó una fidelidad sin precedentes en la predicción del comportamiento circuital.
+
+  \item Estabilidad y robustez de la red de polarización: La implementación de un divisor de compuerta ($R_1 = 130\kohm$,
+    $R_2 = 470\kohm$) asociado a una resistencia de autorpolarización de surtidor dimensionada bajo el criterio
+    $V_S \approx 10\% V_{DD}$ ($R_S = 1.5\kohm$) demostró proveer una sobresaliente estabilidad del punto de reposo.
+    La corriente estática de drenador medida en laboratorio ($I_{DQ} = 1.0206\mA$) exhibió un desvío de apenas $+2.06\%$
+    respecto al valor de diseño ($1.000\mA$) y $+4.92\%$ frente al recálculo con componentes normalizados ($0.9727\mA$).
+    El transistor operó en todo momento confinado holgadamente dentro de la región de saturación ($V_{DS} \approx 6.39\V \gg 0.06\V$).
+
+  \item Linealidad y capacidad de excursión dinámica: El análisis y trazado de las rectas de carga estática ($R_{CC} = 8.3\kohm$)
+    y dinámica ($R_{CA} = 4.05\kohm$) demostró que la etapa es capaz de soportar una oscilación simétrica de salida de
+    hasta $7.87\Vpp$ antes de alcanzar el corte dinámico. Al aplicar señales patrón de excitación de $90\mVpp$ en simulación
+    y $100\mVpp$ en laboratorio, la etapa operó a menos del $50\%$ de su rango máximo, entregando una señal de salida
+    senoidal pura ($3.80\Vpp$) sin recorte visible ni distorsión por no linealidad cuadrática.
+
+  \item Elevada impedancia de entrada y características de transferencia: Se verificó experimentalmente la principal
+    ventaja que ofrece la tecnología MOSFET: una elevada impedancia de entrada ($Z_i = 100.0\kohm$), fijada
+    exclusivamente por los resistores de polarización de compuerta ($R_1 \parallel R_2$) debido a la corriente de compuerta
+    nula impuesta por el dieléctrico de óxido de silicio ($I_G \approx 0$). Asimismo, se corroboró una significativa
+    ganancia de tensión experimental ($A_v = -38.0$) y ganancia de corriente ($A_i = -380.0$) con la característica
+    inversión de fase de $180^\circ$ inherente a la topología surtidor común.
+
+  \item Concordancia cuantitativa y justificación de desvíos: La contrastación consolidada evidenció una coincidencia
+    notable entre teoría, simulación y laboratorio. Las discrepancias en las variables de continua resultaron inferiores
+    al $8\%$, atribuibles a las tolerancias comerciales ($\pm 5\%$) y a la tensión real de fuente ($14.85\V$). En alterna,
+    las impedancias mostraron desvíos mínimos ($-1.80\%$ en $Z_i$ y $-1.76\%$ en $Z_o$). La atenuación observada en la
+    ganancia experimental ($|A_v| = 38.0$ frente a los $42.91$ teóricos) quedó analíticamente demostrada y justificada por
+    la leve disminución de la tensión compuerta-surtidor real ($V_{GS} = 1.660\V$), la cual situó la transconductancia
+    operativa en $g_m \approx 9.38\mS$.
+
+  \item Validación metodológica y formativa: La experiencia permitió consolidar de forma rigurosa la metodología
+    integral de ingeniería aplicada: caracterización de dispositivos activos no ideales, dimensionamiento analítico
+    robusto, normalización a valores comerciales estándar, simulación computarizada en LTspice y validación física con
+    instrumental de banco.
+\end{enumerate}

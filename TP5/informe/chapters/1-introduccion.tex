@@ -1,0 +1,42 @@
+\chapter{Introducción y Objetivos}
+\label{chap:introduccion}
+
+El diseño de etapas analógicas amplificadoras con transistores de efecto de campo metal-óxido-semiconductor (MOSFET)
+constituye un pilar esencial en la electrónica discreta e integrada moderna. A diferencia de los transistores
+bipolares de juntura (BJT), controlados esencialmente por corriente de base, los transistores MOSFET son dispositivos
+controlados por tensión, cuya compuerta se encuentra aislada eléctricamente del canal por una delgada capa dieléctrica
+de dióxido de silicio ($\mathrm{SiO}_2$). Esta propiedad física fundamental dota al dispositivo de una impedancia de
+entrada de corriente continua prácticamente infinita ($I_G \approx 0$).
+
+Entre las topologías fundamentales de amplificación con MOSFET, la configuración en Surtidor Común (CS, por sus siglas
+en inglés \textit{Common-Source}) es la más ampliamente difundida para proveer una sustancial ganancia de tensión con
+inversión de fase ($180^\circ$) respecto a la señal de excitación, resultando análoga a la configuración en emisor común
+de los transistores bipolares.
+
+\section{Objetivos del Trabajo Práctico}
+
+El presente trabajo práctico de laboratorio plantea como meta el diseño, modelado, simulación y contrastación
+experimental completa de una etapa amplificadora en surtidor común basada en el transistor MOSFET de canal N tipo
+enriquecimiento 2N7000. Los objetivos específicos fijados son:
+
+\begin{enumerate}
+  \item Relevar experimentalmente en laboratorio la curva característica de transferencia en zona de saturación del
+    transistor 2N7000, deduciendo mediante regresión lineal la tensión umbral de compuerta ($V_{th}$) y el parámetro de
+    transconductancia ($K$).
+  \item Dimensionar analíticamente la red de polarización en corriente continua mediante divisor resistivo de compuerta
+    y resistencia de autorpolarización de surtidor ($R_S$), garantizando estabilidad térmica y fijando el punto estático
+    de reposo en $I_{DQ} = 1.0\mA$ con una alimentación de $V_{DD} = 15.0\V$.
+  \item Normalizar los valores resistivos obtenidos a componentes comerciales disponibles de la serie estándar E12,
+    evaluando analíticamente los desvíos inducidos sobre el punto de reposo $Q(V_{DSQ}, I_{DQ})$.
+  \item Simular el circuito en LTspice tanto en punto de operación estático (.op) como en régimen transitorio (.tran) ante
+    excitaciones senoidales de $1\kHz$, validando el funcionamiento en zona de saturación y la ganancia dinámica.
+  \item Trazar y analizar las rectas de carga estática de corriente continua y dinámica de corriente alterna,
+    estableciendo las cotas de excursión lineal simétrica y verificando la no incursión en zona de triodo ni en corte.
+  \item Desarrollar el modelo lineal de pequeña señal a frecuencias medias, derivando analíticamente las expresiones de
+    la ganancia de tensión ($A_v$), ganancia de corriente ($A_i$), impedancia de entrada ($Z_i$) e impedancia de salida
+    ($Z_o$).
+  \item Implementar físicamente el circuito en el laboratorio sobre placa de ensayo y relevar con instrumental de banco
+    las tensiones nodales continuas y las amplitudes de alterna.
+  \item Realizar una contrastación cuantitativa entre la teoría analítica, las simulaciones computarizadas en
+    LTspice y las mediciones de laboratorio, evaluando las fuentes de incertidumbre experimental.
+\end{enumerate}
