@@ -1,0 +1,29 @@
+\begin{circuitikz}[scale=0.9, transform shape]
+  % Terminal de entrada
+  \draw (0,0) node[ground] {}
+    to[open, v^>=$v_i$] (0,2.5)
+    to[short, o-*] (1.5,2.5) coordinate (in_node);
+
+  % Resistencia RB = R1 // R2 a masa de CA
+  \draw (in_node) to[R, l=$R_B$, -] (1.5,0) node[ground] {};
+
+  % Modelo híbrido: resistencia de entrada hie entre base y emisor
+  \draw (in_node) to[short] (3.0,2.5)
+    to[R, l=$h_{ie}$, i=$i_b$] (3.0,1.2) coordinate (emit_node);
+
+  % Fuente controlada hfe*ib inyectando corriente al nodo de emisor
+  \draw (5.5,0) node[ground] {}
+    to[cI, l=$h_{fe} i_b$] (5.5,2.5)
+    to[short] (5.5,1.2)
+    to[short, -*] (emit_node);
+
+  % Nodo de emisor conectado a RE y RL en paralelo a masa
+  \draw (emit_node) to[short] (7.0,1.2) coordinate (aux_e);
+  \draw (aux_e) to[R, l=$R_E$, -] (7.0,0) node[ground] {};
+  \draw (aux_e) to[short] (8.5,1.2) coordinate (aux_l)
+    to[R, l=$R_L$, -] (8.5,0) node[ground] {};
+
+  % Terminal de salida sobre el emisor
+  \draw (aux_l) to[short, -o] (9.5,1.2) node[above] {$v_L$} coordinate (out_node);
+  \draw (9.5,0) node[ground] {} to[open, v_>=$v_L$] (out_node);
+\end{circuitikz}

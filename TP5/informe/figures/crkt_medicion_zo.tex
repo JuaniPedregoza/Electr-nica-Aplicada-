@@ -1,0 +1,22 @@
+\begin{circuitikz}[scale=0.9, transform shape]
+  % Entrada excitada con generador a 1 kHz
+  \draw (0,0) node[ground] {}
+    to[sV, l=$v_i$] (0,2.5)
+    to[short] (1.5,2.5);
+  \draw (0,0) to[short] (1.5,0);
+
+  % Bloque amplificador Surtidor Comun
+  \draw (1.5, -0.5) rectangle (4.7, 3.0);
+  \node at (3.1, 1.25) [align=center] {Amplificador\\Surtidor Común\\(2N7000)};
+
+  % Red de salida con llave selectora de carga
+  \draw (4.7, 2.5) to[short, -*] (6.0, 2.5) coordinate (vo_node)
+    to[short, -o] (7.0, 2.5) coordinate (sw_in);
+  \draw (4.7, 0) to[short] (8.2, 0) node[ground] {};
+
+  % Llave y resistor de ensayo RL = 6.68 kohm
+  \draw (sw_in) to[switch, l=$S_1$] (8.2, 2.5)
+    to[R, l=$R_{\mathrm{load}}\ (6.68\kohm)$] (8.2, 0);
+
+  \draw (vo_node) to[short, -o] (6.0, 3.2) node[above] {$v_o$ (Osciloscopio)};
+\end{circuitikz}

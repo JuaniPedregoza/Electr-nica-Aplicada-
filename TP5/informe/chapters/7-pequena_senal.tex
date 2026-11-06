@@ -1,0 +1,179 @@
+\chapter{Análisis de Pequeña Señal y Parámetros del Amplificador}
+\label{chap:pequena_senal}
+
+En este capítulo se formula el circuito lineal equivalente de pequeña señal para la configuración en surtidor común a
+frecuencias medias, deduciendo analíticamente las expresiones de ganancia de tensión, ganancia de corriente, impedancia
+de entrada e impedancia de salida. Asimismo, se describen los fundamentos circuitales de los métodos de medición
+empleados posteriormente en el laboratorio.
+
+\section{Modelo Lineal de Pequeña Señal del MOSFET}
+
+Para señales de alterna de reducida amplitud superpuestas al punto de reposo $Q$, el comportamiento no lineal del
+MOSFET puede aproximarse con alta precisión mediante un cuadripolo linealizado gobernado por su transconductancia $g_m$
+y su resistencia de salida drenador-surtidor $r_{ds}$.
+
+En la figura~\ref{crkt:pequena_senal} se presenta el esquema circuital equivalente de pequeña señal del amplificador
+completo a frecuencias medias.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_pequena_senal.tex}
+  \caption{Modelo circuital equivalente de pequeña señal para el amplificador en surtidor común.}
+  \label{crkt:pequena_senal}
+\end{figure}
+
+\subsection{Cálculo de la Transconductancia (\texorpdfstring{$g_m$}{gm})}
+La transconductancia dinámica cuantifica la sensibilidad con la que la tensión compuerta-surtidor controla la corriente
+de drenador en el punto de reposo:
+\begin{equation}
+  g_m = \left.\frac{\partial i_D}{\partial v_{GS}}\right|_{Q} = K \cdot (V_{GSQ} - V_{th}) = \frac{2 \cdot I_{DQ}}{V_{GSQ} - V_{th}} = \sqrt{2 \cdot K \cdot I_{DQ}}
+  \label{eq:gm_formula}
+\end{equation}
+
+Evaluando con los valores del diseño analítico normalizado ($K = 53.905\mA/\V^2$, $I_{DQ} = 0.9727\mA$, $V_{GSQ} - V_{th} = 0.1900\V$):
+\begin{equation}
+  g_m = \frac{2 \cdot 0.9727\mA}{0.1900\V} \approx 10.601\mS = 10.601 \times 10^{-3}\ \Omega^{-1}
+  \label{eq:gm_calculada}
+\end{equation}
+(frente a $g_m = 10.569\mS$ del diseño teórico ideal, con un desvío de apenas $+0.30\%$).
+
+\subsection{Resistencia de Salida Dinámica (\texorpdfstring{$r_{ds}$}{rds})}
+La resistencia interna del canal en saturación proviene de la modulación de longitud de canal (efecto Early en MOSFETs):
+\begin{equation}
+  r_{ds} = \left(\left.\frac{\partial i_D}{\partial v_{DS}}\right|_{Q}\right)^{-1} = \frac{1}{\lambda \cdot I_{DQ}}
+\end{equation}
+Para el transistor discreto 2N7000, el parámetro de modulación $\lambda$ es sumamente reducido, resultando
+$r_{ds} > 100\kohm$ (en el modelo SPICE del fabricante $r_{ds} \approx 2.4 \times 10^{11}\ohm \approx \infty$). Dado que
+$r_{ds} \gg R_D = 6.8\kohm$, su conductancia en paralelo es despreciable a los efectos prácticos ($r_{ds} \parallel R_D \approx R_D$).
+
+\section{Deducción Analítica de los Parámetros del Amplificador}
+
+A partir de la topología de la figura~\ref{crkt:pequena_senal}, se deducen analíticamente las magnitudes del amplificador.
+
+\subsection{Impedancia de Entrada (\texorpdfstring{$Z_i$}{Zi})}
+Debido a la aislación galvánica de compuerta, la impedancia intrínseca de entrada del transistor tiende a infinito
+($r_{\mathrm{gate}} \approx \infty$). Por consiguiente, la impedancia que la etapa presenta al generador de excitación
+coincide con el equivalente en paralelo de la red de polarización de compuerta:
+\begin{equation}
+  Z_i = R_1 \parallel R_2 = R_{eq} = 101.833\kohm
+  \label{eq:Zi_analitica}
+\end{equation}
+(frente a $Z_i = 100.000\kohm$ en el diseño teórico ideal).
+
+\subsection{Impedancia de Salida (\texorpdfstring{$Z_o$}{Zo})}
+Para evaluar la impedancia de salida se anula la fuente de señal de entrada ($v_i = 0$), lo cual impone $v_{gs} = 0$.
+Al extinguirse la tensión compuerta-surtidor, el generador dependiente de transconductancia se anula ($g_m v_{gs} = 0$),
+actuando como un circuito abierto. La impedancia de salida vista desde los terminales de carga resulta:
+\begin{equation}
+  Z_o = R_D \parallel r_{ds} \approx R_D = 6.800\kohm
+  \label{eq:Zo_analitica}
+\end{equation}
+(frente a $Z_o = 6.750\kohm$ en el diseño ideal).
+
+\subsection{Ganancia de Tensión (\texorpdfstring{$A_v$}{Av})}
+La corriente generada por el transistor inyecta una caída de tensión sobre la resistencia de carga dinámica de alterna:
+\begin{equation}
+  v_L = -(g_m \cdot v_{gs}) \cdot (R_D \parallel R_L)
+  \label{eq:vl_pequena_senal}
+\end{equation}
+donde el signo negativo modela el sentido opuesto de la corriente respecto a la referencia de salida.
+
+Dado que el surtidor se encuentra dinámicamente cortocircuitado a masa a través de $C_2$, la tensión compuerta-surtidor
+coincide con la tensión de entrada ($v_{gs} = v_i$). El cociente define la ganancia de tensión de la etapa:
+\begin{equation}
+  A_v = \frac{v_L}{v_i} = -g_m \cdot (R_D \parallel R_L)
+  \label{eq:Av_analitica}
+\end{equation}
+
+Evaluando con los valores normalizados ($g_m = 10.601\mS$ y $R_D \parallel R_L = 4.048\kohm$):
+\begin{equation}
+  A_v = -(10.601 \times 10^{-3}\ \Omega^{-1}) \cdot (4047.6\ohm) \approx -42.908 \approx -42.91
+  \label{eq:Av_normalizada_val}
+\end{equation}
+(frente a $A_v = -42.591$ en el diseño teórico, con un error de tan solo $+0.74\%$). El signo negativo indica una inversión
+de fase perfecta de $180^\circ$ entre la tensión de compuerta y la tensión de drenador.
+
+\subsection{Ganancia de Corriente (\texorpdfstring{$A_i$}{Ai})}
+La corriente de alterna entregada a la resistencia de carga es $i_L = v_L / R_L$, mientras que la corriente demandada
+por el amplificador al generador es $i_i = v_i / Z_i$. La ganancia de corriente resulta:
+\begin{equation}
+  A_i = \frac{i_L}{i_i} = \frac{v_L / R_L}{v_i / Z_i} = A_v \cdot \frac{Z_i}{R_L}
+  \label{eq:Ai_analitica}
+\end{equation}
+
+Evaluando con los parámetros normalizados:
+\begin{equation}
+  A_i = -42.908 \cdot \frac{101.833\kohm}{10.0\kohm} \approx -436.95
+  \label{eq:Ai_normalizada_val}
+\end{equation}
+
+En el Cuadro~\ref{tab:resumen_pequena_senal} se resumen los parámetros de pequeña señal calculados.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{0.88\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Parámetro de Alterna} & \textbf{Teórico (Diseño)} & \textbf{Con R Normalizadas} & \textbf{Error Relativo} \\
+    \hline
+    Transconductancia $g_m\ [\mS]$ & $10.569$ & $10.601$ & $+0.30\%$ \\
+    Impedancia de entrada $Z_i\ [\kohm]$ & $100.000$ & $101.833$ & $+1.83\%$ \\
+    Impedancia de salida $Z_o\ [\kohm]$ & $6.750$ & $6.800$ & $+0.74\%$ \\
+    Carga de alterna $R_D \parallel R_L\ [\kohm]$ & $4.030$ & $4.048$ & $+0.44\%$ \\
+    Ganancia de tensión $A_v$ & $-42.591$ & $-42.908$ & $+0.74\%$ \\
+    Ganancia de corriente $A_i$ & $-425.91$ & $-436.95$ & $+2.59\%$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Comparación de parámetros dinámicos de pequeña señal teóricos y con componentes normalizados.}
+  \label{tab:resumen_pequena_senal}
+\end{table}
+
+\section{Fundamentos de los Métodos de Medición en Banco}
+
+Para caracterizar con precisión los parámetros del amplificador en el laboratorio sin alterar el régimen de polarización
+continua, se implementaron dos métodos circuitales indirectos:
+
+\subsection{Método del Resistor Serie para Medición de \texorpdfstring{$Z_i$}{Zi}}
+En la figura~\ref{crkt:medicion_zi} se esquematiza el método de intercalación de un resistor serie calibrado
+$R_s = 100\kohm$ entre el generador senoidal y la entrada del amplificador.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_medicion_zi.tex}
+  \caption{Disposición experimental para la medición de la impedancia de entrada $Z_i$ por método del resistor serie.}
+  \label{crkt:medicion_zi}
+\end{figure}
+
+Midiendo con el osciloscopio la tensión antes del resistor ($v_s$) y después del resistor ($v_i$), la corriente de
+entrada resulta:
+\begin{equation}
+  i_i = \frac{v_s - v_i}{R_s}
+  \label{eq:ii_medicion}
+\end{equation}
+A partir de la cual se calcula la impedancia de entrada experimental:
+\begin{equation}
+  Z_i = \frac{v_i}{i_i} = R_s \cdot \frac{v_i}{v_s - v_i}
+  \label{eq:Zi_medicion}
+\end{equation}
+
+\subsection{Método de Variación de Carga para Medición de \texorpdfstring{$Z_o$}{Zo}}
+En la figura~\ref{crkt:medicion_zo} se ilustra la configuración experimental empleada para determinar la impedancia de
+salida. Se registra la tensión de salida a circuito abierto ($v_{o,\mathrm{nl}}$, sin carga conectada) y luego se cierra
+la llave $S_1$ conectando un resistor de ensayo calibrado $R_{\mathrm{load}} = 6.68\kohm$.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_medicion_zo.tex}
+  \caption{Disposición experimental para la medición de la impedancia de salida $Z_o$ por variación de carga.}
+  \label{crkt:medicion_zo}
+\end{figure}
+
+Por divisor de tensión de salida:
+\begin{equation}
+  v_{o,\mathrm{load}} = v_{o,\mathrm{nl}} \cdot \frac{R_{\mathrm{load}}}{Z_o + R_{\mathrm{load}}} \implies Z_o = R_{\mathrm{load}} \cdot \left(\frac{v_{o,\mathrm{nl}}}{v_{o,\mathrm{load}}} - 1\right)
+  \label{eq:Zo_medicion}
+\end{equation}
+En particular, cuando la tensión bajo carga cae exactamente a la mitad de la tensión en vacío
+($v_{o,\mathrm{load}} = v_{o,\mathrm{nl}} / 2$), la impedancia de salida de la etapa iguala con exactitud al resistor de
+ensayo ($Z_o = R_{\mathrm{load}}$).

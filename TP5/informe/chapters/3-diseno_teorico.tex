@@ -1,0 +1,138 @@
+\chapter{Diseño Analítico de la Etapa en Surtidor Común}
+\label{chap:diseno_teorico}
+
+En este capítulo se expone el procedimiento sistemático de cálculo para dimensionar los componentes del circuito de
+polarización en corriente continua, estableciendo criterios rigurosos de estabilidad térmica y optimización del rango
+de excursión dinámica.
+
+\section{Circuito Esquemático de Partida}
+
+En la figura~\ref{crkt:surtidor_comun} se ilustra el esquema eléctrico completo del amplificador en surtidor común con
+polarización por divisor de compuerta y resistencia de surtidor desacoplada.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_surtidor_comun.tex}
+  \caption{Circuito esquemático completo del amplificador en configuración surtidor común con MOSFET 2N7000.}
+  \label{crkt:surtidor_comun}
+\end{figure}
+
+El capacitor de desacoplo de entrada $C_1 = 100\uF$ aísla el nivel de continua de la compuerta respecto al generador
+de funciones. El divisor resistivo integrado por $R_1$ y $R_2$ fija el potencial estático de compuerta ($V_G$). La
+resistencia de surtidor $R_S$ provee realimentación negativa en corriente continua para estabilizar el punto de trabajo
+frente a variaciones de temperatura y tolerancias del transistor. El capacitor $C_2 = 100\uF$ cortocircuita dinámicamente
+a $R_S$ a la frecuencia de señal ($1\kHz$), derivando la corriente alterna hacia masa para preservar una elevada ganancia.
+Finalmente, el capacitor $C_3 = 100\uF$ transfiere la componente senoidal de salida hacia la carga $R_L = 10\kohm$,
+bloqueando el nivel continuo del drenador ($V_D$).
+
+\section{Criterios de Diseño y Fijación del Punto de Operación}
+
+La etapa se energiza mediante una fuente regulada estándar de corriente continua fijada en $V_{DD} = 15.0\V$. Se adoptan
+los siguientes parámetros y especificaciones de partida:
+\begin{itemize}
+  \item Corriente de drenador en reposo: $I_{DQ} = 1.0\mA$.
+  \item Parámetros medidos del transistor 2N7000: $K = 53.905\mA/\V^2$ y $V_{th} = 1.60104\V$.
+  \item Impedancia de entrada del divisor: $R_G = R_1 \parallel R_2 = 100\kohm$.
+  \item Criterio de estabilidad térmica de surtidor: se adopta una caída de tensión estática en surtidor equivalente al
+    $10\%$ de la tensión de alimentación:
+    \begin{equation}
+      \frac{V_S}{V_{DD}} = 0.10 \implies V_S = 0.10 \cdot 15.0\V = 1.500\V
+      \label{eq:criterio_VS}
+    \end{equation}
+\end{itemize}
+
+\subsection{Cálculo de la Resistencia de Surtidor (\texorpdfstring{$R_S$}{RS})}
+Aplicando la ley de Ohm en el terminal de surtidor:
+\begin{equation}
+  R_S = \frac{V_S}{I_{DQ}} = \frac{1.500\V}{1.0\mA} = 1.500\kohm = 1500\ohm
+  \label{eq:RS_calculo}
+\end{equation}
+
+\subsection{Fijación de la Tensión de Drenador y Cálculo de \texorpdfstring{$R_D$}{RD}}
+Con el fin de posibilitar la máxima excursión simétrica de tensión sobre el terminal de drenador sin aproximarse al corte
+($V_D = V_{DD}$) ni a la tensión de surtidor ($V_S$), se sitúa el potencial de reposo en el punto medio del intervalo
+disponible:
+\begin{equation}
+  V_D = \frac{V_{DD} + V_S}{2} = \frac{15.0\V + 1.500\V}{2} = \frac{16.500\V}{2} = 8.250\V
+  \label{eq:VD_calculo}
+\end{equation}
+
+A partir de la malla de drenador, el resistor de carga de continua resulta:
+\begin{equation}
+  R_D = \frac{V_{DD} - V_D}{I_{DQ}} = \frac{15.0\V - 8.250\V}{1.0\mA} = \frac{6.750\V}{1.0\mA} = 6.750\kohm
+  \label{eq:RD_calculo}
+\end{equation}
+
+La tensión continua drenador-surtidor de reposo queda establecida en:
+\begin{equation}
+  V_{DSQ} = V_D - V_S = 8.250\V - 1.500\V = 6.750\V
+  \label{eq:VDSQ_calculo}
+\end{equation}
+
+\section{Diseño de la Red de Polarización de Compuerta}
+
+A diferencia de un transistor bipolar, la corriente estática de compuerta en un MOSFET es prácticamente nula
+($I_G \approx 0$) debido a la capa dieléctrica de $\mathrm{SiO}_2$. En consecuencia, el divisor formado por $R_1$ y
+$R_2$ opera sin corriente de carga, comportándose como un divisor resistivo ideal.
+
+\begin{figure}[!ht]
+  \centering
+  \input{figures/crkt_thevenin.tex}
+  \caption{Circuito equivalente de Thévenin para el análisis de polarización de compuerta.}
+  \label{crkt:thevenin}
+\end{figure}
+
+Para lograr que circule la corriente de diseño $I_{DQ} = 1.0\mA$, se despeja la tensión compuerta-surtidor necesaria
+a partir del modelo cuadrático de saturación:
+\begin{equation}
+  I_{DQ} = \frac{K}{2} \cdot (V_{GSQ} - V_{th})^2 \implies V_{GSQ} = V_{th} + \sqrt{\frac{2 \cdot I_{DQ}}{K}}
+\end{equation}
+
+Evaluando con los valores numéricos correspondientes:
+\begin{equation}
+  V_{GSQ} = 1.60104\V + \sqrt{\frac{2 \cdot 1.0\mA}{53.905\mA/\V^2}} = 1.60104\V + 0.19262\V \approx 1.79366\V \approx 1.794\V
+  \label{eq:VGSQ_calculo}
+\end{equation}
+
+El potencial absoluto requerido sobre el nodo de compuerta respecto a masa resulta:
+\begin{equation}
+  V_G = V_S + V_{GSQ} = 1.500\V + 1.79366\V = 3.29366\V \approx 3.294\V
+  \label{eq:VG_calculo}
+\end{equation}
+
+Dado que la compuerta no demanda corriente, la relación de transferencia de tensión del divisor viene dada por:
+\begin{equation}
+  \frac{V_G}{V_{DD}} = \frac{R_1}{R_1 + R_2} = \frac{3.29366\V}{15.0\V} \approx 0.219577
+\end{equation}
+
+Combinando esta relación con el valor adoptado de resistencia equivalente $R_G = R_1 \parallel R_2 = 100\kohm$:
+\begin{equation}
+  R_G = \frac{R_1 \cdot R_2}{R_1 + R_2} = R_2 \cdot \left(\frac{R_1}{R_1 + R_2}\right) = R_2 \cdot \left(\frac{V_G}{V_{DD}}\right)
+\end{equation}
+de donde se despejan las resistencias teóricas del divisor:
+\begin{equation}
+  R_2 = \frac{R_G}{V_G / V_{DD}} = \frac{100\kohm}{0.219577} \approx 455.420\kohm
+  \label{eq:R2_teorico}
+\end{equation}
+\begin{equation}
+  R_1 = \frac{R_G}{1 - (V_G / V_{DD})} = \frac{100\kohm}{1 - 0.219577} = \frac{100\kohm}{0.780423} \approx 128.136\kohm
+  \label{eq:R1_teorico}
+\end{equation}
+
+\section{Verificación de Operación en Zona de Saturación}
+
+Para que el modelo cuadrático mantenga estricta validez y la etapa se desempeñe como fuente de corriente controlada por
+tensión (amplificador lineal de transconductancia), debe satisfacerse en todo instante:
+\begin{equation}
+  V_{DSQ} \ge V_{GSQ} - V_{th}
+\end{equation}
+
+Evaluando con las magnitudes de reposo calculadas:
+\begin{equation}
+  V_{DS,\mathrm{sat}} = V_{GSQ} - V_{th} = 1.79366\V - 1.60104\V = 0.19262\V \approx 0.193\V
+\end{equation}
+\begin{equation}
+  V_{DSQ} = 6.750\V \gg 0.193\V
+\end{equation}
+comprobándose que el transistor se encuentra operando profundamente dentro de la zona de saturación, con un margen de
+tensión de seguridad superior a $6.5\V$ respecto a la zona de triodo (óhmica).

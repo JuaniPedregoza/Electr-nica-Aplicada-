@@ -1,0 +1,35 @@
+\begin{circuitikz}[scale=0.95, transform shape]
+  % Fuente de alimentacion VDD
+  \draw (3.5,6.5) node[vcc] {$V_{DD}=15\V$} coordinate (vdd_node);
+
+  % Referencia y fuente de senal
+  \draw (0,0) node[ground] {}
+    to[sV, l=$v_s$] (0,3)
+    to[C, l=$C_1\ (100\uF)$, -*] (3.5,3) coordinate (gate_node);
+
+  % Divisor resistivo de compuerta (R1 a masa, R2 a VDD)
+  \draw (vdd_node)
+    to[R, l=$R_2\ (470\kohm)$, -*] (gate_node)
+    to[R, l=$R_1\ (130\kohm)$, *-] (3.5,0) node[ground] {};
+
+  % Transistor MOSFET Canal N (2N7000)
+  \draw (gate_node) to[short] (4.5,3) node[nigfetd, anchor=G] (M1) {};
+  \node[right=14pt, above=2pt] at (M1.right) {$M_1$ (2N7000)};
+
+  % Malla de Drenador con RD a VDD
+  \draw (M1.D) to[short, -*] ++(0,0.8) coordinate (drain_node);
+  \draw (drain_node) to[R, l=$R_D\ (6.8\kohm)$] ++(0,2.0) coordinate (aux_d)
+    to[short] (vdd_node -| aux_d) node[vcc] {$V_{DD}$};
+
+  % Red de acoplo de salida desde el drenador hacia RL
+  \draw (drain_node) to[C, l=$C_3\ (100\uF)$] ++(3.2,0) coordinate (out_node)
+    to[short, -o] ++(0.8,0) node[above] {$v_L$};
+  \draw (out_node) to[R, l=$R_L\ (10\kohm)$, *-] ++(0,-3.8) node[ground] {};
+
+  % Malla de Surtidor con RS y capacitor de desacoplo C2 en paralelo
+  \draw (M1.S) to[short, -*] ++(0,-0.6) coordinate (source_node);
+  \draw (source_node) to[short] ++(-0.9,0)
+    to[R, l_=$R_S\ (1.5\kohm)$] ++(0,-1.8) node[ground] {};
+  \draw (source_node) to[short] ++(0.9,0)
+    to[C, l=$C_2\ (100\uF)$] ++(0,-1.8) node[ground] {};
+\end{circuitikz}

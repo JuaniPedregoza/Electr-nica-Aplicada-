@@ -1,0 +1,24 @@
+\begin{circuitikz}[scale=0.9, transform shape]
+  % Generador y resistencia serie Rs
+  \draw (0,0) node[ground] {}
+    to[sV, l=$v_s$] (0,2.5)
+    to[R, l=$R_s\ (100\kohm)$, *-] (2.5,2.5) coordinate (vi_node)
+    to[short, -o] (2.5,2.5);
+
+  \draw (0,0) to[short] (2.5,0);
+  \draw (0,2.5) to[short, *-o] (0,3.2) node[above] {CH1 ($v_s$)};
+  \draw (vi_node) to[short, *-o] (2.5,3.2) node[above] {CH2 ($v_i$)};
+
+  % Bloque amplificador Surtidor Comun
+  \draw (3.0, -0.5) rectangle (6.2, 3.0);
+  \node at (4.6, 1.25) [align=center] {Amplificador\\Surtidor Común\\(2N7000)};
+
+  \draw (vi_node) to[short] (3.0, 2.5);
+  \draw (2.5, 0) to[short] (3.0, 0);
+
+  % Carga y medicion de salida
+  \draw (6.2, 2.5) to[short, -*] (7.6, 2.5) coordinate (vl_node)
+    to[R, l=$R_L\ (10\kohm)$] (7.6, 0) node[ground] {};
+  \draw (6.2, 0) to[short] (7.6, 0);
+  \draw (vl_node) to[short, -o] (8.5, 2.5) node[right] {$v_L$ (Salida)};
+\end{circuitikz}
