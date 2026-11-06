@@ -124,23 +124,28 @@ se determina la ganancia de corriente experimental:
   \label{eq:Ai_exp_tp5}
 \end{equation}
 
-\subsection{Medición de Impedancia de Salida (\texorpdfstring{$Z_o$}{Zo})}
-Se aplicó el método de variación de carga desconectando inicialmente la carga y registrando la tensión de salida en
-vacío:
+\subsection{Medición de \texorpdfstring{$Z_o$}{Zo} (Método de Inyección en Salida)}
+Pasivando la entrada de señal en alterna ($v_i = 0$) mediante un cortocircuito a masa y desconectando la carga $R_L$, se
+excitó el terminal de drenador del amplificador mediante el generador senoidal a $1\kHz$ intercalando un resistor serie
+patrón de $R_s = 6.68\kohm$.
+
+Con los canales del osciloscopio se registraron simultáneamente las siguientes amplitudes:
 \begin{itemize}
-  \item Tensión de salida en circuito abierto: $v_{o,\mathrm{nl}} = 1200\mV$.
-\end{itemize}
-Posteriormente se conectó en paralelo el resistor de prueba calibrado $R_{\mathrm{load}} = 6.68\kohm$, registrándose:
-\begin{itemize}
-  \item Tensión de salida bajo carga: $v_{o,\mathrm{load}} = 600\mV$.
+  \item Tensión provista por el generador (CH1, antes de $R_s$): $v_s = 1200\mV$.
+  \item Tensión desarrollada en el drenador (CH2, después de $R_s$): $v_o = 600\mV$.
 \end{itemize}
 
-Dado que la tensión cayó exactamente a la mitad ($v_{o,\mathrm{load}} = v_{o,\mathrm{nl}} / 2$):
+La corriente alterna inyectada sobre el nodo de salida resultó:
 \begin{equation}
-  Z_o = R_{\mathrm{load}} \cdot \left(\frac{1200\mV}{600\mV} - 1\right) = 6.68\kohm \cdot (2 - 1) = 6.680\kohm
+  i_o = \frac{v_s - v_o}{R_s} = \frac{1200\mV - 600\mV}{6680\ohm} = \frac{600\mV}{6680\ohm} \approx 0.08982\mA = 89.82\uA
+  \label{eq:io_exp_tp5}
+\end{equation}
+obteniéndose una impedancia de salida experimental de:
+\begin{equation}
+  Z_o = \frac{v_o}{i_o} = \frac{600\mV}{0.08982\mA} = 6680\ohm = 6.680\kohm
   \label{eq:Zo_exp_tp5}
 \end{equation}
-valor concordante con la resistencia nominal de drenador.
+valor concordante con la resistencia nominal de drenador ($R_D = 6.8\kohm$, error relativo de $-1.76\%$).
 
 \section{Tabla Comparativa Consolidada y Análisis de Errores}
 
@@ -151,21 +156,21 @@ mediciones experimentales en laboratorio.
 \begin{table}[!ht]
   \centering
   \resizebox{\textwidth}{!}{
-  \begin{tabular}{|l|c|c|c|c|c|}
+  \begin{tabular}{|c|c|c|c|c|c|}
     \hline
     \textbf{Magnitud Eléctrica} & \textbf{Diseño Teórico} & \textbf{Teórico Normalizado} & \textbf{Simulación LTspice} & \textbf{Medición Laboratorio} & \textbf{Error Exp. vs Norm.} \\
     \hline
-    Tensión de alimentación $V_{DD}\ [\V]$ & $15.000$ & $15.000$ & $15.000$ & $14.850$ & $-1.00\%$ \\
-    Tensión de compuerta $V_G\ [\V]$ & $3.294$ & $3.250$ & $3.250$ & $3.180$ & $-2.15\%$ \\
-    Tensión de surtidor $V_S\ [\V]$ & $1.500$ & $1.459$ & $1.458$ & $1.520$ & $+4.18\%$ \\
-    Tensión de drenador $V_D\ [\V]$ & $8.250$ & $8.386$ & $8.390$ & $7.910$ & $-5.68\%$ \\
-    Tensión $V_{GSQ}\ [\V]$ & $1.794$ & $1.791$ & $1.792$ & $1.660$ & $-7.31\%$ \\
-    Tensión $V_{DSQ}\ [\V]$ & $6.750$ & $6.927$ & $6.932$ & $6.390$ & $-7.75\%$ \\
-    Corriente de drenador $I_{DQ}\ [\mA]$ & $1.000$ & $0.9727$ & $0.9720$ & $1.0206$ & $+4.92\%$ \\
-    Impedancia de entrada $Z_i\ [\kohm]$ & $100.000$ & $101.833$ & $101.833$ & $100.000$ & $-1.80\%$ \\
-    Impedancia de salida $Z_o\ [\kohm]$ & $6.750$ & $6.800$ & $6.800$ & $6.680$ & $-1.76\%$ \\
-    Ganancia de tensión $A_v$ & $-42.591$ & $-42.908$ & $-42.960$ & $-38.000$ & $-11.44\%$ \\
-    Ganancia de corriente $A_i$ & $-425.91$ & $-436.95$ & $-437.48$ & $-380.00$ & $-13.03\%$ \\
+    $V_{DD}\ [\V]$ & $15.000$ & $15.000$ & $15.000$ & $14.850$ & $-1.00\%$ \\
+    $V_G\ [\V]$ & $3.294$ & $3.250$ & $3.250$ & $3.180$ & $-2.15\%$ \\
+    $V_S\ [\V]$ & $1.500$ & $1.459$ & $1.458$ & $1.520$ & $+4.18\%$ \\
+    $V_D\ [\V]$ & $8.250$ & $8.386$ & $8.390$ & $7.910$ & $-5.68\%$ \\
+    $V_{GSQ}\ [\V]$ & $1.794$ & $1.791$ & $1.792$ & $1.660$ & $-7.31\%$ \\
+    $V_{DSQ}\ [\V]$ & $6.750$ & $6.927$ & $6.932$ & $6.390$ & $-7.75\%$ \\
+    $I_{DQ}\ [\mA]$ & $1.000$ & $0.9727$ & $0.9720$ & $1.0206$ & $+4.92\%$ \\
+    $Z_i\ [\kohm]$ & $100.000$ & $101.833$ & $101.833$ & $100.000$ & $-1.80\%$ \\
+    $Z_o\ [\kohm]$ & $6.750$ & $6.800$ & $6.800$ & $6.680$ & $-1.76\%$ \\
+    $A_v$ & $-42.591$ & $-42.908$ & $-42.960$ & $-38.000$ & $-11.44\%$ \\
+    $A_i$ & $-425.91$ & $-436.95$ & $-437.48$ & $-380.00$ & $-13.03\%$ \\
     \hline
   \end{tabular}
   }
