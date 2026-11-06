@@ -43,7 +43,7 @@ directamente con los parámetros del modelo según:
 \section{Montaje Experimental y Registro de Mediciones}
 
 Para relevar los puntos de la curva de transferencia, se polarizó el transistor 2N7000 disponiendo un resistor de carga
-de drenador $R_D = 10.1\kohm$ y aplicando una tensión variable de compuerta mediante una fuente regulada con ajuste fino.
+de drenador $R_D = 10.1\ohm$ y aplicando una tensión variable de compuerta mediante una fuente regulada con ajuste fino.
 Se verificó en cada punto que la tensión drenador-surtidor excediera holgadamente el margen de saturación
 ($V_{DS} > V_{GS} - V_{th}$), asegurando que el dispositivo operase en régimen cuadrático estricto.
 
@@ -77,7 +77,7 @@ se obtuvieron los siguientes coeficientes estadísticos:
 \begin{equation}
   b = -0.262846\ \mathrm{A}^{1/2} = -8.3121\ \mathrm{mA}^{1/2}
 \end{equation}
-con un coeficiente de determinación $R^2 > 0.999$, lo cual confirma la óptima linealidad cuadrática del dispositivo.
+con un coeficiente de determinación $R^2 = 0.9964$, lo cual confirma la óptima linealidad cuadrática del dispositivo.
 
 Sustituyendo estos resultados en las ecuaciones~\eqref{eq:parametro_K} y \eqref{eq:parametro_Vth}:
 \begin{equation}
@@ -99,6 +99,6 @@ experimentales relevados, indicando la extrapolación hacia $\sqrt{I_D} = 0$, do
   \label{fig:plot_caracterizacion}
 \end{figure}
 
-Los valores obtenidos ($V_{th} = 1.60104\V$ y $K = 53.905\mA/\V^2$) concuerdan plenamente con las especificaciones
+Los valores obtenidos de $V_{th}$ y $K$ concuerdan plenamente con las especificaciones
 típicas del 2N7000 provistas en su hoja de datos y serán adoptados a lo largo de todos los cálculos de diseño analítico
 y modelos de simulación SPICE del presente informe.
