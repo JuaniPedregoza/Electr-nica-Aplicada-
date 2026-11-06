@@ -8,22 +8,22 @@
   \draw (in_node) to[R, l=$R_G$, -] (1.5,0) node[ground] {};
 
   % Compuerta aislada (circuito abierto)
-  \draw (in_node) to[short] (3.0,2.5) coordinate (gate_pt);
+  \draw (in_node) to[short,-*] (3.0,2.5) coordinate (gate_pt);
   \draw (3.0,0) node[ground] {} coordinate (source_pt);
-  \draw (gate_pt) to[open, v^>=$v_{gs}$] (source_pt);
+  \draw (gate_pt) to[open, v^<=$v_{gs}$] (source_pt);
 
   % Fuente controlada gm * vgs orientada hacia abajo (desde drenador hacia masa)
-  \draw (5.5,2.5) coordinate (drain_pt)
-    to[cI, l_=$g_m v_{gs}$] (5.5,0) node[ground] {};
+  \draw (6,2.5) coordinate (drain_pt)
+    to[cI, l_=$g_m v_{gs}$] (6,0) node[ground] {};
 
   % Resistencia RD y RL en paralelo a masa
-  \draw (drain_pt) to[short, *-*] (7.0,2.5) coordinate (rd_node)
-    to[R, l=$R_D$, -] (7.0,0) node[ground] {};
+  \draw (drain_pt) to[short, *-*] (7.5,2.5) coordinate (rd_node)
+    to[R, l=$R_D$, -] (7.5,0) node[ground] {};
 
-  \draw (rd_node) to[short, -*] (8.5,2.5) coordinate (rl_node)
-    to[R, l=$R_L$, -] (8.5,0) node[ground] {};
+  \draw (rd_node) to[short, -*] (9,2.5) coordinate (rl_node)
+    to[R, l=$R_L$, -] (9,0) node[ground] {};
 
   % Terminal de salida sobre el drenador
-  \draw (rl_node) to[short, -o] (9.8,2.5) node[above] {$v_L$} coordinate (out_node);
-  \draw (9.8,0) node[ground] {} to[open, v_>=$v_L$] (out_node);
+  \draw (rl_node) to[short, -o] (10.5,2.5) node[above] {$v_L$} coordinate (out_node);
+  \draw (10.5,0) node[ground] {} to[open, v_>=$v_L$] (out_node);
 \end{circuitikz}
