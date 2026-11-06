@@ -10,39 +10,34 @@ admisibles fijados por la cátedra.
 \section{Selección de Resistores Comerciales de la Serie E12}
 
 Al normalizar la red de polarización, el objetivo primordial consiste en preservar con máxima fidelidad la tensión de
-compuerta de reposo ($V_G \approx 3.294\V$) y el nivel de impedancia equivalente ($R_G \approx 100\kohm$). Se adoptan
-los siguientes componentes de la serie comercial E12:
-\begin{itemize}
-  \item Resistor de surtidor: $R_S = 1.5\kohm$ (coincide con el valor calculado de $1.500\kohm$, error de $0.00\%$).
-  \item Resistor de drenador: $R_D = 6.8\kohm$ (valor normalizado frente a $6.750\kohm$ calculados, desviación de $+0.74\%$).
-  \item Resistor inferior de compuerta: $R_1 = 130\kohm$ (frente a $128.136\kohm$ calculados, desviación de $+1.45\%$).
-  \item Resistor superior de compuerta: $R_2 = 470\kohm$ (frente a $455.420\kohm$ calculados, desviación de $+3.20\%$).
-  \item Resistor de carga: $R_L = 10\kohm$ (componente estándar de serie E12).
-\end{itemize}
+compuerta de reposo ($V_G \approx 3.294\V$) y el nivel de impedancia equivalente ($R_G \approx 100\kohm$). A partir de
+los valores estándar de la serie comercial E12 (tolerancia nominal del $\pm 10\%$, comercialmente provistos al $\pm 5\%$),
+se seleccionaron los componentes resumidos en el Cuadro~\ref{tab:resistores_normalizados}.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Componente} &  \textbf{Calculado [$\kohm$]} & \textbf{Normalizado E12 [$\kohm$]} & \textbf{Desviación [$\%$]} \\
+    \hline
+    $R_S$ & $1.500$ & $1.500$ & $0.00\%$ \\
+    $R_D$ & $6.750$ & $6.800$ & $+0.74\%$ \\
+    $R_1$ & $128.136$ & $130.000$ & $+1.45\%$ \\
+    $R_2$ & $455.420$ & $470.000$ & $+3.20\%$ \\
+    $R_{eq}$ & $100.000$ & $101.833$ & $+1.83\%$ \\
+    $R_L$ &  $10.000$ & $10.000$ & $0.00\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Selección de resistores comerciales de la serie E12 y comparación con los valores de diseño.}
+  \label{tab:resistores_normalizados}
+\end{table}
 
 La resistencia equivalente de compuerta con los valores comerciales adoptados resulta:
 \begin{equation}
   R_{eq} = R_1 \parallel R_2 = \frac{130\kohm \cdot 470\kohm}{130\kohm + 470\kohm} = \frac{61100}{600}\kohm \approx 101.833\kohm
   \label{eq:Req_norm}
 \end{equation}
-con un desvío mínimo de apenas $+1.83\%$ respecto a los $100\kohm$ de diseño.
-
-En el Cuadro~\ref{tab:resistores_normalizados} se resumen los valores calculados y normalizados adoptados.
-
-\begin{table}[!ht]
-  \centering
-  \begin{tabular}{|l|c|c|c|c|c|}
-    \hline
-    \textbf{Componente} & $R_1$ & $R_2$ & $R_S$ & $R_D$ & $R_{eq} = R_1 \parallel R_2$ \\
-    \hline
-    Diseño Teórico $[\kohm]$ & $128.136$ & $455.420$ & $1.500$ & $6.750$ & $100.000$ \\
-    Normalizado E12 $[\kohm]$ & $130.000$ & $470.000$ & $1.500$ & $6.800$ & $101.833$ \\
-    Error Relativo $[\%]$ & $+1.45\%$ & $+3.20\%$ & $0.00\%$ & $+0.74\%$ & $+1.83\%$ \\
-    \hline
-  \end{tabular}
-  \caption{Comparativa entre los resistores ideales de diseño y los componentes comerciales normalizados.}
-  \label{tab:resistores_normalizados}
-\end{table}
+con un desvío mínimo de apenas $+1.83\%$ respecto a los $100\kohm$ de diseño teórico.
 
 \section{Recálculo Analítico del Punto de Reposo}
 
