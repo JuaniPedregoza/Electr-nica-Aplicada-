@@ -1,0 +1,141 @@
+\chapter{Normalización de Componentes y Recálculo del Punto Q}
+\label{chap:normalizacion}
+
+Los valores de resistencia obtenidos analíticamente en el capítulo previo corresponden a valores ideales continuos.
+Para la implementación práctica en laboratorio se deben seleccionar los valores comerciales más próximos dentro de la
+serie normalizada E12 (tolerancia nominal del $\pm 10\%$, comercialmente disponibles con tolerancia del $\pm 5\%$).
+Posteriormente se recalcula el punto de reposo $Q$ para constatar que las desviaciones permanezcan dentro de los márgenes
+admisibles fijados por la cátedra.
+
+\section{Selección de Resistores Comerciales de la Serie E12}
+
+Al normalizar la red de polarización, el objetivo primordial consiste en preservar con máxima fidelidad la tensión de
+compuerta de reposo ($V_G \approx 3.294\V$) y el nivel de impedancia equivalente ($R_G \approx 100\kohm$). A partir de
+los valores estándar de la serie comercial E12 (tolerancia nominal del $\pm 10\%$, comercialmente provistos al $\pm 5\%$),
+se seleccionaron los componentes resumidos en el Cuadro~\ref{tab:resistores_normalizados}.
+
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Componente} &  \textbf{Calculado [$\kohm$]} & \textbf{Normalizado E12 [$\kohm$]} & \textbf{Desviación [$\%$]} \\
+    \hline
+    $R_S$ & $1.500$ & $1.500$ & $0.00\%$ \\
+    $R_D$ & $6.750$ & $6.800$ & $+0.74\%$ \\
+    $R_1$ & $128.136$ & $130.000$ & $+1.45\%$ \\
+    $R_2$ & $455.420$ & $470.000$ & $+3.20\%$ \\
+    $R_{eq}$ & $100.000$ & $101.833$ & $+1.83\%$ \\
+    $R_L$ &  $10.000$ & $10.000$ & $0.00\%$ \\
+    \hline
+  \end{tabular}
+  \caption{Selección de resistores comerciales de la serie E12 y comparación con los valores de diseño.}
+  \label{tab:resistores_normalizados}
+\end{table}
+
+La resistencia equivalente de compuerta con los valores comerciales adoptados resulta:
+\begin{equation}
+  R_{eq} = R_1 \parallel R_2 = \frac{130\kohm \cdot 470\kohm}{130\kohm + 470\kohm} = \frac{61100}{600}\kohm \approx 101.833\kohm
+  \label{eq:Req_norm}
+\end{equation}
+con un desvío mínimo de apenas $+1.83\%$ respecto a los $100\kohm$ de diseño teórico.
+
+\section{Recálculo Analítico del Punto de Reposo}
+
+Con los componentes comerciales adoptados, la nueva tensión continua del divisor de compuerta queda determinada por:
+\begin{equation}
+  V_G = V_{DD} \cdot \frac{R_1}{R_1 + R_2} = 15.0\V \cdot \frac{130\kohm}{130\kohm + 470\kohm} = 15.0\V \cdot \frac{130}{600} = 3.250\V
+  \label{eq:VG_norm}
+\end{equation}
+presentando una variación de $-1.33\%$ respecto al valor teórico ($3.294\V$).
+
+Para determinar la nueva corriente de drenador de reposo ($I_D$), se plantea la ecuación de la malla compuerta-surtidor:
+\begin{equation}
+  V_{GS} = V_G - I_D \cdot R_S
+  \label{eq:malla_vgs}
+\end{equation}
+Sustituyendo en la ecuación cuadrática de saturación del MOSFET:
+\begin{equation}
+  I_D = \frac{K}{2} \cdot (V_G - I_D \cdot R_S - V_{th})^2
+\end{equation}
+
+Definiendo la variable auxiliar $x = V_G - V_{th} = 3.250\V - 1.60104\V = 1.64896\V \approx 1.649\V$, se reescribe:
+\begin{equation}
+  I_D = \frac{K}{2} \cdot (x - I_D \cdot R_S)^2 = \frac{K}{2} \cdot \left(x^2 - 2 \cdot x \cdot R_S \cdot I_D + R_S^2 \cdot I_D^2\right)
+\end{equation}
+Reordenando los términos algebraicamente en forma de ecuación cuadrática estándar $a \cdot I_D^2 + b \cdot I_D + c = 0$:
+\begin{equation}
+  \left(\frac{K \cdot R_S^2}{2}\right) \cdot I_D^2 - (1 + K \cdot x \cdot R_S) \cdot I_D + \left(\frac{K \cdot x^2}{2}\right) = 0
+  \label{eq:cuadratica_ID}
+\end{equation}
+
+Evaluando con los parámetros numéricos normalizados:
+\begin{equation*}
+  K = 53.905\mA/\V^2 = 0.053905\A/\V^2, \quad R_S = 1500\ohm, \quad x = 1.64896\V
+\end{equation*}
+\begin{equation}
+  a = \frac{0.053905 \cdot 1500^2}{2} = 60643.125\ \Omega^2\A/\V^2
+\end{equation}
+\begin{equation}
+  b = -(1 + 0.053905 \cdot 1.64896 \cdot 1500) = -134.330
+\end{equation}
+\begin{equation}
+  c = \frac{0.053905 \cdot 1.64896^2}{2} = 0.073285\ \A
+\end{equation}
+
+Resolviendo la ecuación de segundo grado mediante la fórmula resolvente:
+\begin{equation}
+  I_D = \frac{134.330 - \sqrt{134.330^2 - 4 \cdot 60643.125 \cdot 0.073285}}{2 \cdot 60643.125} \approx 0.9727\mA
+  \label{eq:ID_norm_val}
+\end{equation}
+donde se descarta la raíz complementaria por carecer de significado físico ($V_{GS} < V_{th}$).
+
+A partir de este valor de corriente se deducen secuencialmente los restantes potenciales nodales de continua:
+\begin{equation}
+  V_S = I_D \cdot R_S = 0.9727\mA \cdot 1.5\kohm = 1.459\V
+  \label{eq:VS_norm_val}
+\end{equation}
+\begin{equation}
+  V_D = V_{DD} - I_D \cdot R_D = 15.0\V - (0.9727\mA \cdot 6.8\kohm) = 15.0\V - 6.614\V = 8.386\V
+  \label{eq:VD_norm_val}
+\end{equation}
+\begin{equation}
+  V_{GS} = V_G - V_S = 3.250\V - 1.459\V = 1.791\V
+  \label{eq:VGS_norm_val}
+\end{equation}
+\begin{equation}
+  V_{DS} = V_D - V_S = 8.386\V - 1.459\V = 6.927\V
+  \label{eq:VDS_norm_val}
+\end{equation}
+
+Se verifica nuevamente la condición de saturación:
+\begin{equation}
+  V_{DS} = 6.927\V > V_{GS} - V_{th} = 1.791\V - 1.601\V = 0.190\V
+\end{equation}
+cumpliéndose holgadamente con la premisa de diseño.
+
+En el Cuadro~\ref{tab:recalculo_punto_q} se contrastan los valores del punto de trabajo estático teórico y normalizado.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{0.88\textwidth}{!}{
+  \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Parámetro Eléctrico} & \textbf{Teórico (Diseño)} & \textbf{Con R Normalizadas} & \textbf{Error Relativo} \\
+    \hline
+    Tensión de compuerta $V_G\ [\V]$ & $3.294$ & $3.250$ & $-1.33\%$ \\
+    Exceso de compuerta $V_G - V_{th}\ [\V]$ & $1.693$ & $1.649$ & $-2.58\%$ \\
+    Corriente de drenador $I_D\ [\mA]$ & $1.000$ & $0.9727$ & $-2.73\%$ \\
+    Tensión de surtidor $V_S\ [\V]$ & $1.500$ & $1.459$ & $-2.73\%$ \\
+    Tensión de drenador $V_D\ [\V]$ & $8.250$ & $8.386$ & $+1.65\%$ \\
+    Tensión compuerta-surtidor $V_{GS}\ [\V]$ & $1.794$ & $1.791$ & $-0.15\%$ \\
+    Tensión drenador-surtidor $V_{DS}\ [\V]$ & $6.750$ & $6.927$ & $+2.62\%$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Comparación entre el punto de reposo analítico teórico y el obtenido con componentes normalizados.}
+  \label{tab:recalculo_punto_q}
+\end{table}
+
+Se observa que la mayor discrepancia relativa es de apenas $-2.73\%$ en la corriente de drenador y tensión de surtidor,
+lo cual comprueba la excelente robustez del esquema de polarización adoptado frente a la dispersión de componentes
+comerciales de la serie E12.

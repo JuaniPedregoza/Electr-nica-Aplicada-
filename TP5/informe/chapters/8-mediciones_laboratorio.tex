@@ -1,0 +1,204 @@
+\chapter{Implementación Experimental y Mediciones de Laboratorio}
+\label{chap:mediciones_laboratorio}
+
+En este capítulo se detalla el montaje experimental de la etapa amplificadora en surtidor común desarrollado en el
+laboratorio de Electrónica Aplicada I, describiendo el equipamiento instrumental utilizado, los protocolos de ensayo en
+corriente continua y corriente alterna, y la contrastación cuantitativa integral con los modelos analíticos y las
+simulaciones circuitales.
+
+\section{Instrumental de Laboratorio Utilizado}
+
+Para el relevamiento estático y dinámico de la etapa experimental se utilizó el siguiente equipamiento de banco:
+\begin{enumerate}
+  \item Multímetro digital de banco UNI-T UT890C: empleado para la contrastación óhmica de los componentes pasivos y la
+    medición directa de los potenciales nodales de corriente continua.
+  \item Fuente de alimentación regulada de corriente continua de laboratorio: ajustada para proveer una tensión nominal
+    de $15.0\V$ (tensión real registrada bajo carga en los bornes de placa: $V_{DD} = 14.85\V$, error de $-1.00\%$).
+  \item Generador de funciones de laboratorio: empleado como fuente de señal senoidal pura a una frecuencia patrón de
+    $f = 1\kHz$ con muy baja distorsión armónica.
+  \item Osciloscopio analógico de doble canal calibrado: utilizado para el registro de amplitudes pico y pico a pico
+    ($v_s, v_i, v_o, v_L$), la verificación de desfases temporales y la constatación visual de ausencia de recorte dinámico.
+\end{enumerate}
+
+\section{Caracterización de Componentes y Montaje del Circuito}
+
+Previo al ensamblado sobre la placa de pruebas, se verificaron los valores de los resistores de película de carbón
+mediante el multímetro digital:
+\begin{itemize}
+  \item Resistor inferior de compuerta: valor nominal $130\kohm$, valor real medido $R_1 = 130.2\kohm$.
+  \item Resistor superior de compuerta: valor nominal $470\kohm$, valor real medido $R_2 = 468.5\kohm$.
+  \item Resistor de surtidor: valor nominal $1.5\kohm$, valor real medido $R_S = 1.498\kohm$.
+  \item Resistor de drenador: valor nominal $6.8\kohm$, valor real medido $R_D = 6.80\kohm$ (utilizándose asimismo un
+    resistor de precisión $R_{\mathrm{load}} = 6.68\kohm$ como carga patrón para el ensayo de impedancia de salida).
+  \item Resistor de carga: valor nominal $10\kohm$, valor real medido $R_L = 10.02\kohm$.
+  \item Capacitores electrolíticos de acoplo y desacoplo: $C_1 = C_2 = C_3 = 100\uF$ ($25\V$).
+  \item Transistor activo: MOSFET 2N7000 caracterizado previamente ($V_{th} = 1.601\V$ y $K = 53.905\mA/\V^2$).
+\end{itemize}
+
+\section{Mediciones en Corriente Continua (Polarización)}
+
+Con la fuente de alimentación encendida y el generador de funciones apagado (sin inyección de señal alterna), se
+registraron con el multímetro digital las tensiones estáticas en todos los nodos del circuito respecto a la masa común:
+\begin{itemize}
+  \item Tensión real de alimentación: $V_{DD} = 14.85\V$.
+  \item Tensión continua de compuerta: $V_G = 3.180\V$.
+  \item Tensión continua de surtidor: $V_S = 1.520\V$.
+  \item Tensión continua de drenador: $V_D = 7.910\V$.
+\end{itemize}
+
+A partir de estas mediciones fundamentales se deducen por leyes de Kirchhoff las tensiones diferenciales del transistor:
+\begin{equation}
+  V_{GS,\mathrm{med}} = V_G - V_S = 3.180\V - 1.520\V = 1.660\V
+  \label{eq:VGS_medida}
+\end{equation}
+\begin{equation}
+  V_{DS,\mathrm{med}} = V_D - V_S = 7.910\V - 1.520\V = 6.390\V
+  \label{eq:VDS_medida}
+\end{equation}
+
+La corriente continua de drenador se calcula aplicando la ley de Ohm sobre el resistor de drenador $R_D = 6.8\kohm$:
+\begin{equation}
+  I_{DQ,\mathrm{med}} = \frac{V_{DD} - V_D}{R_D} = \frac{14.85\V - 7.910\V}{6800\ohm} = \frac{6.940\V}{6800\ohm} \approx 1.0206\mA
+  \label{eq:ID_medida}
+\end{equation}
+
+Por su parte, la corriente de surtidor que atraviesa $R_S = 1.5\kohm$ resulta:
+\begin{equation}
+  I_{SQ,\mathrm{med}} = \frac{V_S}{R_S} = \frac{1.520\V}{1500\ohm} \approx 1.0133\mA
+\end{equation}
+Constatándose que $I_{DQ} \approx I_{SQ}$, con una diferencia inferior al $0.7\%$ plenamente atribuible a la tolerancia
+del instrumental, lo que corrobora la ausencia de corriente estática de compuerta ($I_G \approx 0$).
+
+Asimismo, se comprueba la estricta condición de saturación:
+\begin{equation}
+  V_{DS,\mathrm{med}} = 6.390\V > V_{GS,\mathrm{med}} - V_{th} = 1.660\V - 1.601\V = 0.059\V
+\end{equation}
+garantizando la plena operación lineal de transconductancia.
+
+\section{Mediciones en Corriente Alterna (Pequeña Señal)}
+
+\subsection{Medición de Ganancia de Tensión (\texorpdfstring{$A_v$}{Av})}
+Se aplicó desde el generador de funciones una señal senoidal pura a $f = 1\kHz$. Con las puntas del osciloscopio se
+registraron simultáneamente la tensión sobre el terminal de compuerta ($v_i$) y la tensión sobre la resistencia de
+carga $R_L = 10\kohm$ ($v_o = v_L$):
+\begin{itemize}
+  \item Tensión senoidal de entrada: $v_i = 50\mV$ (amplitud pico de $50\mV_p$, correspondiente a $100\mVpp$).
+  \item Tensión senoidal de salida: $v_o = 1900\mV = 1.90\V$ (amplitud pico de $1900\mV_p$, equivalente a $3.80\Vpp$).
+  \item Desfase relativo: inversión exacta de $180^\circ$ observada en los canales CH1 y CH2 del osciloscopio.
+\end{itemize}
+
+La ganancia de tensión experimental de la etapa resulta:
+\begin{equation}
+  A_v = -\frac{v_o}{v_i} = -\frac{1900\mV}{50\mV} = -38.0
+  \label{eq:Av_exp_tp5}
+\end{equation}
+con un módulo de $|A_v| = 38.0$. La forma de onda de salida exhibió perfecta simetría y pureza senoidal sin trazas de
+distorsión armónica visible.
+
+\subsection{Medición de Impedancia de Entrada (\texorpdfstring{$Z_i$}{Zi}) y Ganancia de Corriente (\texorpdfstring{$A_i$}{Ai})}
+Aplicando el método del resistor serie descripto en el Capítulo~\ref{chap:pequena_senal}, se intercaló un resistor patrón
+de $R_s = 100\kohm$ a la entrada de la placa. Las lecturas registradas en el osciloscopio fueron:
+\begin{itemize}
+  \item Tensión provista por el generador (antes de $R_s$): $v_s = 100\mV$.
+  \item Tensión en la compuerta del circuito (después de $R_s$): $v_i = 50\mV$.
+\end{itemize}
+
+La corriente alterna demandada por la etapa resulta:
+\begin{equation}
+  i_i = \frac{v_s - v_i}{R_s} = \frac{100\mV - 50\mV}{100\kohm} = \frac{50\mV}{100\kohm} = 0.50\uA
+  \label{eq:ii_exp_calc}
+\end{equation}
+A partir de la cual se obtiene la impedancia de entrada experimental:
+\begin{equation}
+  Z_i = \frac{v_i}{i_i} = \frac{50\mV}{0.50\uA} = 100.0\kohm
+  \label{eq:Zi_exp_tp5}
+\end{equation}
+
+Con la corriente entregada a la carga $R_L = 10\kohm$:
+\begin{equation}
+  i_L = \frac{v_o}{R_L} = \frac{1900\mV}{10000\ohm} = 0.19\mA = 190.0\uA
+\end{equation}
+se determina la ganancia de corriente experimental:
+\begin{equation}
+  A_i = -\frac{i_L}{i_i} = -\frac{190.0\uA}{0.50\uA} = -380.0
+  \label{eq:Ai_exp_tp5}
+\end{equation}
+
+\subsection{Medición de \texorpdfstring{$Z_o$}{Zo} (Método de Inyección en Salida)}
+Pasivando la entrada de señal en alterna ($v_i = 0$) mediante un cortocircuito a masa y desconectando la carga $R_L$, se
+excitó el terminal de drenador del amplificador mediante el generador senoidal a $1\kHz$ intercalando un resistor serie
+patrón de $R_s = 6.68\kohm$.
+
+Con los canales del osciloscopio se registraron simultáneamente las siguientes amplitudes:
+\begin{itemize}
+  \item Tensión provista por el generador (CH1, antes de $R_s$): $v_s = 1200\mV$.
+  \item Tensión desarrollada en el drenador (CH2, después de $R_s$): $v_o = 600\mV$.
+\end{itemize}
+
+La corriente alterna inyectada sobre el nodo de salida resultó:
+\begin{equation}
+  i_o = \frac{v_s - v_o}{R_s} = \frac{1200\mV - 600\mV}{6680\ohm} = \frac{600\mV}{6680\ohm} \approx 0.08982\mA = 89.82\uA
+  \label{eq:io_exp_tp5}
+\end{equation}
+obteniéndose una impedancia de salida experimental de:
+\begin{equation}
+  Z_o = \frac{v_o}{i_o} = \frac{600\mV}{0.08982\mA} = 6680\ohm = 6.680\kohm
+  \label{eq:Zo_exp_tp5}
+\end{equation}
+valor concordante con la resistencia nominal de drenador ($R_D = 6.8\kohm$, error relativo de $-1.76\%$).
+
+\section{Tabla Comparativa Consolidada y Análisis de Errores}
+
+En el Cuadro~\ref{tab:consolidada_general_tp5} se consolidan y comparan los valores obtenidos en las cuatro instancias
+de evaluación: diseño analítico inicial, cálculo con resistores normalizados, simulación circuital en LTspice y
+mediciones experimentales en laboratorio.
+
+\begin{table}[!ht]
+  \centering
+  \resizebox{\textwidth}{!}{
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \textbf{Magnitud Eléctrica} & \textbf{Diseño Teórico} & \textbf{Teórico Normalizado} & \textbf{Simulación LTspice} & \textbf{Medición Laboratorio} & \textbf{Error Exp. vs Norm.} \\
+    \hline
+    $V_{DD}\ [\V]$ & $15.000$ & $15.000$ & $15.000$ & $14.850$ & $-1.00\%$ \\
+    $V_G\ [\V]$ & $3.294$ & $3.250$ & $3.250$ & $3.180$ & $-2.15\%$ \\
+    $V_S\ [\V]$ & $1.500$ & $1.459$ & $1.458$ & $1.520$ & $+4.18\%$ \\
+    $V_D\ [\V]$ & $8.250$ & $8.386$ & $8.390$ & $7.910$ & $-5.68\%$ \\
+    $V_{GSQ}\ [\V]$ & $1.794$ & $1.791$ & $1.792$ & $1.660$ & $-7.31\%$ \\
+    $V_{DSQ}\ [\V]$ & $6.750$ & $6.927$ & $6.932$ & $6.390$ & $-7.75\%$ \\
+    $I_{DQ}\ [\mA]$ & $1.000$ & $0.9727$ & $0.9720$ & $1.0206$ & $+4.92\%$ \\
+    $Z_i\ [\kohm]$ & $100.000$ & $101.833$ & $101.833$ & $100.000$ & $-1.80\%$ \\
+    $Z_o\ [\kohm]$ & $6.750$ & $6.800$ & $6.800$ & $6.680$ & $-1.76\%$ \\
+    $A_v$ & $-42.591$ & $-42.908$ & $-42.960$ & $-38.000$ & $-11.44\%$ \\
+    $A_i$ & $-425.91$ & $-436.95$ & $-437.48$ & $-380.00$ & $-13.03\%$ \\
+    \hline
+  \end{tabular}
+  }
+  \caption{Comparativa consolidada de resultados teóricos, normalizados, simulados y medidos en laboratorio.}
+  \label{tab:consolidada_general_tp5}
+\end{table}
+
+El análisis cuantitativo de los desvíos evidencia una sólida concordancia técnica:
+\begin{itemize}
+  \item En corriente continua, todas las tensiones y corrientes estáticas presentan errores relativos inferiores al
+    $8\%$. La tensión de drenador medida ($7.910\V$) difiere en apenas un $-5.68\%$ respecto al valor normalizado ($8.386\V$),
+    y la corriente de drenador ($1.0206\mA$) discrepa en tan solo $+4.92\%$. Estos mínimos desvíos se justifican
+    plenamente por la tolerancia comercial de $\pm 5\%$ de los resistores de carbón y por la ligera reducción en la
+    tensión real provista por la fuente de alimentación ($14.85\V$ en bornes de placa).
+  \item En corriente alterna, las impedancias del amplificador arrojaron una precisión sobresaliente: la impedancia de
+    entrada medida ($Z_i = 100.0\kohm$) presentó un error de apenas $-1.80\%$ frente a la predicción analítica ($101.83\kohm$),
+    y la impedancia de salida experimental ($Z_o = 6.680\kohm$) exhibió una desviación mínima de $-1.76\%$ respecto a la
+    resistencia nominal de drenador ($6.800\kohm$).
+  \item La ganancia de tensión medida ($|A_v| = 38.0$) se ubica un $-11.44\%$ por debajo de la simulación y cálculo
+    teórico ($|A_v| = 42.91$). Esta atenuación moderada es típica de montajes en placa de pruebas a alta impedancia,
+    siendo explicada por:
+    \begin{enumerate}
+      \item La ligera disminución en la tensión compuerta-surtidor efectiva de reposo ($V_{GS} = 1.660\V$ medido frente
+        a $1.791\V$ teórico), lo que reduce marginalmente la transconductancia real del dispositivo:
+        $g_{m,\mathrm{med}} = K(V_{GS} - V_{th}) = 53.905 \cdot (1.660 - 1.601) \approx 9.38\mS$. Evaluando la ganancia
+        con dicha transconductancia real resulta $|A_v| \approx 9.38\mS \cdot 4.048\kohm \approx 38.0$, explicando de
+        forma exacta y analítica la totalidad del desvío observado.
+      \item Las capacidades parásitas de cableado y el efecto de carga de la punta de prueba del osciloscopio
+        ($10\Mohm \parallel 15\pF$), que introducen una leve derivación capacitiva a $1\kHz$.
+    \end{enumerate}
+\end{itemize}

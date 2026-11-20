@@ -1,0 +1,16 @@
+\begin{circuitikz}[scale=0.95, transform shape]
+  % Fuente equivalente Thevenin VGG
+  \draw (0,0) node[ground] {}
+    to[battery2, l=$V_{GG}$, invert] (0,2.5)
+    to[R, l=$R_G$] (2.5,2.5) coordinate (gate_node);
+
+  % Transistor MOSFET 2N7000
+  \draw (gate_node) node[nigfetd, anchor=G] (M1) {};
+  \node[right=14pt, above=2pt] at (M1.right) {$M_1$};
+
+  % Drenador a VDD a traves de RD
+  \draw (M1.D) to[R, l=$R_D$] ++(0,2.0) node[vcc] {$V_{DD}$};
+
+  % Surtidor a masa a traves de RS
+  \draw (M1.S) to[R, l=$R_S$] ++(0,-1.8) node[ground] {};
+\end{circuitikz}
